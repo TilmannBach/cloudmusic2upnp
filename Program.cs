@@ -26,7 +26,12 @@ namespace cloudmusic2upnp
 
         static void controlPoint_OnAddedDevice(UPnPSmartControlPoint sender, UPnPDevice device)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Device found, yeah! It's friendly name is: {0}", device.FriendlyName);
+            foreach (UPnPService service in device.Services)
+            {
+                Console.WriteLine("-> Service found on device: {0}", service.ServiceURN);
+            }
+            return;
         }
     }
 }
