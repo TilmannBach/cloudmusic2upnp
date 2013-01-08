@@ -34,6 +34,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mono.Ssdp, Version=1.0.4756.19008, Culture=neutral, PublicKeyToken=1b9e6d771899610e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Mono.Ssdp.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Upnp, Version=1.0.4756.19009, Culture=neutral, PublicKeyToken=5efb3618e038e321, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Mono.Upnp.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Upnp.Dcp.MediaServer1, Version=1.0.4756.19010, Culture=neutral, PublicKeyToken=b4846aa0380cd64f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Mono.Upnp.Dcp.MediaServer1.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Upnp.Dcp.MSMediaReceiverRegistrar1, Version=1.0.4756.19011, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Mono.Upnp.Dcp.MSMediaReceiverRegistrar1.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,6 +67,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="lib\Mono.Ssdp.dll" />
+    <Content Include="lib\Mono.Upnp.Dcp.MediaServer1.dll" />
+    <Content Include="lib\Mono.Upnp.Dcp.MSMediaReceiverRegistrar1.dll" />
+    <Content Include="lib\Mono.Upnp.dll" />
     <Content Include="lib\UPnP.dll" />
     <Content Include="lib\UPnP.XML" />
   </ItemGroup>
