@@ -4,12 +4,18 @@ using cloudmusic2upnp.IContentProvider;
 
 namespace DummyProviderPlugin
 {
-	public class DummyTrack : Track
+	public class DummyTrack : ITrack
 	{
-		public DummyTrack ()
-		{
-			this.TrackName = "Dummy Track";
-			this.MediaUrl = "http://dl.dropbox.com/u/22353481/temp/beer.mp3";
+		public String TrackName {
+			get {
+				return "Dummy Track";
+			}
+		}
+
+		public String MediaUrl {
+			get {
+				return "http://dl.dropbox.com/u/22353481/temp/beer.mp3";
+			}
 		}
 	}
 
@@ -19,9 +25,21 @@ namespace DummyProviderPlugin
 		{
 		}
 
-		public Track[] Search (String term)
+		public String Name {
+			get {
+				return "Dummy";
+			}
+		}
+
+		public String Url {
+			get {
+				return "https://github.com/TilmannBach/cloudmusic2upnp";
+			}
+		}
+
+		public ITrack[] Search (String term)
 		{
-			return new Track[] {new DummyTrack ()};
+			return new ITrack[] {new DummyTrack ()};
 		}
 	}
 }
