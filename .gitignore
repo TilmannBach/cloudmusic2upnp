@@ -12,6 +12,7 @@ TestResults
 *.suo
 *.user
 *.sln.docstates
+*.userprefs # monodevelop
 
 # Build results
 [Dd]ebug/
