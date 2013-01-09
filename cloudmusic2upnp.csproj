@@ -10,9 +10,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>cloudmusic2upnp</RootNamespace>
     <AssemblyName>cloudmusic2upnp</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -35,22 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mono.Ssdp, Version=1.0.4756.19008, Culture=neutral, PublicKeyToken=1b9e6d771899610e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Mono.Ssdp.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Upnp, Version=1.0.4756.19009, Culture=neutral, PublicKeyToken=5efb3618e038e321, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Mono.Upnp.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Upnp.Dcp.MediaServer1, Version=1.0.4756.19010, Culture=neutral, PublicKeyToken=b4846aa0380cd64f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Mono.Upnp.Dcp.MediaServer1.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Upnp.Dcp.MSMediaReceiverRegistrar1, Version=1.0.4756.19011, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Mono.Upnp.Dcp.MSMediaReceiverRegistrar1.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -62,6 +43,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\UPnP.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Ssdp">
+      <HintPath>lib\Mono.Ssdp.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Upnp">
+      <HintPath>lib\Mono.Upnp.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Upnp.Dcp.MediaServer1">
+      <HintPath>lib\Mono.Upnp.Dcp.MediaServer1.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Upnp.Dcp.MSMediaReceiverRegistrar1">
+      <HintPath>lib\Mono.Upnp.Dcp.MSMediaReceiverRegistrar1.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core.cs" />
@@ -69,6 +62,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UPnP.cs" />
+    <Compile Include="ContentProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\Mono.Ssdp.dll" />
@@ -88,4 +82,14 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <ProjectReference Include="IContentProvider\IContentProvider.csproj">
+      <Project>{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}</Project>
+      <Name>IContentProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="DummyProviderPlugin\DummyProviderPlugin.csproj">
+      <Project>{44436137-402C-4F0E-AF2C-B8768B867B5D}</Project>
+      <Name>DummyProviderPlugin</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

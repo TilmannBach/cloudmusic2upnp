@@ -3,16 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cloudmusic2upnp", "cloudmusic2upnp.csproj", "{9B1ACA53-02B6-45E4-950A-889B27CADB7D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IContentProvider", "IContentProvider\IContentProvider.csproj", "{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyProviderPlugin", "DummyProviderPlugin\DummyProviderPlugin.csproj", "{44436137-402C-4F0E-AF2C-B8768B867B5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Debug|x86.Build.0 = Debug|Any CPU
+		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Release|x86.ActiveCfg = Release|Any CPU
+		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Release|x86.Build.0 = Release|Any CPU
 		{9B1ACA53-02B6-45E4-950A-889B27CADB7D}.Debug|x86.ActiveCfg = Debug|x86
 		{9B1ACA53-02B6-45E4-950A-889B27CADB7D}.Debug|x86.Build.0 = Debug|x86
 		{9B1ACA53-02B6-45E4-950A-889B27CADB7D}.Release|x86.ActiveCfg = Release|x86
 		{9B1ACA53-02B6-45E4-950A-889B27CADB7D}.Release|x86.Build.0 = Release|x86
+		{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}.Debug|x86.Build.0 = Debug|Any CPU
+		{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}.Release|x86.ActiveCfg = Release|Any CPU
+		{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = cloudmusic2upnp.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
