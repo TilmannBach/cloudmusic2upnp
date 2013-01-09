@@ -11,7 +11,8 @@
     <RootNamespace>cloudmusic2upnp</RootNamespace>
     <AssemblyName>cloudmusic2upnp</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -63,18 +64,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UPnP.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\Mono.Ssdp.dll" />
     <Content Include="lib\Mono.Upnp.Dcp.MediaServer1.dll" />
     <Content Include="lib\Mono.Upnp.Dcp.MSMediaReceiverRegistrar1.dll" />
     <Content Include="lib\Mono.Upnp.dll" />
-    <Content Include="lib\UPnP.dll" />
-    <Content Include="lib\UPnP.XML" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
