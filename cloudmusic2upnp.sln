@@ -7,12 +7,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IContentProvider", "IConten
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyProviderPlugin", "DummyProviderPlugin\DummyProviderPlugin.csproj", "{44436137-402C-4F0E-AF2C-B8768B867B5D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundcloudProviderPlugin", "SoundcloudProviderPlugin\SoundcloudProviderPlugin.csproj", "{3C80D595-14D5-4F12-9307-4EF1C79F56AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Debug|x86.Build.0 = Debug|Any CPU
+		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Release|x86.ActiveCfg = Release|Any CPU
+		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Release|x86.Build.0 = Release|Any CPU
 		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Debug|x86.Build.0 = Debug|Any CPU
 		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Release|x86.ActiveCfg = Release|Any CPU
