@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 // using OpenSource.UPnP;
 // using Mono.Upnp;
@@ -15,7 +14,7 @@ namespace cloudmusic2upnp
         /// <param name="args">none</param>
         static void Main(string[] args)
         {
-            Core core = new Core();
+            new Core();
         }
 
         /*

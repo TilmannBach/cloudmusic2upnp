@@ -33,28 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="UPnP, Version=1.0.4755.33069, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\UPnP.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Ssdp">
-      <HintPath>lib\Mono.Ssdp.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Upnp">
-      <HintPath>lib\Mono.Upnp.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Upnp.Dcp.MediaServer1">
-      <HintPath>lib\Mono.Upnp.Dcp.MediaServer1.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Upnp.Dcp.MSMediaReceiverRegistrar1">
-      <HintPath>lib\Mono.Upnp.Dcp.MSMediaReceiverRegistrar1.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core.cs" />
