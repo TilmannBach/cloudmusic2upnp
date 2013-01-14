@@ -1,31 +1,45 @@
 using System;
 
-using cloudmusic2upnp.IContentProvider;
+using cloudmusic2upnp.ContentProvider;
 
-namespace SoundcloudProviderPlugin
+namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 {
-	public class SoundcloudProviderPlugin : IContentProvider
+	public class Track : ITrack
 	{
-		public String Name{ get; private set; }
-
-		public String Url { get; private set; }
-
-
-		public class Track : ITrack
-		{
-			public String TrackName { get; private set; }
-
-			public String MediaUrl { get; private set; }
+		public String TrackName {
+			get {
+				return "";
+			}
 		}
 
+		public String MediaUrl {
+			get {
+				return "";
+			}
+		}
+	}
 
-		public SoundcloudProviderPlugin ()
+	public class Provider : IContentProvider
+	{
+		public Provider ()
 		{
+		}
+
+		public String Name {
+			get {
+				return "Soundcloud";
+			}
+		}
+
+		public String Url {
+			get {
+				return "https://soundcloud.com/";
+			}
 		}
 
 		public ITrack[] Search (String term)
 		{
-			throw NotImplementedException;
+			return new ITrack[] {new Track ()};
 		}
 	}
 }

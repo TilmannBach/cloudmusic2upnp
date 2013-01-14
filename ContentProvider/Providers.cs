@@ -2,13 +2,13 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
-using cloudmusic2upnp.IContentProvider;
+using cloudmusic2upnp.ContentProvider;
 
 //using cloudmusic2upnp.IContentProvider;
 
-namespace cloudmusic2upnp
+namespace cloudmusic2upnp.ContentProvider
 {
-	class ContentProvider
+	class Providers
 	{
 		/// <summary>
 		/// The path to the Content Provider plugin DLLs.
@@ -18,15 +18,15 @@ namespace cloudmusic2upnp
 		/// <summary>
 		/// The singleton instance for this class.
 		/// </summary>
-		private static ContentProvider instance;
+		private static Providers instance;
 
 		/// <summary>
 		/// Gets the instance of <see cref="cloudmusic2upnp.ContentProvider"/>.
 		/// </summary>
-		public static ContentProvider Instance {
+		public static Providers Instance {
 			get {
 				if (instance == null) {
-					instance = new ContentProvider ();
+					instance = new Providers ();
 				}
 				return instance;
 			}
@@ -35,12 +35,12 @@ namespace cloudmusic2upnp
 		/// <summary>
 		/// A dict of all providers with its name and class.
 		/// </summary>
-		public Dictionary<string, IContentProvider.IContentProvider> allPlugins { get; private set; }
+		public Dictionary<string, IContentProvider> allPlugins { get; private set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="cloudmusic2upnp.ContentProvider"/> class.
 		/// </summary>
-		private ContentProvider ()
+		private Providers ()
 		{
 			allPlugins = LoadPlugins ();
 		}
@@ -53,11 +53,11 @@ namespace cloudmusic2upnp
 		/// <returns>
 		/// A dict of all providers with its name and class.
 		/// </returns>
-		private Dictionary<string, IContentProvider.IContentProvider> LoadPlugins ()
+		private Dictionary<string, IContentProvider> LoadPlugins ()
 		{
 			String[] allFiles = Directory.GetFiles (PLUGIN_PATH);
-			Type requiredInterface = typeof(IContentProvider.IContentProvider);
-			var foundInterfaces = new Dictionary<string, IContentProvider.IContentProvider> ();
+			Type requiredInterface = typeof(IContentProvider);
+			var foundInterfaces = new Dictionary<string, IContentProvider> ();
 
 			foreach (String file in allFiles) {
 				FileInfo fileInfo = new FileInfo (file);
@@ -73,7 +73,7 @@ namespace cloudmusic2upnp
 								try {
 									object activedInstance = Activator.CreateInstance (type);
 									if (activedInstance != null) {
-										foundInterfaces.Add (type.Name, (IContentProvider.IContentProvider)activedInstance);
+										foundInterfaces.Add (type.Name, (IContentProvider)activedInstance);
 									}
 								} catch (Exception exception) {
 									System.Diagnostics.Debug.WriteLine (exception);

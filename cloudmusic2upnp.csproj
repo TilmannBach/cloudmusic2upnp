@@ -41,7 +41,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UPnP.cs" />
-    <Compile Include="ContentProvider.cs" />
+    <Compile Include="ContentProvider\Providers.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\Mono.Ssdp.dll" />
@@ -70,5 +70,8 @@
       <Project>{44436137-402C-4F0E-AF2C-B8768B867B5D}</Project>
       <Name>DummyProviderPlugin</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ContentProvider\" />
   </ItemGroup>
 </Project>

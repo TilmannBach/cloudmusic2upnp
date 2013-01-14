@@ -1,10 +1,10 @@
 using System;
 
-using cloudmusic2upnp.IContentProvider;
+using cloudmusic2upnp.ContentProvider;
 
-namespace DummyProviderPlugin
+namespace cloudmusic2upnp.ContentProvider.Plugins.Dummy
 {
-	public class DummyTrack : ITrack
+	public class Track : ITrack
 	{
 		public String TrackName {
 			get {
@@ -19,9 +19,9 @@ namespace DummyProviderPlugin
 		}
 	}
 
-	public class DummyProvider : IContentProvider
+	public class Provider : IContentProvider
 	{
-		public DummyProvider ()
+		public Provider ()
 		{
 		}
 
@@ -39,7 +39,7 @@ namespace DummyProviderPlugin
 
 		public ITrack[] Search (String term)
 		{
-			return new ITrack[] {new DummyTrack ()};
+			return new ITrack[] {new Track ()};
 		}
 	}
 }

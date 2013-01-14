@@ -1,6 +1,6 @@
 using System;
 
-namespace cloudmusic2upnp.IContentProvider
+namespace cloudmusic2upnp.ContentProvider
 {
 	/// <summary>
 	/// The interface to the provider.
