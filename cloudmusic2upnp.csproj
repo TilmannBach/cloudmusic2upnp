@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CpUpnpOrgAVTransport1.net, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\CpUpnpOrgAVTransport1.net.dll</HintPath>
+    </Reference>
     <Reference Include="ohNet.net, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ohNet.net.dll</HintPath>
@@ -50,10 +54,7 @@
     <Compile Include="DeviceController\IDeviceController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\Mono.Ssdp.dll" />
-    <Content Include="lib\Mono.Upnp.Dcp.MediaServer1.dll" />
-    <Content Include="lib\Mono.Upnp.Dcp.MSMediaReceiverRegistrar1.dll" />
-    <Content Include="lib\Mono.Upnp.dll" />
+    <Content Include="lib\CpUpnpOrgAVTransport1.net.dll" />
     <Content Include="lib\ohNet.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

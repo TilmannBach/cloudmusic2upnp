@@ -15,6 +15,11 @@ namespace cloudmusic2upnp.DeviceController
 
 	public interface IDevice
 	{
+        /// <summary>
+        /// A friendly name of the device.
+        /// </summary>
+        String FriendlyName
+        { get; }
 		/// <summary>
 		/// Play the currently selected media.
 		/// </summary>
@@ -37,6 +42,6 @@ namespace cloudmusic2upnp.DeviceController
 		/// The URL, that should be played.
 		/// </param>
 		void SetMediaUrl(String url);
-	}
+    }
 }
 

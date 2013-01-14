@@ -6,12 +6,15 @@ namespace cloudmusic2upnp.DeviceController
 {
     public class UPnP : IController
     {
-        private bool iListFrozen;
-        private List<OpenHome.Net.ControlPoint.CpDevice> iDeviceList;
+        //private List<OpenHome.Net.ControlPoint.CpDevice> iDeviceList;
         /// <summary>
         /// List of devices discovered by the OpenHomeLib.
         /// </summary>
         private OpenHome.Net.ControlPoint.CpDeviceListUpnpServiceType list;
+
+        private Dictionary<String, IDevice> deviceList;
+
+
 
         /// <summary>
         /// Starts a new DeviceController for controlling UPnP-Media-Renderer in your network.
@@ -19,6 +22,8 @@ namespace cloudmusic2upnp.DeviceController
         /// <param name="networkAdapterIndex"></param>
         public UPnP(uint networkAdapterIndex = 0)
         {
+            deviceList = new Dictionary<string, IDevice>();
+
             OpenHome.Net.Core.InitParams initParams = new OpenHome.Net.Core.InitParams();
             OpenHome.Net.Core.Library lib = OpenHome.Net.Core.Library.Create(initParams);
             OpenHome.Net.Core.SubnetList subnetList = new OpenHome.Net.Core.SubnetList();
@@ -44,8 +49,6 @@ namespace cloudmusic2upnp.DeviceController
         /// </summary>
         private void startListening()
         {
-            iListFrozen = false;
-            iDeviceList = new List<OpenHome.Net.ControlPoint.CpDevice>();
             OpenHome.Net.ControlPoint.CpDeviceList.ChangeHandler added = new OpenHome.Net.ControlPoint.CpDeviceList.ChangeHandler(DeviceAdded);
             OpenHome.Net.ControlPoint.CpDeviceList.ChangeHandler removed = new OpenHome.Net.ControlPoint.CpDeviceList.ChangeHandler(DeviceRemoved);
 
@@ -60,16 +63,16 @@ namespace cloudmusic2upnp.DeviceController
         /// <param name="aDevice"></param>
         private void DeviceAdded(OpenHome.Net.ControlPoint.CpDeviceList aList, OpenHome.Net.ControlPoint.CpDevice aDevice)
         {
-            lock (this)
+            lock (deviceList)
             {
-                if (!iListFrozen)
-                {
-                    PrintDeviceInfo("Added", aDevice);
-                    aDevice.AddRef();
-                    iDeviceList.Add(aDevice);
-                }
+                string serviceType;
+                aDevice.GetAttribute("Upnp.DeviceType", out serviceType);
+                Logger.Log(Logger.Level.Debug, "Device-Type: " + serviceType);
+                PrintDeviceInfo("Added", aDevice);
+                deviceList.Add(aDevice.Udn(), new UPnPDevice(aDevice));
             }
         }
+        
 
         /// <summary>
         /// Handler for CpDeviceList if devices are removed from the network (they should 
@@ -79,42 +82,33 @@ namespace cloudmusic2upnp.DeviceController
         /// <param name="aDevice"></param>
         private void DeviceRemoved(OpenHome.Net.ControlPoint.CpDeviceList aList, OpenHome.Net.ControlPoint.CpDevice aDevice)
         {
-            lock (this)
+            lock (deviceList)
             {
-                if (!iListFrozen)
-                {
-                    PrintDeviceInfo("Removed", aDevice);
-                    string udn = aDevice.Udn();
-                    int count = iDeviceList.Count;
-                    for (int i = 0; i < count; i++)
-                    {
-                        if (iDeviceList[i].Udn() == udn)
-                        {
-                            iDeviceList[i].RemoveRef();
-                            iDeviceList.RemoveAt(i);
-                            break;
-                        }
-                    }
-                }
+                PrintDeviceInfo("Removed", aDevice);
+                deviceList.Remove(aDevice.Udn());
             }
         }
 
+        
         /// <summary>
         /// Explicitly free's up memory used by the c++ library.
         /// </summary>
         void FreeAll()
         {
-            lock (iDeviceList)
+            list.Dispose();
+            /*
+            lock (deviceList)
             {
-                int count = iDeviceList.Count;
+                int count = deviceList.Count;
                 for (int i = 0; i < count; i++)
                 {
-                    iDeviceList[i].RemoveRef();
+                    deviceList[i].RemoveRef();
                 }
-                iDeviceList.RemoveRange(0, count - 1);
+                deviceList.RemoveRange(0, count - 1);
             }
-            list.Dispose();
+             */
         }
+        
 
         /// <summary>
         /// Prints some device information.
@@ -136,12 +130,32 @@ namespace cloudmusic2upnp.DeviceController
 
         public IDevice[] GetDevices()
         {
-            throw new NotImplementedException();
+            UPnPDevice[] deviceArr;
+            lock (deviceList)
+            {
+                deviceArr = new UPnPDevice[deviceList.Count];
+                deviceList.Values.CopyTo(deviceArr, 0);
+            }
+            return deviceArr;
         }
     }
 
     public class UPnPDevice : IDevice
     {
+        private OpenHome.Net.ControlPoint.CpDevice iDevice;
+
+
+        public UPnPDevice(OpenHome.Net.ControlPoint.CpDevice device)
+        {
+            device.AddRef();
+            iDevice = device;
+        }
+
+        public string FriendlyName
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public void Play()
         {
             throw new NotImplementedException();
@@ -161,5 +175,11 @@ namespace cloudmusic2upnp.DeviceController
         {
             throw new NotImplementedException();
         }
+
+        ~UPnPDevice()
+        {
+            iDevice.RemoveRef();
+        }
     }
+
 }
