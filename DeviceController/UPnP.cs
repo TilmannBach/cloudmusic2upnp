@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 
 
-namespace cloudmusic2upnp
+namespace cloudmusic2upnp.DeviceController
 {
-    public class UPnPDeviceController : IDeviceController
+    public class UPnP : IController
     {
         private bool iListFrozen;
         private List<OpenHome.Net.ControlPoint.CpDevice> iDeviceList;
@@ -16,7 +16,8 @@ namespace cloudmusic2upnp
         /// <summary>
         /// Starts a new DeviceController for controlling UPnP-Media-Renderer in your network.
         /// </summary>
-        public UPnPDeviceController(uint networkAdapterIndex = 0)
+        /// <param name="networkAdapterIndex"></param>
+        public UPnP(uint networkAdapterIndex = 0)
         {
             OpenHome.Net.Core.InitParams initParams = new OpenHome.Net.Core.InitParams();
             OpenHome.Net.Core.Library lib = OpenHome.Net.Core.Library.Create(initParams);
@@ -33,7 +34,7 @@ namespace cloudmusic2upnp
         /// <summary>
         /// Destructor for freeing memory from c++ library.
         /// </summary>
-        ~UPnPDeviceController()
+        ~UPnP()
         {
             FreeAll();
         }

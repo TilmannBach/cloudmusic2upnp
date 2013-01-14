@@ -15,7 +15,7 @@ namespace cloudmusic2upnp
             Logger.Log("cloudmusic2upnp version " + 
                 System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + " started");
 
-            IDeviceController UPnP = new UPnPDeviceController();
+            DeviceController.IController UPnP = new DeviceController.UPnP();
 
             Console.ReadLine();
         }

@@ -35,6 +35,7 @@
     <Reference Include="ohNet.net, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ohNet.net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,27 +45,27 @@
     <Compile Include="Logger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UPnPDeviceController.cs" />
+    <Compile Include="DeviceController\UPnP.cs" />
     <Compile Include="ContentProvider.cs" />
-    <Compile Include="IDeviceController.cs" />
+    <Compile Include="DeviceController\IDeviceController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\Mono.Ssdp.dll" />
     <Content Include="lib\Mono.Upnp.Dcp.MediaServer1.dll" />
     <Content Include="lib\Mono.Upnp.Dcp.MSMediaReceiverRegistrar1.dll" />
     <Content Include="lib\Mono.Upnp.dll" />
-    <None Include="ohNet.dll">
+    <Content Include="lib\ohNet.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <Content Include="lib\ohNet.net.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="libohNet.so">
+    <Content Include="lib\libohNet.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

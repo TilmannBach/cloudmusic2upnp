@@ -1,11 +1,11 @@
 using System;
 
-namespace cloudmusic2upnp
+namespace cloudmusic2upnp.DeviceController
 {
 	/// <summary>
 	/// Interface for DeviceControllers, like a UPnP Control Point.
 	/// </summary>
-	public interface IDeviceController
+	public interface IController
 	{
 		/// <summary>
 		/// Gets a list with all avalible devices (eg UPnP Renderers).
