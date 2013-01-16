@@ -70,6 +70,10 @@
       <Project>{44436137-402C-4F0E-AF2C-B8768B867B5D}</Project>
       <Name>DummyProviderPlugin</Name>
     </ProjectReference>
+    <ProjectReference Include="SoundcloudProviderPlugin\SoundcloudProviderPlugin.csproj">
+      <Project>{3C80D595-14D5-4F12-9307-4EF1C79F56AB}</Project>
+      <Name>SoundcloudProviderPlugin</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ContentProvider\" />

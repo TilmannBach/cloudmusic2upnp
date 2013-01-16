@@ -35,14 +35,14 @@ namespace cloudmusic2upnp.ContentProvider
 		/// <summary>
 		/// A dict of all providers with its name and class.
 		/// </summary>
-		public Dictionary<string, IContentProvider> allPlugins { get; private set; }
+		public Dictionary<string, IContentProvider> AllPlugins { get; private set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="cloudmusic2upnp.ContentProvider"/> class.
 		/// </summary>
 		private Providers ()
 		{
-			allPlugins = LoadPlugins ();
+			AllPlugins = LoadPlugins ();
 		}
 
 
@@ -71,9 +71,9 @@ namespace cloudmusic2upnp.ContentProvider
 
 							if (typeInterface != null) {
 								try {
-									object activedInstance = Activator.CreateInstance (type);
+									IContentProvider activedInstance = (IContentProvider)Activator.CreateInstance (type);
 									if (activedInstance != null) {
-										foundInterfaces.Add (type.Name, (IContentProvider)activedInstance);
+										foundInterfaces.Add (activedInstance.Name, activedInstance);
 									}
 								} catch (Exception exception) {
 									System.Diagnostics.Debug.WriteLine (exception);

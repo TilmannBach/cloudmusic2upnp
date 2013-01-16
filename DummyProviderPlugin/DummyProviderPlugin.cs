@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using cloudmusic2upnp.ContentProvider;
 
@@ -37,9 +38,11 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Dummy
 			}
 		}
 
-		public ITrack[] Search (String term)
+		public List<ITrack> Search (String term)
 		{
-			return new ITrack[] {new Track ()};
+			var l = new List<ITrack> ();
+			l.Add (new Track ());
+			return l;
 		}
 	}
 }

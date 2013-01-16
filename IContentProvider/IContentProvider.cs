@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace cloudmusic2upnp.ContentProvider
 {
@@ -10,7 +11,7 @@ namespace cloudmusic2upnp.ContentProvider
 		String Name { get; }
 		String Url { get; }
 
-		ITrack[] Search (String term);
+		List<ITrack> Search (String term);
 	}
 
 	/// <summary>
