@@ -34,11 +34,14 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 	}
 
 	/// <summary>
-	/// Provider.
+	/// 	Provider.
 	/// </summary>
 	/// <example>
-	/// List<ITrack> tracks = ContentProvider.Providers.Instance.AllPlugins ["Soundcloud"].Search ("flume");
+	/// 	List<ITrack> tracks = ContentProvider.Providers.Instance.AllPlugins ["Soundcloud"].Search ("flume");
 	/// </example>
+	/// <description>
+	/// 	<see cref="http://developers.soundcloud.com/docs/api/reference"/>
+	/// </description>
 	public class Provider : IContentProvider
 	{
 
@@ -60,21 +63,14 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 
 		public Provider ()
 		{
-			IssueOverrideProxy ();
 		}
 
 		/// <summary>
-		/// This is a workaround for Mono < 2.11 on Linux with enabled
-		/// proxy, because it will hang up, if there is a 'http_proxy'
-		/// environment variable set.
+		/// Search the specified term.
 		/// </summary>
-		private void IssueOverrideProxy ()
-		{
-			WebRequest.GetSystemWebProxy ();
-		}
-
-
-
+		/// <param name='term'>
+		/// The search query term.
+		/// </param>
 		public List<ITrack> Search (String term)
 		{
 			List<ITrack> tracks = new List<ITrack> ();
@@ -87,8 +83,21 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 			return tracks;
 		}
 
-
-		private JArray ApiRequest (String method, params String[] filters)
+		/// <summary>
+		/// 	Sends a GET request to the Soundcloud REST API.
+		/// </summary>
+		/// <returns>
+		/// 	A deserialized JSON array, with Soundcloud results.
+		/// </returns>
+		/// <param name='ressource'>
+		/// 	The requested ressource. See API docs.
+		/// </param>
+		/// <param name='filters'>
+		/// 	The filters for the requested ressource. All filters are noted
+		/// 	in API docs. The params alternate between key and value, so its
+		/// 	length must be a modulo of two.
+		/// </param>
+		private JArray ApiRequest (String ressource, params String[] filters)
 		{
 			if ((filters.Length % 2) != 0)
 				// Throw an exception, if the filters aren't a modulo of 2,
@@ -96,7 +105,7 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 				// it neither.
 				throw new ArgumentException ("Filters must have key and value");
 
-			String url = API_URL + method + "." + API_FORMAT + "?consumer_key=" + API_KEY;
+			String url = API_URL + ressource + "." + API_FORMAT + "?consumer_key=" + API_KEY;
 
 			for (var i=0; i<filters.Length; i=i+2) {
 				url += "&" + filters [i];

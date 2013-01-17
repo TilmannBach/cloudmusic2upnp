@@ -37,8 +37,6 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="SoundcloudProviderPlugin.cs" />
-    <Compile Include="Base.cs" />
-    <Compile Include="Tracks.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
