@@ -12,9 +12,9 @@ namespace cloudmusic2upnp.DeviceController
         /// </summary>
         private OpenHome.Net.ControlPoint.CpDeviceListUpnpServiceType list;
 
-        private Dictionary<String, IDevice> deviceList;
+        private Dictionary<String, UPnPDevice> deviceList;
 
-
+        public event EventHandler<DeviceEventArgs> DeviceDiscovery;
 
         /// <summary>
         /// Starts a new DeviceController for controlling UPnP-Media-Renderer in your network.
@@ -22,7 +22,7 @@ namespace cloudmusic2upnp.DeviceController
         /// <param name="networkAdapterIndex"></param>
         public UPnP(uint networkAdapterIndex = 0)
         {
-            deviceList = new Dictionary<string, IDevice>();
+            deviceList = new Dictionary<string, UPnPDevice>();
 
             OpenHome.Net.Core.InitParams initParams = new OpenHome.Net.Core.InitParams();
             OpenHome.Net.Core.Library lib = OpenHome.Net.Core.Library.Create(initParams);
@@ -71,8 +71,14 @@ namespace cloudmusic2upnp.DeviceController
                 PrintDeviceInfo("Added", aDevice);
                 deviceList.Add(aDevice.Udn(), new UPnPDevice(aDevice));
             }
+            OnDeviceDiscovered(deviceList[aDevice.Udn()]);
         }
-        
+        protected virtual void OnDeviceDiscovered(UPnPDevice dev)
+        {
+            EventHandler<DeviceEventArgs> handler = DeviceDiscovery;
+            if (handler != null)
+                handler(this, new DeviceEventArgs(dev, DeviceEventArgs.DeviceEventActions.Added));
+        }
 
         /// <summary>
         /// Handler for CpDeviceList if devices are removed from the network (they should 
@@ -87,8 +93,14 @@ namespace cloudmusic2upnp.DeviceController
                 PrintDeviceInfo("Removed", aDevice);
                 deviceList.Remove(aDevice.Udn());
             }
+            OnDeviceRemoved(deviceList[aDevice.Udn()]);
         }
-
+        protected virtual void OnDeviceRemoved(UPnPDevice dev)
+        {
+            EventHandler<DeviceEventArgs> handler = DeviceDiscovery;
+            if (handler != null)
+                handler(this, new DeviceEventArgs(dev, DeviceEventArgs.DeviceEventActions.Removed));
+        }
         
         /// <summary>
         /// Explicitly free's up memory used by the c++ library.
@@ -138,12 +150,15 @@ namespace cloudmusic2upnp.DeviceController
             }
             return deviceArr;
         }
-    }
+}
 
     public class UPnPDevice : IDevice
     {
         private OpenHome.Net.ControlPoint.CpDevice iDevice;
 
+
+
+        public event EventHandler<DevicePlaystateEventArgs> PlaystateChanged;
 
         public UPnPDevice(OpenHome.Net.ControlPoint.CpDevice device)
         {
@@ -153,7 +168,20 @@ namespace cloudmusic2upnp.DeviceController
 
         public string FriendlyName
         {
-            get { throw new NotImplementedException(); }
+            get {
+                string location;
+                iDevice.GetAttribute("Upnp.Location", out location);
+                string friendlyName;
+                iDevice.GetAttribute("Upnp.FriendlyName", out friendlyName);
+                if (String.IsNullOrWhiteSpace(location))
+                {
+                    return friendlyName;
+                }
+                else
+                {
+                    return friendlyName + "@" + location;
+                }
+            }
         }
 
         public void Play()
@@ -180,6 +208,7 @@ namespace cloudmusic2upnp.DeviceController
         {
             iDevice.RemoveRef();
         }
+
     }
 
 }
