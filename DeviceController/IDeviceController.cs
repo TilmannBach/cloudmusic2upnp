@@ -13,13 +13,14 @@ namespace cloudmusic2upnp.DeviceController
 		IDevice[] GetDevices();
 
         event EventHandler<DeviceEventArgs> DeviceDiscovery;
-        event EventHandler<DevicePlaystateEventArgs> PlaystateChanged;
 	}
 
     
 
 	public interface IDevice
 	{
+        event EventHandler<DevicePlaystateEventArgs> PlaystateChanged;
+        
         /// <summary>
         /// A friendly name of the device.
         /// </summary>

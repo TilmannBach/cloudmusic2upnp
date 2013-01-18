@@ -15,7 +15,6 @@ namespace cloudmusic2upnp.DeviceController
         private Dictionary<String, UPnPDevice> deviceList;
 
         public event EventHandler<DeviceEventArgs> DeviceDiscovery;
-        public event EventHandler<DevicePlaystateEventArgs> PlaystateChanged;
 
         /// <summary>
         /// Starts a new DeviceController for controlling UPnP-Media-Renderer in your network.
@@ -158,6 +157,9 @@ namespace cloudmusic2upnp.DeviceController
         private OpenHome.Net.ControlPoint.CpDevice iDevice;
 
 
+
+        public event EventHandler<DevicePlaystateEventArgs> PlaystateChanged;
+
         public UPnPDevice(OpenHome.Net.ControlPoint.CpDevice device)
         {
             device.AddRef();
@@ -206,6 +208,7 @@ namespace cloudmusic2upnp.DeviceController
         {
             iDevice.RemoveRef();
         }
+
     }
 
 }
