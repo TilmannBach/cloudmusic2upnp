@@ -19,6 +19,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -44,5 +45,13 @@
       <Project>{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}</Project>
       <Name>IContentProvider</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="lib\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="lib\Newtonsoft.Json.dll" />
+    <None Include="lib\Newtonsoft.Json.pdb" />
+    <None Include="lib\Newtonsoft.Json.xml" />
   </ItemGroup>
 </Project>
