@@ -11,7 +11,12 @@ namespace cloudmusic2upnp.DeviceController
 		/// Gets a list with all avalible devices (eg UPnP Renderers).
 		/// </summary>
 		IDevice[] GetDevices();
+
+        event EventHandler<DeviceEventArgs> DeviceDiscovery;
+        event EventHandler<DevicePlaystateEventArgs> PlaystateChanged;
 	}
+
+    
 
 	public interface IDevice
 	{
