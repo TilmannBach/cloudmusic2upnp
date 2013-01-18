@@ -8,29 +8,12 @@ using cloudmusic2upnp.ContentProvider;
 
 namespace cloudmusic2upnp.ContentProvider
 {
-	class Providers
+	public class Providers
 	{
 		/// <summary>
 		/// The path to the Content Provider plugin DLLs.
 		/// </summary>
 		private const string PLUGIN_PATH = ".";
-
-		/// <summary>
-		/// The singleton instance for this class.
-		/// </summary>
-		private static Providers instance;
-
-		/// <summary>
-		/// Gets the instance of <see cref="cloudmusic2upnp.ContentProvider"/>.
-		/// </summary>
-		public static Providers Instance {
-			get {
-				if (instance == null) {
-					instance = new Providers ();
-				}
-				return instance;
-			}
-		}
 
 		/// <summary>
 		/// A dict of all providers with its name and class.
@@ -40,7 +23,7 @@ namespace cloudmusic2upnp.ContentProvider
 		/// <summary>
 		/// Initializes a new instance of the <see cref="cloudmusic2upnp.ContentProvider"/> class.
 		/// </summary>
-		private Providers ()
+		public Providers ()
 		{
 			AllPlugins = LoadPlugins ();
 		}

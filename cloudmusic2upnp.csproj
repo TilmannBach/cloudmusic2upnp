@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -52,6 +53,8 @@
     <Compile Include="ContentProvider\Providers.cs" />
     <Compile Include="DeviceController\UPnP.cs" />
     <Compile Include="DeviceController\IDeviceController.cs" />
+    <Compile Include="UserInterface\CLI\Interface.cs" />
+    <Compile Include="UserInterface\UIProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\CpUpnpOrgAVTransport1.net.dll" />
@@ -93,5 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ContentProvider\" />
+    <Folder Include="UserInterface\" />
+    <Folder Include="UserInterface\CLI\" />
   </ItemGroup>
 </Project>

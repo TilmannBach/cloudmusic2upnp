@@ -6,16 +6,23 @@ namespace cloudmusic2upnp
 {
 	public class Core
 	{
+		public DeviceController.IController UPnP;
+		public ContentProvider.Providers Providers;
+		public UserInterface.UIProxy UI;
+
 		/// <summary>
 		/// 
 		/// </summary>
 		public Core ()
 		{
-			Logger.Log ("cloudmusic2upnp version " + 
+			Logger.Log (Logger.Level.Info, "cloudmusic2upnp version " + 
 				System.Reflection.Assembly.GetExecutingAssembly ().GetName ().Version.ToString () + " started"
 			);
 
-			DeviceController.IController UPnP = new DeviceController.UPnP ();
+			UPnP = new DeviceController.UPnP ();
+			Providers = new ContentProvider.Providers ();
+			UI = new UserInterface.UIProxy (UPnP, Providers);
+			UI.Start ();
 
 			Console.ReadLine ();
 		}
