@@ -17,12 +17,12 @@ namespace cloudmusic2upnp
 
 		public static void Log (String message)
 		{
-			Log (Level.Info, message);
+			Log (Level.Debug, message);
 		}
 
 		public static void Log (Level level, String message)
 		{
-			Console.WriteLine("{0} [{1}] - {2}", DateTime.Now, level, message);
+			Console.WriteLine ("{0} [{1}] - {2}", DateTime.Now, level, message);
 		}
 	}
 }
