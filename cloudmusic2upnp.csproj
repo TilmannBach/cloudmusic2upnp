@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -32,6 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CpUpnpOrgAVTransport1.net, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\CpUpnpOrgAVTransport1.net.dll</HintPath>
+    </Reference>
+    <Reference Include="ohNet.net, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\ohNet.net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
@@ -40,17 +49,25 @@
     <Compile Include="Logger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UPnP.cs" />
     <Compile Include="ContentProvider\Providers.cs" />
+    <Compile Include="DeviceController\UPnP.cs" />
+    <Compile Include="ContentProvider.cs" />
+    <Compile Include="DeviceController\IDeviceController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\Mono.Ssdp.dll" />
-    <Content Include="lib\Mono.Upnp.Dcp.MediaServer1.dll" />
-    <Content Include="lib\Mono.Upnp.Dcp.MSMediaReceiverRegistrar1.dll" />
-    <Content Include="lib\Mono.Upnp.dll" />
+    <Content Include="lib\CpUpnpOrgAVTransport1.net.dll" />
+    <Content Include="lib\ohNet.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\ohNet.net.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Content Include="lib\libohNet.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
