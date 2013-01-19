@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 
 
 namespace cloudmusic2upnp.DeviceController
@@ -65,13 +66,17 @@ namespace cloudmusic2upnp.DeviceController
         {
             lock (deviceList)
             {
-                string serviceType;
-                aDevice.GetAttribute("Upnp.DeviceType", out serviceType);
-                Logger.Log(Logger.Level.Debug, "Device-Type: " + serviceType);
-                PrintDeviceInfo("Added", aDevice);
-                deviceList.Add(aDevice.Udn(), new UPnPDevice(aDevice));
+                PrintDeviceInfo("Found", aDevice);
+                
+                string deviceXml;
+                aDevice.GetAttribute("Upnp.DeviceXml", out deviceXml);
+                if (UPnPTools.isMediaRenderer(deviceXml))
+                {
+                    deviceList.Add(aDevice.Udn(), new UPnPDevice(aDevice));
+                    Logger.Log(Logger.Level.Debug, "Found usefull MediaRenderer: " + deviceList[aDevice.Udn()].FriendlyName);
+                    OnDeviceDiscovered(deviceList[aDevice.Udn()]);
+                }
             }
-            OnDeviceDiscovered(deviceList[aDevice.Udn()]);
         }
         protected virtual void OnDeviceDiscovered(UPnPDevice dev)
         {
@@ -101,7 +106,7 @@ namespace cloudmusic2upnp.DeviceController
             if (handler != null)
                 handler(this, new DeviceEventArgs(dev, DeviceEventArgs.DeviceEventActions.Removed));
         }
-        
+
         /// <summary>
         /// Explicitly free's up memory used by the c++ library.
         /// </summary>
@@ -120,7 +125,7 @@ namespace cloudmusic2upnp.DeviceController
             }
              */
         }
-        
+
 
         /// <summary>
         /// Prints some device information.
@@ -133,11 +138,11 @@ namespace cloudmusic2upnp.DeviceController
             aDevice.GetAttribute("Upnp.Location", out location);
             string friendlyName;
             aDevice.GetAttribute("Upnp.FriendlyName", out friendlyName);
-            Logger.Log(Logger.Level.Info,
+            Logger.Log(Logger.Level.Debug,
                 aPrologue +
                 "\n    udn = " + aDevice.Udn() +
                 "\n    location = " + location +
-                "\n    name = " + friendlyName + "\n");
+                "\n    name = " + friendlyName);
         }
 
         public IDevice[] GetDevices()
@@ -150,10 +155,42 @@ namespace cloudmusic2upnp.DeviceController
             }
             return deviceArr;
         }
-}
+    }
+
+    public class UPnPTools
+    {
+        public static bool isMediaRenderer(string xmlDeviceDescription)
+        {
+            XmlDocument xmlfile = new XmlDocument();
+            xmlfile.LoadXml(xmlDeviceDescription);
+
+            // Create an XmlNamespaceManager to resolve the default namespace.
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlfile.NameTable);
+            nsmgr.AddNamespace("def", "urn:schemas-upnp-org:device-1-0");
+
+
+            string xPathExpression = "//def:deviceType";
+            var asset = (XmlElement)xmlfile.SelectSingleNode(xPathExpression, nsmgr);
+            if (asset.InnerText == "urn:schemas-upnp-org:device:MediaRenderer:1")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 
     public class UPnPDevice : IDevice
     {
+        /// <summary>
+        /// CpDevice.GetAttributes only supports 
+        /// • "Upnp.Location"
+        /// • "Upnp.DeviceXml"
+        /// • "Upnp.FriendlyName"
+        /// • "Upnp.PresentationUrl"
+        /// </summary>
         private OpenHome.Net.ControlPoint.CpDevice iDevice;
 
 
@@ -164,23 +201,17 @@ namespace cloudmusic2upnp.DeviceController
         {
             device.AddRef();
             iDevice = device;
+
+
         }
 
         public string FriendlyName
         {
-            get {
-                string location;
-                iDevice.GetAttribute("Upnp.Location", out location);
+            get
+            {
                 string friendlyName;
                 iDevice.GetAttribute("Upnp.FriendlyName", out friendlyName);
-                if (String.IsNullOrWhiteSpace(location))
-                {
-                    return friendlyName;
-                }
-                else
-                {
-                    return friendlyName + "@" + location;
-                }
+                return friendlyName;
             }
         }
 
@@ -208,7 +239,5 @@ namespace cloudmusic2upnp.DeviceController
         {
             iDevice.RemoveRef();
         }
-
     }
-
 }
