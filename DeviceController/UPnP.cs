@@ -15,6 +15,9 @@ namespace cloudmusic2upnp.DeviceController
 
         private Dictionary<String, UPnPDevice> deviceList;
 
+        /// <summary>
+        /// Raises if a UPnP AV media renderer is found or removed from the network.
+        /// </summary>
         public event EventHandler<DeviceEventArgs> DeviceDiscovery;
 
         /// <summary>
@@ -67,12 +70,16 @@ namespace cloudmusic2upnp.DeviceController
             lock (deviceList)
             {
                 PrintDeviceInfo("Found", aDevice);
-                
+
                 string deviceXml;
                 aDevice.GetAttribute("Upnp.DeviceXml", out deviceXml);
-                if (UPnPTools.isMediaRenderer(deviceXml))
+
+                XmlDocument xmlDeviceDescription = new XmlDocument();
+                xmlDeviceDescription.LoadXml(deviceXml);
+
+                if (UPnPTools.isMediaRenderer(xmlDeviceDescription))
                 {
-                    deviceList.Add(aDevice.Udn(), new UPnPDevice(aDevice));
+                    deviceList.Add(aDevice.Udn(), new UPnPDevice(aDevice, xmlDeviceDescription));
                     Logger.Log(Logger.Level.Debug, "Found usefull MediaRenderer: " + deviceList[aDevice.Udn()].FriendlyName);
                     OnDeviceDiscovered(deviceList[aDevice.Udn()]);
                 }
@@ -93,12 +100,13 @@ namespace cloudmusic2upnp.DeviceController
         /// <param name="aDevice"></param>
         private void DeviceRemoved(OpenHome.Net.ControlPoint.CpDeviceList aList, OpenHome.Net.ControlPoint.CpDevice aDevice)
         {
+            UPnPDevice dev = deviceList[aDevice.Udn()];
             lock (deviceList)
             {
                 PrintDeviceInfo("Removed", aDevice);
                 deviceList.Remove(aDevice.Udn());
             }
-            OnDeviceRemoved(deviceList[aDevice.Udn()]);
+            OnDeviceRemoved(dev);
         }
         protected virtual void OnDeviceRemoved(UPnPDevice dev)
         {
@@ -159,11 +167,8 @@ namespace cloudmusic2upnp.DeviceController
 
     public class UPnPTools
     {
-        public static bool isMediaRenderer(string xmlDeviceDescription)
+        public static bool isMediaRenderer(XmlDocument xmlfile)
         {
-            XmlDocument xmlfile = new XmlDocument();
-            xmlfile.LoadXml(xmlDeviceDescription);
-
             // Create an XmlNamespaceManager to resolve the default namespace.
             XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlfile.NameTable);
             nsmgr.AddNamespace("def", "urn:schemas-upnp-org:device-1-0");
@@ -171,14 +176,7 @@ namespace cloudmusic2upnp.DeviceController
 
             string xPathExpression = "//def:deviceType";
             var asset = (XmlElement)xmlfile.SelectSingleNode(xPathExpression, nsmgr);
-            if (asset.InnerText == "urn:schemas-upnp-org:device:MediaRenderer:1")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (asset.InnerText == "urn:schemas-upnp-org:device:MediaRenderer:1") ? true : false;
         }
     }
 
@@ -193,16 +191,28 @@ namespace cloudmusic2upnp.DeviceController
         /// </summary>
         private OpenHome.Net.ControlPoint.CpDevice iDevice;
 
+        private OpenHome.Net.ControlPoint.Proxies.CpProxyUpnpOrgAVTransport1 iConnection;
+        private XmlDocument xmlDeviceDescription;
 
-
+        /// <summary>
+        /// Raises if the playstate of a UPnPDevice is changed.
+        /// e.g. a device stopped playback because it reached the end of a song
+        /// </summary>
         public event EventHandler<DevicePlaystateEventArgs> PlaystateChanged;
 
-        public UPnPDevice(OpenHome.Net.ControlPoint.CpDevice device)
+        public UPnPDevice(OpenHome.Net.ControlPoint.CpDevice device, XmlDocument xmlDeviceDescr)
         {
             device.AddRef();
             iDevice = device;
 
+            xmlDeviceDescription = xmlDeviceDescr;
 
+            iConnection = new OpenHome.Net.ControlPoint.Proxies.CpProxyUpnpOrgAVTransport1(iDevice);
+        }
+
+        public XmlDocument GetXmlDeviceDescription()
+        {
+            return xmlDeviceDescription;
         }
 
         public string FriendlyName
@@ -217,7 +227,18 @@ namespace cloudmusic2upnp.DeviceController
 
         public void Play()
         {
-            throw new NotImplementedException();
+            iConnection.BeginPlay(0, "1", BeginPlayComplete);
+        }
+        private void BeginPlayComplete(IntPtr asyncHandle)
+        {
+            try
+            {
+                iConnection.EndPlay(asyncHandle);
+            }
+            catch (OpenHome.Net.ControlPoint.ProxyError err)
+            {
+                Logger.Log(Logger.Level.Error, "Can't start playback on remote device. Device says: (" + err.Code + ") " + err.Description); 
+            }
         }
 
         public void Pause()
@@ -232,7 +253,11 @@ namespace cloudmusic2upnp.DeviceController
 
         public void SetMediaUrl(string url)
         {
-            throw new NotImplementedException();
+            iConnection.BeginSetAVTransportURI(0, "http://dl.dropbox.com/u/22353481/temp/beer.mp3", "<DIDL-Lite xmlns=\"urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/\" xmlns:upnp=\"urn:schemas-upnp-org:metadata-1-0/upnp/\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dlna=\"urn:schemas-dlna-org:metadata-1-0/\" xmlns:sec=\"http://www.sec.co.kr/\"><item id=\"163a411867dc2b7933a1bccd166eb310\" parentID=\"5ede10f3fc0298927d7db250d111783a\" restricted=\"1\"><upnp:class>object.item.audioItem.musicTrack</upnp:class><dc:title>Beer!!! (Album) [Explicit]</dc:title><dc:creator>Psychostick</dc:creator><upnp:artist>Psychostick</upnp:artist><upnp:albumArtURI>http://192.168.107.13:34513/MediaExport/i/MTYzYTQxMTg2N2RjMmI3OTMzYTFiY2NkMTY2ZWIzMTA%3D/th/0.jpg</upnp:albumArtURI><upnp:genre>Rock</upnp:genre><upnp:album>We Couldn't Think Of A Title [Explicit]</upnp:album><upnp:originalTrackNumber>5</upnp:originalTrackNumber><dc:date>2006-01-01</dc:date><res protocolInfo=\"http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000\" bitrate=\"32000\" sampleFrequency=\"44100\" nrAudioChannels=\"2\" size=\"4533237\" duration=\"0:02:15.000\">http://192.168.107.13:34513/MediaExport/i/MTYzYTQxMTg2N2RjMmI3OTMzYTFiY2NkMTY2ZWIzMTA%3D.mp3</res></item></DIDL-Lite>", BeginSetMediaUrlComplete);
+        }
+        private void BeginSetMediaUrlComplete(IntPtr asyncHandle)
+        {
+            iConnection.EndSetAVTransportURI(asyncHandle);
         }
 
         ~UPnPDevice()

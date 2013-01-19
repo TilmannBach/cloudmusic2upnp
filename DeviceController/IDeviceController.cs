@@ -12,6 +12,9 @@ namespace cloudmusic2upnp.DeviceController
 		/// </summary>
 		IDevice[] GetDevices();
 
+        /// <summary>
+        /// Raises if a usefull device is found or removed from the network.
+        /// </summary>
         event EventHandler<DeviceEventArgs> DeviceDiscovery;
 	}
 
@@ -19,10 +22,14 @@ namespace cloudmusic2upnp.DeviceController
 
 	public interface IDevice
 	{
+        /// <summary>
+        /// Raises if the playstate of a device is changed.
+        /// e.g. a device stopped playback because it reached the end of a song
+        /// </summary>
         event EventHandler<DevicePlaystateEventArgs> PlaystateChanged;
         
         /// <summary>
-        /// A friendly name of the device.
+        /// Returns a friendly name of the device.
         /// </summary>
         String FriendlyName
         { get; }
@@ -37,7 +44,7 @@ namespace cloudmusic2upnp.DeviceController
 		void Pause();
 
 		/// <summary>
-		/// Stop the currently playing media.
+		/// Stops the current playback.
 		/// </summary>
 		void Stop();
 

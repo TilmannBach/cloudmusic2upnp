@@ -11,6 +11,7 @@ namespace cloudmusic2upnp.UserInterface.CLI
 		                      ContentProvider.Providers providers)
 		{
 			Controller = controller;
+         //   Controller.DeviceDiscovery += Controller_DeviceDiscovery;
 			Providers = providers;
 		}
 
@@ -25,15 +26,22 @@ namespace cloudmusic2upnp.UserInterface.CLI
 
 				case "help":
 					CmdHelp ();
-					return;
+                    break;
 
 				case "search":
 					CmdSearch ();
-					return;
+					break;
 
 				case "exit":
 					Console.WriteLine ("Bye!");
 					return;
+
+                case "set":
+                    Controller.GetDevices()[0].SetMediaUrl("bla");
+                    break;
+                case "play":
+                    Controller.GetDevices()[0].Play();
+                    break;
 
 				default:
 					Console.WriteLine ("Unknown command.");

@@ -24,7 +24,7 @@ namespace cloudmusic2upnp
 			UI = new UserInterface.UIProxy (UPnP, Providers);
 			UI.Start ();
 
-			Console.ReadLine ();
+			//Console.ReadLine ();
 		}
 	}
 }
