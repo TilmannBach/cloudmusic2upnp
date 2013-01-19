@@ -208,6 +208,8 @@ namespace cloudmusic2upnp.DeviceController
             xmlDeviceDescription = xmlDeviceDescr;
 
             iConnection = new OpenHome.Net.ControlPoint.Proxies.CpProxyUpnpOrgAVTransport1(iDevice);
+
+            GetPositionInfo();
         }
 
         public XmlDocument GetXmlDeviceDescription()
@@ -222,6 +224,31 @@ namespace cloudmusic2upnp.DeviceController
                 string friendlyName;
                 iDevice.GetAttribute("Upnp.FriendlyName", out friendlyName);
                 return friendlyName;
+            }
+        }
+
+        private void GetPositionInfo()
+        {
+            iConnection.BeginGetPositionInfo(0, BeginGetPositionInfoComplete);
+        }
+        private void BeginGetPositionInfoComplete(IntPtr asyncHandle)
+        {
+            try
+            {
+                uint track;
+                string trackDuration;
+                string metaData;
+                string trackUri;
+                string relTime;
+                string absTime;
+                int relCount;
+                int absCount;
+
+                iConnection.EndGetPositionInfo(asyncHandle, out track, out trackDuration, out metaData, out trackUri, out relTime, out absTime, out relCount, out absCount);
+            }
+            catch (OpenHome.Net.ControlPoint.ProxyError err)
+            {
+                Logger.Log(Logger.Level.Error, "Can't start playback on remote device. Device says: (" + err.Code + ") " + err.Description);
             }
         }
 
@@ -243,17 +270,42 @@ namespace cloudmusic2upnp.DeviceController
 
         public void Pause()
         {
-            throw new NotImplementedException();
+            iConnection.BeginPause(0, BeginPauseComplete);
+        }
+        private void BeginPauseComplete(IntPtr asyncHandle)
+        {
+            try
+            {
+                iConnection.EndPause(asyncHandle);
+            }
+            catch (OpenHome.Net.ControlPoint.ProxyError err)
+            {
+                Logger.Log(Logger.Level.Error, "Can't start playback on remote device. Device says: (" + err.Code + ") " + err.Description);
+            }
         }
 
         public void Stop()
         {
-            throw new NotImplementedException();
+            iConnection.BeginStop(0, BeginStopComplete);
+        }
+        private void BeginStopComplete(IntPtr asyncHandle)
+        {
+            try
+            {
+                iConnection.EndStop(asyncHandle);
+            }
+            catch (OpenHome.Net.ControlPoint.ProxyError err)
+            {
+                Logger.Log(Logger.Level.Error, "Can't start playback on remote device. Device says: (" + err.Code + ") " + err.Description);
+            }
         }
 
         public void SetMediaUrl(string url)
         {
-            iConnection.BeginSetAVTransportURI(0, "http://dl.dropbox.com/u/22353481/temp/beer.mp3", "<DIDL-Lite xmlns=\"urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/\" xmlns:upnp=\"urn:schemas-upnp-org:metadata-1-0/upnp/\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dlna=\"urn:schemas-dlna-org:metadata-1-0/\" xmlns:sec=\"http://www.sec.co.kr/\"><item id=\"163a411867dc2b7933a1bccd166eb310\" parentID=\"5ede10f3fc0298927d7db250d111783a\" restricted=\"1\"><upnp:class>object.item.audioItem.musicTrack</upnp:class><dc:title>Beer!!! (Album) [Explicit]</dc:title><dc:creator>Psychostick</dc:creator><upnp:artist>Psychostick</upnp:artist><upnp:albumArtURI>http://192.168.107.13:34513/MediaExport/i/MTYzYTQxMTg2N2RjMmI3OTMzYTFiY2NkMTY2ZWIzMTA%3D/th/0.jpg</upnp:albumArtURI><upnp:genre>Rock</upnp:genre><upnp:album>We Couldn't Think Of A Title [Explicit]</upnp:album><upnp:originalTrackNumber>5</upnp:originalTrackNumber><dc:date>2006-01-01</dc:date><res protocolInfo=\"http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000\" bitrate=\"32000\" sampleFrequency=\"44100\" nrAudioChannels=\"2\" size=\"4533237\" duration=\"0:02:15.000\">http://192.168.107.13:34513/MediaExport/i/MTYzYTQxMTg2N2RjMmI3OTMzYTFiY2NkMTY2ZWIzMTA%3D.mp3</res></item></DIDL-Lite>", BeginSetMediaUrlComplete);
+
+            iConnection.BeginSetAVTransportURI(0, "http://dl.dropbox.com/u/22353481/temp/beer.mp3", " ", BeginSetMediaUrlComplete);
+            //iConnection.BeginSetAVTransportURI(0, "http://dl.dropbox.com/u/22353481/temp/beer.mp3", "<DIDL-Lite xmlns=\"urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/\" xmlns:upnp=\"urn:schemas-upnp-org:metadata-1-0/upnp/\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:dlna=\"urn:schemas-dlna-org:metadata-1-0/\" xmlns:sec=\"http://www.sec.co.kr/\"><item id=\"163a411867dc2b7933a1bccd166eb310\" parentID=\"5ede10f3fc0298927d7db250d111783a\" restricted=\"1\"><upnp:class>object.item.audioItem.musicTrack</upnp:class><dc:title>Beer!!! (Album) [Explicit]</dc:title><dc:creator>Psychostick</dc:creator><upnp:artist>Psychostick</upnp:artist><upnp:albumArtURI>http://192.168.107.13:34513/MediaExport/i/MTYzYTQxMTg2N2RjMmI3OTMzYTFiY2NkMTY2ZWIzMTA%3D/th/0.jpg</upnp:albumArtURI><upnp:genre>Rock</upnp:genre><upnp:album>We Couldn't Think Of A Title [Explicit]</upnp:album><upnp:originalTrackNumber>5</upnp:originalTrackNumber><dc:date>2006-01-01</dc:date><res protocolInfo=\"http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000\" bitrate=\"32000\" sampleFrequency=\"44100\" nrAudioChannels=\"2\" size=\"4533237\" duration=\"0:02:15.000\">http://192.168.107.13:34513/MediaExport/i/MTYzYTQxMTg2N2RjMmI3OTMzYTFiY2NkMTY2ZWIzMTA%3D.mp3</res></item></DIDL-Lite>", BeginSetMediaUrlComplete);
+            //iConnection.BeginSetAVTransportURI(0, "http://multimediajugend.de/media/beamer/movies/BangenufProjector_LaptopMount.mp4", " ", BeginSetMediaUrlComplete);
         }
         private void BeginSetMediaUrlComplete(IntPtr asyncHandle)
         {

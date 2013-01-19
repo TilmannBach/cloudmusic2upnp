@@ -6,6 +6,7 @@ namespace cloudmusic2upnp.UserInterface.CLI
 	{
 		private DeviceController.IController Controller;
 		private ContentProvider.Providers Providers;
+        private uint defaultPlayer = 0;
 
 		public Interface (DeviceController.IController controller,
 		                      ContentProvider.Providers providers)
@@ -15,42 +16,62 @@ namespace cloudmusic2upnp.UserInterface.CLI
 			Providers = providers;
 		}
 
-		public void Start ()
-		{
-			CmdHelp ();
+        public void Start()
+        {
+            CmdHelp();
 
-			while (true) {
-				string cmd = Console.ReadLine ();
+            while (true)
+            {
+                string cmd = Console.ReadLine();
 
-				switch (cmd) {
+                switch (cmd)
+                {
 
-				case "help":
-					CmdHelp ();
-                    break;
+                    case "help":
+                        CmdHelp();
+                        break;
 
-				case "search":
-					CmdSearch ();
-					break;
+                    case "search":
+                        CmdSearch();
+                        break;
 
-				case "exit":
-					Console.WriteLine ("Bye!");
-					return;
+                    case "exit":
+                        Console.WriteLine("Bye!");
+                        return;
 
-                case "set":
-                    Controller.GetDevices()[0].SetMediaUrl("bla");
-                    break;
-                case "play":
-                    Controller.GetDevices()[0].Play();
-                    break;
+                    case "set":
+                        Controller.GetDevices()[defaultPlayer].SetMediaUrl("bla");
+                        break;
+                    case "play":
+                        Controller.GetDevices()[defaultPlayer].Play();
+                        break;
+                    case "pause":
+                        Controller.GetDevices()[defaultPlayer].Pause();
+                        break;
+                    case "stop":
+                        Controller.GetDevices()[defaultPlayer].Stop();
+                        break;
+                    case "player":
+                        Console.WriteLine("Available players: ");
+                        foreach (DeviceController.IDevice dev in Controller.GetDevices())
+                        {
+                            Console.WriteLine(" - " + dev.FriendlyName);
+                        }
+                        break;
+                    case "player 0":
+                        defaultPlayer = 0;
+                        break;
+                    case "player 1":
+                        defaultPlayer = 1;
+                        break;
 
-				default:
-					Console.WriteLine ("Unknown command.");
-					CmdHelp ();
-					break;
-				}
-
-			}
-		}
+                    default:
+                        Console.WriteLine("Unknown command.");
+                        CmdHelp();
+                        break;
+                }
+            }
+        }
 
 
 		private void CmdHelp ()
