@@ -36,6 +36,8 @@ namespace cloudmusic2upnp.UserInterface.CLI
                         break;
 
                     case "exit":
+                        Console.WriteLine("Freeing c++ lib...");
+                        Controller.FreeAll();
                         Console.WriteLine("Bye!");
                         return;
 

@@ -16,6 +16,8 @@ namespace cloudmusic2upnp.DeviceController
         /// Raises if a usefull device is found or removed from the network.
         /// </summary>
         event EventHandler<DeviceEventArgs> DeviceDiscovery;
+
+        void FreeAll();
 	}
 
     

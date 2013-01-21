@@ -43,10 +43,10 @@ namespace cloudmusic2upnp.DeviceController
         /// <summary>
         /// Destructor for freeing memory from c++ library.
         /// </summary>
-        ~UPnP()
-        {
-            FreeAll();
-        }
+        //~UPnP()
+        //{
+        //    FreeAll();
+        //}
 
         /// <summary>
         /// Method to set up the devicelist. OpenHome-lib starts listening here...
@@ -100,13 +100,19 @@ namespace cloudmusic2upnp.DeviceController
         /// <param name="aDevice"></param>
         private void DeviceRemoved(OpenHome.Net.ControlPoint.CpDeviceList aList, OpenHome.Net.ControlPoint.CpDevice aDevice)
         {
-            UPnPDevice dev = deviceList[aDevice.Udn()];
-            lock (deviceList)
+            try
+            {
+                UPnPDevice dev = deviceList[aDevice.Udn()];
+                lock (deviceList)
+                {
+                    deviceList.Remove(aDevice.Udn());
+                }
+                OnDeviceRemoved(dev);
+            }
+            catch (KeyNotFoundException)
             {
                 PrintDeviceInfo("Removed", aDevice);
-                deviceList.Remove(aDevice.Udn());
             }
-            OnDeviceRemoved(dev);
         }
         protected virtual void OnDeviceRemoved(UPnPDevice dev)
         {
@@ -118,20 +124,18 @@ namespace cloudmusic2upnp.DeviceController
         /// <summary>
         /// Explicitly free's up memory used by the c++ library.
         /// </summary>
-        void FreeAll()
+        public void FreeAll()
         {
             list.Dispose();
-            /*
+            
             lock (deviceList)
             {
                 int count = deviceList.Count;
-                for (int i = 0; i < count; i++)
-                {
-                    deviceList[i].RemoveRef();
-                }
-                deviceList.RemoveRange(0, count - 1);
+                foreach (KeyValuePair<string, UPnPDevice> dev in deviceList)
+                    dev.Value.Free();
+                deviceList.Clear();
             }
-             */
+            
         }
 
 
@@ -312,7 +316,11 @@ namespace cloudmusic2upnp.DeviceController
             iConnection.EndSetAVTransportURI(asyncHandle);
         }
 
-        ~UPnPDevice()
+        //~UPnPDevice()
+        //{
+        //    iDevice.RemoveRef();
+        //}
+        public void Free()
         {
             iDevice.RemoveRef();
         }
