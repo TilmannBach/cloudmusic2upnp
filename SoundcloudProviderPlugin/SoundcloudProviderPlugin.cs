@@ -3,7 +3,7 @@ using System.Net;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
+using System.Xml;
 
 using cloudmusic2upnp.ContentProvider;
 
@@ -11,10 +11,10 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 {
 	public class Track : ITrack
 	{
-		public Track (JObject json)
+		public Track (XmlNode elem)
 		{
-			_TrackName = (String)json ["title"];
-			_MediaUrl = (String)json ["stream_url"];
+			_TrackName = (string)elem.SelectSingleNode ("title").InnerText;
+			_MediaUrl = (string)elem.SelectSingleNode ("stream-url").InnerText;
 		}
 
 		private String _TrackName;
@@ -59,7 +59,7 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 
 		private const String API_KEY = "apigee";
 		private const String API_URL = "http://api.soundcloud.com/";
-		private const String API_FORMAT = "json";
+		private const String API_FORMAT = "xml";
 
 		public Provider ()
 		{
@@ -75,9 +75,10 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 		{
 			List<ITrack> tracks = new List<ITrack> ();
 
-			JArray array = ApiRequest ("tracks", "q", term);
-			foreach (JObject jobj in array) {
-				tracks.Add (new Track (jobj));
+			XmlDocument doc = ApiRequest ("tracks", "q", term);
+
+			foreach (XmlNode elem in (XmlNodeList)doc.SelectNodes ("/tracks/track")) {
+				tracks.Add (new Track (elem));
 			}
 
 			return tracks;
@@ -97,7 +98,7 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 		/// 	in API docs. The params alternate between key and value, so its
 		/// 	length must be a modulo of two.
 		/// </param>
-		private JArray ApiRequest (String ressource, params String[] filters)
+		private XmlDocument ApiRequest (String ressource, params String[] filters)
 		{
 			if ((filters.Length % 2) != 0)
 				// Throw an exception, if the filters aren't a modulo of 2,
@@ -114,10 +115,10 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 
 			var request = HttpWebRequest.Create (url);
 			WebResponse response = request.GetResponse ();
-			StreamReader reader = new StreamReader (response.GetResponseStream ());
-			String json = reader.ReadToEnd ();
+			XmlDocument doc = new XmlDocument ();
+			doc.Load (response.GetResponseStream ());
 
-			return JArray.Parse (json);
+			return doc;
 		}
 	}
 }
