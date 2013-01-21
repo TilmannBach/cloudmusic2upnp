@@ -31,9 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\Downloads\Json45r11\Bin\Net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -45,13 +43,5 @@
       <Project>{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}</Project>
       <Name>IContentProvider</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="lib\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="lib\Newtonsoft.Json.dll" />
-    <None Include="lib\Newtonsoft.Json.pdb" />
-    <None Include="lib\Newtonsoft.Json.xml" />
   </ItemGroup>
 </Project>
