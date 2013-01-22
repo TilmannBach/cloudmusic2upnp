@@ -14,6 +14,9 @@ namespace cloudmusic2upnp.DeviceController
         private OpenHome.Net.ControlPoint.CpDeviceListUpnpServiceType list;
 
         private Dictionary<String, UPnPDevice> deviceList;
+        
+        OpenHome.Net.Core.Library lib;
+
 
         /// <summary>
         /// Raises if a UPnP AV media renderer is found or removed from the network.
@@ -29,7 +32,7 @@ namespace cloudmusic2upnp.DeviceController
             deviceList = new Dictionary<string, UPnPDevice>();
 
             OpenHome.Net.Core.InitParams initParams = new OpenHome.Net.Core.InitParams();
-            OpenHome.Net.Core.Library lib = OpenHome.Net.Core.Library.Create(initParams);
+            lib = OpenHome.Net.Core.Library.Create(initParams);
             OpenHome.Net.Core.SubnetList subnetList = new OpenHome.Net.Core.SubnetList();
             OpenHome.Net.Core.NetworkAdapter nif = subnetList.SubnetAt(networkAdapterIndex);
             uint subnet = nif.Subnet();
@@ -70,7 +73,7 @@ namespace cloudmusic2upnp.DeviceController
             lock (deviceList)
             {
                 PrintDeviceInfo("Found", aDevice);
-
+                
                 string deviceXml;
                 aDevice.GetAttribute("Upnp.DeviceXml", out deviceXml);
 
@@ -100,18 +103,21 @@ namespace cloudmusic2upnp.DeviceController
         /// <param name="aDevice"></param>
         private void DeviceRemoved(OpenHome.Net.ControlPoint.CpDeviceList aList, OpenHome.Net.ControlPoint.CpDevice aDevice)
         {
+            String udn = aDevice.Udn();
             try
             {
-                UPnPDevice dev = deviceList[aDevice.Udn()];
+                UPnPDevice dev = deviceList[udn];
                 lock (deviceList)
                 {
-                    deviceList.Remove(aDevice.Udn());
+                    deviceList[udn].Free();
+                    deviceList.Remove(udn);
                 }
+                PrintDeviceInfo("Removed", aDevice);
                 OnDeviceRemoved(dev);
             }
             catch (KeyNotFoundException)
             {
-                PrintDeviceInfo("Removed", aDevice);
+                Logger.Log(Logger.Level.Error, "Wanted to remove a UPnP-Device from my list but it's already gone!? :/");
             }
         }
         protected virtual void OnDeviceRemoved(UPnPDevice dev)
@@ -126,16 +132,18 @@ namespace cloudmusic2upnp.DeviceController
         /// </summary>
         public void FreeAll()
         {
-            list.Dispose();
-            
             lock (deviceList)
             {
-                int count = deviceList.Count;
                 foreach (KeyValuePair<string, UPnPDevice> dev in deviceList)
+                {
                     dev.Value.Free();
+                }
                 deviceList.Clear();
             }
-            
+            list.Dispose();
+            Logger.Log(Logger.Level.Info, "Shutting down all UPnP bindings...");
+            Logger.Log(Logger.Level.Debug, "Freeing C++ lib...");
+            lib.Dispose();
         }
 
 
@@ -322,6 +330,7 @@ namespace cloudmusic2upnp.DeviceController
         //}
         public void Free()
         {
+            iConnection.Dispose();
             iDevice.RemoveRef();
         }
     }

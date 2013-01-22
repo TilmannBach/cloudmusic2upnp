@@ -36,9 +36,12 @@ namespace cloudmusic2upnp.UserInterface.CLI
                         break;
 
                     case "exit":
-                        Console.WriteLine("Freeing c++ lib...");
-                        Controller.FreeAll();
-                        Console.WriteLine("Bye!");
+                        // !!!!! We have to free the UPnP-Stack !!!!!
+                        if (Controller is DeviceController.UPnP)
+                        {
+                            Controller.FreeAll();
+                        }
+                        Logger.Log(Logger.Level.Info, "Good bye.");
                         return;
 
                     case "set":
