@@ -1,12 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using System.IO;
+using cloudmusic2upnp.Utils;
 
 namespace cloudmusic2upnp
 {
 	public class Logger
 	{
+		[Flags]
+		public enum Outputs
+		{
+			Quiet = 0x00,
+			Console = 0x01,
+			File = 0x02
+		}
+
 		public enum Level
 		{
 			Debug,
@@ -22,7 +31,19 @@ namespace cloudmusic2upnp
 
 		public static void Log (Level level, String message)
 		{
-			Console.WriteLine ("{0} [{1}] - {2}", DateTime.Now, level, message);
+			Config cfg = Config.Load ();
+
+			if (cfg.LogVerbosity <= level) {
+				string line = String.Format ("{0} [{1}] - {2}", DateTime.Now, level, message);
+
+				if ((cfg.LogOutput & Outputs.Console) == Outputs.Console) {
+					Console.WriteLine (line);
+				}
+
+				if ((cfg.LogOutput & Outputs.File) == Outputs.File) {
+					File.AppendAllText (cfg.LogFile, line + "\n");
+				}
+			}
 		}
 	}
 }
