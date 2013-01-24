@@ -10,6 +10,7 @@ namespace cloudmusic2upnp
 		public DeviceController.IController UPnP;
 		public ContentProvider.Providers Providers;
 		public UserInterface.UIProxy UI;
+        public Http.WebServer WebServer;
 
 		/// <summary>
 		/// 
@@ -20,12 +21,23 @@ namespace cloudmusic2upnp
 				System.Reflection.Assembly.GetExecutingAssembly ().GetName ().Version.ToString () + " started"
 			);
 
+            WebServer = new Http.WebServer();
+            try
+            {
+                WebServer.Start();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
 			HackMonoProxyIssue ();
 
 			UPnP = new DeviceController.UPnP ();
 			Providers = new ContentProvider.Providers ();
 			UI = new UserInterface.UIProxy (UPnP, Providers);
 			UI.Start ();
+
 
 			//Console.ReadLine ();
 		}
