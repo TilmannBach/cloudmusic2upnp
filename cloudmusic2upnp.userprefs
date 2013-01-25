@@ -1,31 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SoundcloudProviderPlugin/Tracks.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Http/WebServer.cs">
     <Files>
-      <File FileName="SoundcloudProviderPlugin/SoundcloudProviderPlugin.cs" Line="36" Column="3" />
-      <File FileName="SoundcloudProviderPlugin/Base.cs" Line="16" Column="31" />
-      <File FileName="SoundcloudProviderPlugin/Tracks.cs" Line="21" Column="39" />
-      <File FileName="IContentProvider/IContentProvider.cs" Line="10" Column="9" />
+      <File FileName="Program.cs" Line="1" Column="1" />
+      <File FileName="Http/WebServer.cs" Line="11" Column="23" />
+      <File FileName="Http/Listener.cs" Line="1" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="cloudmusic2upnp" expanded="True">
-            <Node name="ContentProvider" expanded="True" />
-          </Node>
-          <Node name="DummyProviderPlugin" expanded="True">
-            <Node name="References" expanded="True" />
-          </Node>
-          <Node name="IContentProvider" expanded="True">
-            <Node name="References" expanded="True" />
-          </Node>
-          <Node name="SoundcloudProviderPlugin" expanded="True">
-            <Node name="References" expanded="True" />
-            <Node name="Tracks.cs" selected="True" />
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

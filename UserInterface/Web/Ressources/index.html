@@ -3,40 +3,23 @@
 <head>
     <meta charset="utf-8" />
     <title>cloudmusic2upnp</title>
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+	<!--<script src="/js/cm2u.js"></script>-->
+	<script src="/js/cm2u.base.js"></script>
+	<script src="/js/cm2u.event.js"></script>
+	<script src="/js/cm2u.socket.js"></script>
+	<script src="/js/cm2u.tabs.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <style type="text/css">
-        body
-        {
-            margin: 0px;
-            padding: 0px;
-        }
-        #head
-        {
-           background:#3c9b0a;
-        }
-        #tabs
-        {
-            margin: 1px;
-            background: #3c9b0a;
-            padding: 5px;
-            border: 0px;
-        }
-        #home
-        {
-            float: left;
-        }
-        #search
-        {
-            float: left;
-        }
-        #last
-        {
-            clear: both;
-        }
+    
+
     </style>
 </head>
 <body>
-        <script>
+        <!--<script>
             var ws = new WebSocket("ws://192.168.107.13:5009/ws");
 
             ws.onopen = function () {
@@ -67,21 +50,44 @@
             $(document).ready(function () {
                 loadCode();
             });
-    </script>
+    </script>-->
 
-    <div id="all">
-        <div id="head">
-            cloudmusic2upnp
-        </div>
-        <div id="tabs">
-            <div id="home">Home</div><div id="search">Search</div><div id="last"></div>
-        </div>
-        <div id="content">
+<div data-role="page">
 
-        </div>
-        <div id="debug">
-            Debug:<br />
-        </div>
-    </div>
+	<div data-role="header">
+		<h1>cloudmusic2upnp</h1>
+	</div>
+
+	<div data-role="navbar">
+		<ul>
+			<li><a href="#tab-search">Search</a></li>
+			<li><a href="#tab-devices">Devices</a></li>
+			<li><a href="#tab-debug">Debug</a></li>
+		</ul>
+
+	</div>
+
+	<div id="tab-search" data-role="content">	
+		<input type="search" name="search" id="search-basic" value="" />
+	
+		<ul data-role="listview" data-inset="true">
+			<li><a href="#">Acura</a></li>
+			<li><a href="#">Audi</a></li>
+			<li><a href="#">BMW</a></li>
+			<li><a href="#">Cadillac</a></li>
+			<li><a href="#">Ferrari</a></li>
+		</ul>
+	</div>
+
+	<div id="tab-devices" data-role="content" style="display: none;">	
+		<p>nope</p>
+	</div>
+
+	<div id="tab-debug" data-role="content" style="display: none;">	
+		<textarea name="textarea" id="debug-text" readonly></textarea>
+	</div>
+
+
+</div>
 </body>
 </html>
