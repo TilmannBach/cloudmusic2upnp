@@ -3,8 +3,85 @@
 <head>
     <meta charset="utf-8" />
     <title>cloudmusic2upnp</title>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.3.min.js"></script>
+    <style type="text/css">
+        body
+        {
+            margin: 0px;
+            padding: 0px;
+        }
+        #head
+        {
+           background:#3c9b0a;
+        }
+        #tabs
+        {
+            margin: 1px;
+            background: #3c9b0a;
+            padding: 5px;
+            border: 0px;
+        }
+        #home
+        {
+            float: left;
+        }
+        #search
+        {
+            float: left;
+        }
+        #last
+        {
+            clear: both;
+        }
+    </style>
 </head>
 <body>
-    This is the entry-point for the cloudmusic2upnp webcontrol.
+        <script>
+            var ws = new WebSocket("ws://192.168.107.13:5009/ws");
+
+            ws.onopen = function () {
+                $('#debug').append("Connected to server successfull..." + "<br />");
+            };
+            ws.onmessage = function (evt) {
+                var received_msg = evt.data;
+                $("#debug").append(received_msg + "<br />");
+            };
+            ws.onclose = function () {
+                // websocket is closed.
+                $("#debug").append("Connection to server is closed..." + "<br />");
+            };
+
+            function loadCode() {
+                //add send-button-event:
+                $('#clickToSend').click(function () {
+                    if (ws.readyState == WebSocket.OPEN) {
+                        var message = $('#textToSend').val();
+                        //$("#messages").append(message.toString() + '\n');
+                        $("#textToSend").val("");
+                        ws.send(message);
+                        $('#textToSend').focus();
+                    }
+                });
+            }
+
+            $(document).ready(function () {
+                loadCode();
+            });
+    </script>
+
+    <div id="all">
+        <div id="head">
+            cloudmusic2upnp
+        </div>
+        <div id="tabs">
+            <div id="home">Home</div><div id="search">Search</div><div id="last"></div>
+        </div>
+        <div id="content">
+
+        </div>
+        <div id="debug">
+            Debug:<br />
+        </div>
+    </div>
 </body>
 </html>
