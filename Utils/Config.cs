@@ -9,6 +9,7 @@ namespace cloudmusic2upnp.Utils
 		public Logger.Outputs LogOutput;
 		public Logger.Level LogVerbosity;
 		public String LogFile;
+		public int HttpPort = 80;
 
 		private const string Path = "config.xml";
 		private static Config Instance;
