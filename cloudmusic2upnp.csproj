@@ -52,8 +52,6 @@
     <Compile Include="Core.cs" />
     <Compile Include="DeviceController\DeviceEventArgs.cs" />
     <Compile Include="DeviceController\DevicePlaystateEventArgs.cs" />
-    <Compile Include="Http\Listener.cs" />
-    <Compile Include="Http\WebServer.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,11 +61,10 @@
     <Compile Include="UserInterface\CLI\Interface.cs" />
     <Compile Include="UserInterface\UIProxy.cs" />
     <Compile Include="Utils\Config.cs" />
+    <Compile Include="UserInterface\Web\Http\Listener.cs" />
+    <Compile Include="UserInterface\Web\Http\WebServer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Http\index.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="lib\CpUpnpOrgAVTransport1.net.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -78,6 +75,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="lib\ohNet.net.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UserInterface\Web\Ressources\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -114,4 +114,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UserInterface\Web\" />
+    <Folder Include="UserInterface\Web\Ressources\" />
+  </ItemGroup>
 </Project>
