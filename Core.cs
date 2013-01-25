@@ -40,7 +40,21 @@ namespace cloudmusic2upnp
 
 
 			//Console.ReadLine ();
+            AppDomain appDomain = AppDomain.CurrentDomain;
+            appDomain.ProcessExit += new EventHandler(app_ProcessExit);
+
+            Console.CancelKeyPress += Console_CancelKeyPress;
 		}
+
+        void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
+        {
+            UPnP.FreeAll();
+        }
+
+        private void app_ProcessExit(object sender, EventArgs e)
+        {
+            UPnP.FreeAll();
+        }
 
 		/// <summary>
 		/// 	Hacks the mono proxy issue.

@@ -206,6 +206,9 @@ namespace cloudmusic2upnp.DeviceController
         private OpenHome.Net.ControlPoint.Proxies.CpProxyUpnpOrgAVTransport1 iConnection;
         private XmlDocument xmlDeviceDescription;
 
+        internal bool isStaring;
+        internal bool isClosing;
+
         /// <summary>
         /// Raises if the playstate of a UPnPDevice is changed.
         /// e.g. a device stopped playback because it reached the end of a song
@@ -214,6 +217,8 @@ namespace cloudmusic2upnp.DeviceController
 
         public UPnPDevice(OpenHome.Net.ControlPoint.CpDevice device, XmlDocument xmlDeviceDescr)
         {
+            isStaring = true;
+
             device.AddRef();
             iDevice = device;
 
@@ -260,8 +265,18 @@ namespace cloudmusic2upnp.DeviceController
             }
             catch (OpenHome.Net.ControlPoint.ProxyError err)
             {
-                Logger.Log(Logger.Level.Error, "Can't start playback on remote device. Device says: (" + err.Code + ") " + err.Description);
+                LogError(err);   
             }
+            if (isStaring)
+            {
+                isStaring = false;
+                Stop();
+            }
+        }
+
+        private void LogError(OpenHome.Net.ControlPoint.ProxyError err)
+        {
+            Logger.Log(Logger.Level.Error, "Can't invoke an action on remote device. Device says: (" + err.Code + ") " + err.Description);
         }
 
         public void Play()
@@ -276,7 +291,7 @@ namespace cloudmusic2upnp.DeviceController
             }
             catch (OpenHome.Net.ControlPoint.ProxyError err)
             {
-                Logger.Log(Logger.Level.Error, "Can't start playback on remote device. Device says: (" + err.Code + ") " + err.Description); 
+                LogError(err);
             }
         }
 
@@ -292,7 +307,7 @@ namespace cloudmusic2upnp.DeviceController
             }
             catch (OpenHome.Net.ControlPoint.ProxyError err)
             {
-                Logger.Log(Logger.Level.Error, "Can't start playback on remote device. Device says: (" + err.Code + ") " + err.Description);
+                LogError(err);
             }
         }
 
@@ -308,7 +323,7 @@ namespace cloudmusic2upnp.DeviceController
             }
             catch (OpenHome.Net.ControlPoint.ProxyError err)
             {
-                Logger.Log(Logger.Level.Error, "Can't start playback on remote device. Device says: (" + err.Code + ") " + err.Description);
+                LogError(err);
             }
         }
 
