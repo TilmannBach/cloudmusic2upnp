@@ -32,8 +32,6 @@ namespace cloudmusic2upnp.Http
 				Logger.Log (Logger.Level.Warning, "HTTP 404 - File Not Found \"" + request.Url.AbsolutePath + "\"");
 				return "";
 			}
-
-
 		}
 
 		public void Stop ()

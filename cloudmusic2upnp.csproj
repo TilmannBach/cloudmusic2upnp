@@ -47,6 +47,12 @@
       <HintPath>lib\ohNet.net.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="WebSocket">
+      <HintPath>lib\WebSocket.dll</HintPath>
+    </Reference>
+    <Reference Include="WebSocketLib">
+      <HintPath>lib\WebSocketLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core.cs" />
@@ -63,6 +69,9 @@
     <Compile Include="Utils\Config.cs" />
     <Compile Include="UserInterface\Web\Http\Listener.cs" />
     <Compile Include="UserInterface\Web\Http\WebServer.cs" />
+    <Compile Include="UserInterface\Web\WebSocketManger.cs" />
+    <Compile Include="UserInterface\Web\IWebManager.cs" />
+    <Compile Include="UserInterface\Web\Interface.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\CpUpnpOrgAVTransport1.net.dll">
@@ -117,5 +126,8 @@
   <ItemGroup>
     <Folder Include="UserInterface\Web\" />
     <Folder Include="UserInterface\Web\Ressources\" />
+    <Folder Include="UserInterface\Web\Ressources\js\" />
+    <Folder Include="UserInterface\Web\Ressources\css\" />
+    <Folder Include="UserInterface\Web\WebSocket\" />
   </ItemGroup>
 </Project>

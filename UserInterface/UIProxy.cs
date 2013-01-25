@@ -21,6 +21,7 @@ namespace cloudmusic2upnp.UserInterface
 		{
 			Interfaces = new Dictionary<string,IInterface> ();
 			Interfaces.Add ("cli", new CLI.Interface (controller, providers));
+			Interfaces.Add ("web", new Web.Interface (controller, providers));
 		}
 
 		public void Start ()
