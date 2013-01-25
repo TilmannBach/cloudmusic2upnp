@@ -91,6 +91,12 @@ namespace cloudmusic2upnp.UserInterface.Web.Http
                                     content = new byte[0] { };
                                     Logger.Log(Logger.Level.Warning, "HTTP 404 - File Not Found \"" + ctx.Request.Url.AbsolutePath + "\"");
                                 }
+                                catch (DirectoryNotFoundException)
+                                {
+                                    ctx.Response.StatusCode = 404;
+                                    content = new byte[0] { };
+                                    Logger.Log(Logger.Level.Warning, "HTTP 404 - File Not Found \"" + ctx.Request.Url.AbsolutePath + "\"");
+                                }
                                 ctx.Response.ContentLength64 = content.Length;
                                 ctx.Response.OutputStream.Write(content, 0, content.Length);
                             }
