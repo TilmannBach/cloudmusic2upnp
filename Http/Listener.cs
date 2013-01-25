@@ -38,12 +38,21 @@ namespace cloudmusic2upnp.Http
             }
             catch (HttpListenerException ex)
             {
-                if (ex.ErrorCode == 5)
+                // exception when using HttpListener without elevated rights (UAC) on windows operating systems
+                if (ex.ErrorCode == 5 && !HasAdministratorPrivileges())
                 {
-                    if (!HasAdministratorPrivileges())
-                    {
-                        throw new Exception("Administrator rights are required for initializing a HTTPListener!", ex);
-                    }
+                    Logger.Log(Logger.Level.Error, "Access Denied. Administrator permissions are " +
+                        "required to use the HTTP webinterface. Use an administrator " +
+                        "command promt to start with the webinterface."
+                    );
+                }
+            }
+            catch (System.Net.Sockets.SocketException ex)
+            {
+                // exception when using port < 1024 on unix operating systems
+                if (ex.ErrorCode == 10013)
+                {
+                    Logger.Log(Logger.Level.Error, "Couldn't start HTTP server. Maybe you need root rights.");
                 }
             }
         }

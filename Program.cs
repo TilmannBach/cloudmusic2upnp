@@ -13,25 +13,9 @@ namespace cloudmusic2upnp
 		/// Implementation test for Mono.Upnp
 		/// </summary>
 		/// <param name="args">none</param>
-		static int Main (string[] args)
-		{
-			try {
-				new Core ();
-
-			} catch (Exception ex) {
-				if (ex.InnerException is HttpListenerException) {
-					if (((HttpListenerException)ex.InnerException).ErrorCode == 5) {
-						Console.WriteLine ("Access Denied. Administrator permissions are " +
-							"required to use the selected options. Use an administrator shell " +
-							"to complete these tasks."
-						);
-						return 740; // ERROR_ELEVATION_REQUIRED
-					}
-				}
-				Console.WriteLine (ex.Message);
-				Console.WriteLine (ex.InnerException.Message);
-			}
-			return 0;
-		}
+        static void Main(string[] args)
+        {
+            new Core();
+        }
 	}
 }

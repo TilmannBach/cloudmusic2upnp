@@ -17,7 +17,7 @@ namespace cloudmusic2upnp.DeviceController
         /// </summary>
         event EventHandler<DeviceEventArgs> DeviceDiscovery;
 
-        void FreeAll();
+        void Shutdown();
 	}
 
     

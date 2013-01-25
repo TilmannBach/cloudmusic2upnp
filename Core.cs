@@ -22,14 +22,7 @@ namespace cloudmusic2upnp
 			);
 
             WebServer = new Http.WebServer();
-            try
-            {
-                WebServer.Start();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            WebServer.Start();
 
 			HackMonoProxyIssue ();
 
@@ -39,21 +32,20 @@ namespace cloudmusic2upnp
 			UI.Start ();
 
 
-			//Console.ReadLine ();
+			// catch Strg+C, console quit's and SIGKILL's and free up the C++-UPnP-lib first
             AppDomain appDomain = AppDomain.CurrentDomain;
             appDomain.ProcessExit += new EventHandler(app_ProcessExit);
-
             Console.CancelKeyPress += Console_CancelKeyPress;
 		}
 
         void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
-            UPnP.FreeAll();
+            UPnP.Shutdown();
         }
 
         private void app_ProcessExit(object sender, EventArgs e)
         {
-            UPnP.FreeAll();
+            UPnP.Shutdown();
         }
 
 		/// <summary>

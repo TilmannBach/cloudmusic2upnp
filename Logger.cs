@@ -37,7 +37,14 @@ namespace cloudmusic2upnp
 				string line = String.Format ("{0} [{1}] - {2}", DateTime.Now, level, message);
 
 				if ((cfg.LogOutput & Outputs.Console) == Outputs.Console) {
-					Console.WriteLine (line);
+                    if (level <= Level.Info)
+                    {
+                        Console.WriteLine(line);
+                    }
+                    else
+                    {
+                        Console.Error.WriteLine(line);
+                    }
 				}
 
 				if ((cfg.LogOutput & Outputs.File) == Outputs.File) {

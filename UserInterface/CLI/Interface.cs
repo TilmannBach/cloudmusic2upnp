@@ -39,7 +39,7 @@ namespace cloudmusic2upnp.UserInterface.CLI
                         // !!!!! We have to free the UPnP-Stack !!!!!
                         if (Controller is DeviceController.UPnP)
                         {
-                            Controller.FreeAll();
+                            Controller.Shutdown();
                         }
                         Logger.Log(Logger.Level.Info, "Good bye.");
                         return;

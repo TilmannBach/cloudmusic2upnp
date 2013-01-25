@@ -130,7 +130,7 @@ namespace cloudmusic2upnp.DeviceController
         /// <summary>
         /// Explicitly free's up memory used by the c++ library.
         /// </summary>
-        public void FreeAll()
+        public void Shutdown()
         {
             lock (deviceList)
             {

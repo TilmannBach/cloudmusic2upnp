@@ -10,23 +10,13 @@ namespace cloudmusic2upnp.Http
 	{
 		Listener runner;
 
-		public void Start ()
-		{
-			var cfg = Config.Load ();
+        public void Start()
+        {
+            var cfg = Config.Load();
 
-			try {
-				runner = new Listener (ListenerCallback, "http://*:" + cfg.HttpPort + "/");
-				runner.Run ();
-
-			} catch (System.Net.Sockets.SocketException ex) {
-				if (ex.ErrorCode == 10013) {
-					Logger.Log (Logger.Level.Error, "Couldn't start HTTP server. Maybe you need root rights.");
-				}
-
-			} catch (Exception ex) {
-				throw ex;
-			}
-		}
+            runner = new Listener(ListenerCallback, "http://*:" + cfg.HttpPort + "/");
+            runner.Run();
+        }
 
 		private static string ListenerCallback (System.Net.HttpListenerRequest context)
 		{
