@@ -2,31 +2,41 @@ using System;
 
 namespace cloudmusic2upnp.UserInterface.Web
 {
-	public class Interface: IInterface
-	{
-		private const int WEBSOCKET_PORT = 5009;
+    public class Interface : IInterface
+    {
+        private const int WEBSOCKET_PORT = 5009;
 
 
-		private WebSocketManger WebSocket;
+        private WebSocketManger WebSocket;
+        public Http.WebServer WebServer;
 
-		private DeviceController.IController Controller;
-		private ContentProvider.Providers Providers;
+        private DeviceController.IController Controller;
+        private ContentProvider.Providers Providers;
+
+        public event EventHandler InterfaceShutdownRequest;
+
+        public Interface(DeviceController.IController controller,
+                          ContentProvider.Providers providers)
+        {
+            Controller = controller;
+            Providers = providers;
+
+            WebSocket = new WebSocketManger(WEBSOCKET_PORT);
+        }
 
 
-		public Interface (DeviceController.IController controller,
-		                  ContentProvider.Providers providers)
-		{
-			Controller = controller;
-			Providers = providers;
+        public void Start()
+        {
+            WebSocket.Start();
 
-			WebSocket = new WebSocketManger (WEBSOCKET_PORT);
-		}
+            WebServer = new Http.WebServer();
+            WebServer.Start();
+        }
 
-
-		public void Start ()
-		{
-			WebSocket.Start ();
-		}
-	}
+        public void Stop()
+        {
+            WebSocket.Stop();
+            WebServer.Stop();
+        }
+    }
 }
-

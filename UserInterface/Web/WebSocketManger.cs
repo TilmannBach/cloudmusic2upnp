@@ -49,6 +49,11 @@ namespace cloudmusic2upnp.UserInterface.Web
 		{
 			Logger.Log (Logger.Level.Debug, "New WebSocket connection."); 
 		}
+
+        public void Stop()
+        {
+            Server.Stop();
+        }
 	}
 }
 

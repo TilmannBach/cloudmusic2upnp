@@ -10,7 +10,7 @@ namespace cloudmusic2upnp
 		public DeviceController.IController UPnP;
 		public ContentProvider.Providers Providers;
 		public UserInterface.UIProxy UI;
-        public Http.WebServer WebServer;
+        private bool shutdownPending = false;
 
 		/// <summary>
 		/// 
@@ -21,31 +21,30 @@ namespace cloudmusic2upnp
 				System.Reflection.Assembly.GetExecutingAssembly ().GetName ().Version.ToString () + " started"
 			);
 
-            WebServer = new Http.WebServer();
-            WebServer.Start();
-
 			HackMonoProxyIssue ();
 
 			UPnP = new DeviceController.UPnP ();
 			Providers = new ContentProvider.Providers ();
 			UI = new UserInterface.UIProxy (UPnP, Providers);
+            UI.UIShutdownRequest += OnShutdownRequest;
 			UI.Start ();
 
 
 			// catch Strg+C, console quit's and SIGKILL's and free up the C++-UPnP-lib first
             AppDomain appDomain = AppDomain.CurrentDomain;
-            appDomain.ProcessExit += new EventHandler(app_ProcessExit);
-            Console.CancelKeyPress += Console_CancelKeyPress;
+            appDomain.ProcessExit += new EventHandler(OnShutdownRequest);
+            Console.CancelKeyPress += OnShutdownRequest;
 		}
 
-        void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
+        void OnShutdownRequest(object sender, EventArgs e)
         {
-            UPnP.Shutdown();
-        }
-
-        private void app_ProcessExit(object sender, EventArgs e)
-        {
-            UPnP.Shutdown();
+            if (!shutdownPending)
+            {
+                shutdownPending = true;
+                UI.Stop();
+                UPnP.Shutdown();
+                Logger.Log(Logger.Level.Info, "Good bye.");
+            }
         }
 
 		/// <summary>

@@ -2,19 +2,21 @@ using System;
 
 namespace cloudmusic2upnp.UserInterface.CLI
 {
-	public class Interface : IInterface
-	{
-		private DeviceController.IController Controller;
-		private ContentProvider.Providers Providers;
+    public class Interface : IInterface
+    {
+        private DeviceController.IController Controller;
+        private ContentProvider.Providers Providers;
         private uint defaultPlayer = 0;
 
-		public Interface (DeviceController.IController controller,
-		                      ContentProvider.Providers providers)
-		{
-			Controller = controller;
-         //   Controller.DeviceDiscovery += Controller_DeviceDiscovery;
-			Providers = providers;
-		}
+        public event EventHandler InterfaceShutdownRequest;
+
+        public Interface(DeviceController.IController controller,
+                              ContentProvider.Providers providers)
+        {
+            Controller = controller;
+            //   Controller.DeviceDiscovery += Controller_DeviceDiscovery;
+            Providers = providers;
+        }
 
         public void Start()
         {
@@ -36,12 +38,9 @@ namespace cloudmusic2upnp.UserInterface.CLI
                         break;
 
                     case "exit":
-                        // !!!!! We have to free the UPnP-Stack !!!!!
-                        if (Controller is DeviceController.UPnP)
-                        {
-                            Controller.Shutdown();
-                        }
-                        Logger.Log(Logger.Level.Info, "Good bye.");
+                        EventHandler handler = InterfaceShutdownRequest;
+                        if (handler != null)
+                            handler(this, EventArgs.Empty);
                         return;
 
                     case "set":
@@ -79,28 +78,31 @@ namespace cloudmusic2upnp.UserInterface.CLI
         }
 
 
-		private void CmdHelp ()
-		{
-			Console.WriteLine ("Avalible commands:");
-			Console.WriteLine ("  help - this help");
-			Console.WriteLine ("  search - search for a title");
-			Console.WriteLine ("  exit - exits this program");
-			Console.WriteLine ("");
+        private void CmdHelp()
+        {
+            Console.WriteLine("Avalible commands:");
+            Console.WriteLine("  help - this help");
+            Console.WriteLine("  search - search for a title");
+            Console.WriteLine("  exit - exits this program");
+            Console.WriteLine("");
 
-		}
+        }
 
-		private void CmdSearch ()
-		{
-			Console.Write ("Term: ");
-			string query = Console.ReadLine ();
+        private void CmdSearch()
+        {
+            Console.Write("Term: ");
+            string query = Console.ReadLine();
 
-			// TODO: easify Providers interface
-			var tracks = Providers.AllPlugins ["Soundcloud"].Search (query);
+            // TODO: easify Providers interface
+            var tracks = Providers.AllPlugins["Soundcloud"].Search(query);
 
-			foreach (var t in tracks) {
-				Console.WriteLine ("  Soundcloud: {0}", t.TrackName);
-			}
-		}
-	}
+            foreach (var t in tracks)
+            {
+                Console.WriteLine("  Soundcloud: {0}", t.TrackName);
+            }
+        }
+
+        public void Stop()
+        { }
+    }
 }
-
