@@ -19,75 +19,52 @@
     </style>
 </head>
 <body>
-        <!--<script>
-            var ws = new WebSocket("ws://192.168.107.13:5009/ws");
+	<div data-role="page">
+		<div data-role="header">
+			<h1>cloudmusic2upnp</h1>
+		</div>
 
-            ws.onopen = function () {
-                $('#debug').append("Connected to server successfull..." + "<br />");
-            };
-            ws.onmessage = function (evt) {
-                var received_msg = evt.data;
-                $("#debug").append(received_msg + "<br />");
-            };
-            ws.onclose = function () {
-                // websocket is closed.
-                $("#debug").append("Connection to server is closed..." + "<br />");
-            };
+		<div data-role="content">
+			<div data-role="collapsible" data-theme="b" data-content-theme="c" data-mini="true">
+				<h3>Content Providers</h3>
+				
+				<div  data-role="fieldcontain">
+				 	<fieldset data-role="controlgroup">
+						<legend>Search on:</legend>
+						<input type="checkbox" name="checkbox-1a" id="checkbox-1a" data-mini="true" data-theme="d" />
+						<label for="checkbox-1a">Spotify</label>
+						<input type="checkbox" name="checkbox-2a" id="checkbox-2a" data-mini="true" data-theme="d" />
+						<label for="checkbox-2a">Soundcloud</label>
+				    </fieldset>
+				</div>
+			</div>
 
-            function loadCode() {
-                //add send-button-event:
-                $('#clickToSend').click(function () {
-                    if (ws.readyState == WebSocket.OPEN) {
-                        var message = $('#textToSend').val();
-                        //$("#messages").append(message.toString() + '\n');
-                        $("#textToSend").val("");
-                        ws.send(message);
-                        $('#textToSend').focus();
-                    }
-                });
-            }
+			<div data-role="collapsible" data-theme="b" data-content-theme="c" data-mini="true">
+				<h3>UPnP Renderers</h3>
+				
+				<div  data-role="fieldcontain">
+				 	<fieldset data-role="controlgroup">
+						<legend>Render on:</legend>
+						<input type="radio" name="radio" id="radio-1a" data-mini="true" data-theme="d" />
+						<label for="radio-1a">XBMC</label>
+						<input type="radio" name="radio" id="radio-2a" data-mini="true" data-theme="d" />
+						<label for="radio-2a">Windows Media Player</label>
+				    </fieldset>
+				</div>
+			</div>
 
-            $(document).ready(function () {
-                loadCode();
-            });
-    </script>-->
-
-<div data-role="page">
-
-	<div data-role="header">
-		<h1>cloudmusic2upnp</h1>
+			<input type="search" name="search" id="search-basic" value="" />
+		
+			<ul data-role="listview" data-inset="true">
+				<li><a href="#">Track 1</a></li>
+				<li><a href="#">Track 2</a></li>
+				<li><a href="#">Track 3</a></li>
+				<li><a href="#">Track 4</a></li>
+				<li><a href="#">Track 5</a></li>
+				<li><a href="#">Track 6</a></li>
+				<li><a href="#">Track 7</a></li>
+			</ul>
+		</div>
 	</div>
-
-	<div data-role="navbar">
-		<ul>
-			<li><a href="#tab-search">Search</a></li>
-			<li><a href="#tab-devices">Devices</a></li>
-			<li><a href="#tab-debug">Debug</a></li>
-		</ul>
-
-	</div>
-
-	<div id="tab-search" data-role="content">	
-		<input type="search" name="search" id="search-basic" value="" />
-	
-		<ul data-role="listview" data-inset="true">
-			<li><a href="#">Acura</a></li>
-			<li><a href="#">Audi</a></li>
-			<li><a href="#">BMW</a></li>
-			<li><a href="#">Cadillac</a></li>
-			<li><a href="#">Ferrari</a></li>
-		</ul>
-	</div>
-
-	<div id="tab-devices" data-role="content" style="display: none;">	
-		<p>nope</p>
-	</div>
-
-	<div id="tab-debug" data-role="content" style="display: none;">	
-		<textarea name="textarea" id="debug-text" readonly></textarea>
-	</div>
-
-
-</div>
 </body>
 </html>
