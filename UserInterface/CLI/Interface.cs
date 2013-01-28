@@ -44,7 +44,7 @@ namespace cloudmusic2upnp.UserInterface.CLI
                         return;
 
                     case "set":
-                        Controller.GetDevices()[defaultPlayer].SetMediaUrl("bla");
+                        Controller.GetDevices()[defaultPlayer].SetMediaUrl(new Uri(""));
                         break;
                     case "play":
                         Controller.GetDevices()[defaultPlayer].Play();

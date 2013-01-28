@@ -15,6 +15,7 @@ namespace cloudmusic2upnp.DeviceController
         public IDevice Device;
 
         public DeviceEventActions Action;
+
         public enum DeviceEventActions {
             Added = 0,
             Removed = 1
