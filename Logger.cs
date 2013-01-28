@@ -13,7 +13,8 @@ namespace cloudmusic2upnp
 		{
 			Quiet = 0x00,
 			Console = 0x01,
-			File = 0x02
+			File = 0x02,
+            Both = 0x03
 		}
 
 		public enum Level
@@ -31,7 +32,7 @@ namespace cloudmusic2upnp
 
 		public static void Log (Level level, String message)
 		{
-			Config cfg = Config.Load ();
+            Config cfg = Config.Load();
 
 			if (cfg.LogVerbosity <= level) {
 				string line = String.Format ("{0} [{1}] - {2}", DateTime.Now, level, message);
@@ -48,7 +49,7 @@ namespace cloudmusic2upnp
 				}
 
 				if ((cfg.LogOutput & Outputs.File) == Outputs.File) {
-					File.AppendAllText (cfg.LogFile, line + "\n");
+                    File.AppendAllText(cfg.LogFile, line + Environment.NewLine);
 				}
 			}
 		}

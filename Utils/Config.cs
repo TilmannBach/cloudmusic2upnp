@@ -11,7 +11,7 @@ namespace cloudmusic2upnp.Utils
 		public String LogFile;
 		public int HttpPort = 80;
 
-		private const string Path = "config.xml";
+        private const string Path = "config.xml";
 		private static Config Instance;
 
 		private Config ()
@@ -25,8 +25,9 @@ namespace cloudmusic2upnp.Utils
 		{
 			if (Instance == null) {
 				try {
+                    Path.Insert(0, AppDomain.CurrentDomain.BaseDirectory);
 					XmlSerializer ser = new XmlSerializer (typeof(Config));
-					StreamReader sr = new StreamReader (Path);
+                    StreamReader sr = new StreamReader(Path);
 					Instance = (Config)ser.Deserialize (sr);
 					sr.Close ();
 				} catch (FileNotFoundException) {
