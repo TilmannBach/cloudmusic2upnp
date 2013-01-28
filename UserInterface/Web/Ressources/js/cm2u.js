@@ -18,7 +18,7 @@ var loading_queue = [
     "js/cm2u.base.js",
     "js/cm2u.event.js",
     "js/cm2u.socket.js",
-    "js/cm2u.tabs.js",
+    "js/cm2u.dialogs.js",
 ];
 
 function require(url, callback){
@@ -47,7 +47,7 @@ function load() {
 	var url = loading_queue.shift();
 
 	if(url == undefined) {
-		quiz.event.ready.done("scripts");
+		cm2u.event.ready.done("scripts");
 	} else {
 		require(url, load);
 	}

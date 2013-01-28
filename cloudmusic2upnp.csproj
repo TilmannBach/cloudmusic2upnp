@@ -105,7 +105,7 @@
     <Content Include="UserInterface\Web\Ressources\js\cm2u.socket.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.js">
+    <Content Include="UserInterface\Web\Ressources\js\cm2u.dialogs.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

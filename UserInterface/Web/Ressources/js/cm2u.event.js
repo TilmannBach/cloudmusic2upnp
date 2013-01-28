@@ -29,90 +29,46 @@ cm2u.event = (new function()
 {
     var module = {};
     var list_local = {};
-
     var list_remote = {};
 
 
-    var parse_eventname = function(eventname) {
-        var local;
-        var remote;
+    module.register = function(eventname, target, cb)
+    {
+        if (target == 'local') {
+            if (!(eventname in list_local))
+                list_local[eventname] = new Array();
 
-        if (eventname.substr(0, 6) == 'local:') {
-            local = true;
-            remote = false;
-            ident = eventname.substr(6);
-
-        } else if (eventname.substr(0, 7) == 'remote:') {
-            local = false;
-            remote = true;
-            ident = eventname.substr(7);
-
-        } else {
-            local = true;
-            remote = true;
-            ident = eventname;
+            list_local[eventname].push(cb);
         }
 
-        return {
-            'ident': ident,
-            'local': local,
-            'remote': remote
-        };
+        if (target == 'remote') {
+            if (!(eventname in list_remote))
+                list_remote[eventname] = new Array();
+
+            list_remote[eventname].push(cb);
+        }
+        
     };
 
-    module.register = function(eventname, cb)
+    module.trigger = function(eventname, target, data)
     {
-        e = parse_eventname(eventname);
+        console.log('Trigger ('+target+'): ' + eventname, data);
 
-        if (e.local == true) {
-            if (!(e.ident in list_local))
-                list_local[e.ident] = new Array();
-
-            list_local[e.ident].push(cb);
+        if (target == 'remote') {
+            cm2u.socket.send(eventname, data);
         }
 
-        if (e.remote == true) {
-            if (!(e.ident in list_remote))
-                list_remote[e.ident] = new Array();
-
-            list_remote[e.ident].push(cb);
-        }
-    };
-
-    module.trigger = function(eventname, data)
-    {
-        console.log('Trigger: ' + eventname, data);
-        e = parse_eventname(eventname);
-
-        if (e.remote == true) {
-            quiz.socket.send(e.ident, data);
-        }
-
-        if (e.local == true) {
-            if (e.ident in list_local) {
-                list = list_local[e.ident];
+        if (target == 'local') {
+            if (eventname in list_local) {
+                list = list_local[eventname];
                 for (var i = 0; i < list.length; i++) {
                     cb = list[i];
-                    cb(e.ident, data);
+                    cb(eventname, data);
                 }
             }
-
         }
     };
 
-    module.socket_event = function(eventname, data)
-    {
-        console.log('Socket Event: ' + eventname, data);
-        e = parse_eventname(eventname);
-
-        if (e.ident in list_remote) {
-            list = list_local[e.ident];
-            for (var i = 0; i < list.length; i++) {
-                cb = list[i];
-                cb(e.ident, data);
-            }
-        }
-    };
 
     return module;
 }());
@@ -122,7 +78,6 @@ cm2u.event.ready = (new function(){
     var module = {};
 
     var required = {
-        tabs: false,
         dom: false,
         socket: false,
         scripts: false,
@@ -130,12 +85,10 @@ cm2u.event.ready = (new function(){
 
     module.done = function(name) {
         required[name] = true
-        
-        console.log(name);
+        cm2u.event.trigger("session.ready." + name, "local");
 
-        /*if(required.tabs && required.dom && required.socket && required.scripts) {*/
-        if(required.socket) {
-            cm2u.event.trigger("session.ready");
+        if(required.socket && required.dom && required.scripts) {
+            cm2u.event.trigger("session.ready", "local");
         };
     }
 

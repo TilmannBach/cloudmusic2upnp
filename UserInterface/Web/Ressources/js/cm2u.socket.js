@@ -12,8 +12,6 @@
 cm2u.socket = (new function(){
 	var module = {};
 	
-	var URI = quiz.c.WEBSOCKET;
-	
 	var socket;
 	
 	module.send = function(event, data)
@@ -23,17 +21,13 @@ cm2u.socket = (new function(){
 	};
 	
 
-	
 	var onopen = function () {
 		cm2u.event.ready.done("socket");
 	};
 	
 
 	var onerror = function (error) {
-		cm2u.event.trigger("local:session.error", {
-			title: "WebSocket error",
-			text: "WebSocket connection closed",
-		});
+		cm2u.event.trigger("remote.error", 'local');
 	};
 
 	
@@ -42,29 +36,32 @@ cm2u.socket = (new function(){
 		var event = j[0];
 		var data = j[1];
 		
-		cm2u.event.socket_event(event, data);
+		cm2u.event.trigger(event, 'remote', data);
 	};
 	
 	
 	var onclose = function(e) {
-		cm2u.event.trigger("local:session.error", {
-			title: "WebSocket error",
-			text: "WebSocket connection closed",
-		});
+		cm2u.event.trigger("remote.error", 'local');
 	}
 
 	
 	var open = function()
 	{
-		socket = new WebSocket(URI);
+		socket = new WebSocket(cm2u.c.WEBSOCKET);
 		socket.onopen = onopen;
 		socket.onerror = onerror;
 		socket.onmessage = onmessage;
 		socket.onclose = onclose;
 	}
 	
-	open();
+	cm2u.event.register('session.ready.scripts', 'local', function(eventname, data){
+		open();
+	});
 	
+	module.reconnect = function()
+	{
+		open();
+	}
 	
 	
 	return module;	
