@@ -38,6 +38,7 @@
   <ItemGroup>
     <Reference Include="CpUpnpOrgRenderingControl1.net">
       <HintPath>lib\CpUpnpOrgRenderingControl1.net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,9 +53,11 @@
     </Reference>
     <Reference Include="WebSocket">
       <HintPath>lib\WebSocket.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="WebSocketLib">
       <HintPath>lib\WebSocketLib.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +136,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UserInterface\Web\Ressources\css\images\icons-36-white.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\CpUpnpOrgRenderingControl1.net.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\WebSocket.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\WebSocketLib.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
