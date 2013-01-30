@@ -46,6 +46,7 @@
       <HintPath>lib\CpUpnpOrgAVTransport1.net.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="ohNet.net">
       <HintPath>lib\ohNet.net.dll</HintPath>
@@ -64,6 +65,8 @@
     <Compile Include="Core.cs" />
     <Compile Include="DeviceController\DeviceEventArgs.cs" />
     <Compile Include="DeviceController\DevicePlaystateEventArgs.cs" />
+    <Compile Include="DeviceController\UPnP_xsd\avt-event.designer.cs" />
+    <Compile Include="DeviceController\UPnP_xsd\rcs-event.designer.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -154,6 +157,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DeviceController\UPnP_xsd\avt-event.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DeviceController\UPnP_xsd\rcs-event.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="README.md" />

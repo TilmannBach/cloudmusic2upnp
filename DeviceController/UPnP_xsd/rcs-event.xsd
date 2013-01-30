@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:rcs-event="urn:schemas-upnp-org:metadata-1-0/RCS/" xmlns:av="urn:schemas-upnp-org:av:av" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:schemas-upnp-org:metadata-1-0/RCS/" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3-20101231">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+		Note that all schema supplied by the UPnP Forum AV WC committee are for informational use only and that the 
+		standardized DCPs describe the normative requirements for these schema. Some schema provided do not necessarily
+		embody requirements regarding number of element occurrances allowed or their ordering.
+		
+		For UPnP A/V RenderingControl Service events, version 2.0
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2005/08/xml.xsd"/>
+	<xsd:import namespace="urn:schemas-upnp-org:av:av" schemaLocation="http://www.upnp.org/schemas/av/av.xsd"/>
+	<!--===========================================================
+		'Event' is the root element of RenderingControl event document fragments.
+		'InstanceID' is the only valid child of 'Event'.
+	============================================================-->
+	<!--
+	  -->
+	<xsd:element name="Event" type="rcs-event:rootType"/>
+	<xsd:complexType name="rootType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Event is the root element
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="InstanceID" type="rcs-event:InstanceIDtype"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<!--
+	 'InstanceID' elements identify an individual event instance.
+	-->
+	<xsd:group name="allowed-under-InstanceID">
+		<xsd:annotation>
+			<xsd:documentation>
+				group defines the elements allowed under the
+				InstanceID element
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="PresetNameList" type="rcs-event:val.preset"/>
+			<xsd:element name="Brightness" type="rcs-event:val.unsignedShort"/>
+			<xsd:element name="Contrast" type="rcs-event:val.unsignedShort"/>
+			<xsd:element name="Sharpness" type="rcs-event:val.unsignedShort"/>
+			<xsd:element name="RedVideoGain" type="rcs-event:val.unsignedShort"/>
+			<xsd:element name="GreenVideoGain" type="rcs-event:val.unsignedShort"/>
+			<xsd:element name="BlueVideoGain" type="rcs-event:val.unsignedShort"/>
+			<xsd:element name="RedVideoBlackLevel" type="rcs-event:val.unsignedShort"/>
+			<xsd:element name="GreenVideoBlackLevel" type="rcs-event:val.unsignedShort"/>
+			<xsd:element name="BlueVideoBlackLevel" type="rcs-event:val.unsignedShort"/>
+			<xsd:element name="ColorTemperature" type="rcs-event:val.unsignedShort"/>
+			<xsd:element name="HorizontalKeystone" type="rcs-event:val.short"/>
+			<xsd:element name="VerticalKeystone" type="rcs-event:val.short"/>
+			<xsd:element name="Mute" type="rcs-event:val.booleanPlusChannel"/>
+			<xsd:element name="Loudness" type="rcs-event:val.booleanPlusChannel"/>
+			<xsd:element name="Volume" type="rcs-event:val.unsignedShortPlusChannel"/>
+			<xsd:element name="VolumeDB" type="rcs-event:val.volumeDBplusChannel"/>
+			<xsd:element name="AllowedTransformSettings" type="rcs-event:val.string"/>
+			<xsd:element name="TransformSettings" type="rcs-event:val.string"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:complexType name="InstanceIDtype">
+		<xsd:annotation>
+			<xsd:documentation>
+			elements identify an individual event instance
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:group ref="rcs-event:allowed-under-InstanceID"/>
+		</xsd:choice>
+		<xsd:attribute name="val" type="xsd:unsignedInt" use="required"/>
+	</xsd:complexType>
+	<!--===========================================================
+				string value
+	============================================================-->
+	<xsd:complexType name="val.string">
+		<xsd:attribute name="val" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<!--===========================================================
+			Preset value type
+	============================================================-->
+	<xsd:simpleType name="preset.wc.values">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="FactoryDefaults"/>
+			<xsd:enumeration value="InstallationDefaults"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="preset.values">
+		<xsd:union memberTypes="rcs-event:preset.wc.values rcs-event:preset.vx.values"/>
+	</xsd:simpleType>
+	<xsd:complexType name="val.preset">
+		<xsd:attribute name="val" type="av:csv.1_.string.len.1_" use="required"/>
+	</xsd:complexType>
+	<!--===========================================================
+				unsigned short integer value type
+	============================================================-->
+	<xsd:complexType name="val.unsignedShort">
+		<xsd:attribute name="val" type="xsd:unsignedShort" use="required"/>
+	</xsd:complexType>
+	<!--===========================================================
+				(signed) short integer value type
+	============================================================-->
+	<xsd:complexType name="val.short">
+		<xsd:attribute name="val" type="xsd:short" use="required"/>
+	</xsd:complexType>
+	<!--===========================================================
+				boolean value, with channel, type
+	============================================================-->
+	<xsd:complexType name="val.booleanPlusChannel">
+		<xsd:attribute name="val" type="xsd:boolean" use="required"/>
+		<xsd:attribute name="channel" type="rcs-event:channel.values" use="required"/>
+	</xsd:complexType>
+	<!--===========================================================
+				unsigned short integer value, with channel, type
+	============================================================-->
+	<xsd:complexType name="val.unsignedShortPlusChannel">
+		<xsd:attribute name="val" type="xsd:unsignedShort" use="required"/>
+		<xsd:attribute name="channel" type="rcs-event:channel.values" use="required"/>
+	</xsd:complexType>
+	<!--===========================================================
+				VolumeDB range value, with channel, type
+	============================================================-->
+	<xsd:complexType name="val.volumeDBplusChannel">
+		<xsd:attribute name="val" type="rcs-event:volumeDB.range" use="required"/>
+		<xsd:attribute name="channel" type="rcs-event:channel.values" use="required"/>
+	</xsd:complexType>
+	<xsd:simpleType name="volumeDB.range">
+		<xsd:annotation>
+			<xsd:documentation>
+				VolumeDB range forces a symmetric magnitude set for positive
+				and negative values. Therefore, the minimum value of -32768,
+				or #x8000, is disallowed.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:short">
+			<xsd:minExclusive value="-32768"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--===========================================================
+				Channel value type
+	============================================================-->
+	<xsd:simpleType name="channel.wc.values">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Master"/>
+			<xsd:enumeration value="LF"/>
+			<xsd:enumeration value="RF"/>
+			<xsd:enumeration value="CF"/>
+			<xsd:enumeration value="LFE"/>
+			<xsd:enumeration value="LS"/>
+			<xsd:enumeration value="RS"/>
+			<xsd:enumeration value="LFC"/>
+			<xsd:enumeration value="RFC"/>
+			<xsd:enumeration value="SD"/>
+			<xsd:enumeration value="SL"/>
+			<xsd:enumeration value="SR"/>
+			<xsd:enumeration value="T"/>
+			<xsd:enumeration value="B"/>
+			<xsd:enumeration value="BC"/>
+			<xsd:enumeration value="BL"/>
+			<xsd:enumeration value="BR"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="channel.values">
+		<xsd:union memberTypes="rcs-event:channel.wc.values rcs-event:channel.vx.values"/>
+	</xsd:simpleType>
+	<!--
+		========================================================================================
+		
+				Extension Components
+		
+		========================================================================================
+	-->
+	<xsd:simpleType name="channel.vx.values">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="preset.vx.values">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+</xsd:schema>

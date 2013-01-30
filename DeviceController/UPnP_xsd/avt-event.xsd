@@ -1,0 +1,414 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+	targetNamespace="urn:schemas-upnp-org:metadata-1-0/AVT/"
+	xmlns:avt-event="urn:schemas-upnp-org:metadata-1-0/AVT/"
+	xmlns:av="urn:schemas-upnp-org:av:av"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	elementFormDefault="qualified"
+	attributeFormDefault="unqualified"
+	version="2-20060531">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+			Schema for UPnP A/V AVTransport Service events,
+			version 2.00
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:import namespace="http://www.w3.org/XML/1998/namespace"
+		schemaLocation="http://www.w3.org/2005/08/xml.xsd"/>
+	<xsd:import namespace="urn:schemas-upnp-org:av:av"
+		schemaLocation="http://www.upnp.org/schemas/av/av-v1-20060531.xsd"/>
+
+
+	<!--============================================================
+		'Event' is the root element of AVTransport event documents.
+		'InstanceID' is the only valid child of 'Event'
+	============================================================-->
+	<xsd:element name="Event" type="avt-event:rootType"/>
+	<xsd:complexType name="rootType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Event is the root element
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="InstanceID" type="avt-event:InstanceIDtype"/>
+		</xsd:choice>
+	</xsd:complexType>
+
+	<!--===========================================================
+		InstanceID elements identify an individual event instance
+	============================================================-->
+	<xsd:group name="allowed-under-InstanceID">
+		<xsd:annotation>
+			<xsd:documentation>
+				This group defines the elements allowed under the
+				InstanceID element
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="TransportState" type="avt-event:TransportState.type"/>
+			<xsd:element name="TransportStatus" type="avt-event:TransportStatus.type"/>
+			<xsd:element name="CurrentMediaCategory" type="avt-event:CurrentMediaCategory.type"/>
+			<xsd:element name="PlaybackStorageMedium" type="av:storageMedium.type"/>
+			<xsd:element name="RecordStorageMedium" type="av:storageMedium.type"/>
+			<xsd:element name="PossiblePlaybackStorageMedia" type="av:csv.1_.string.len.1_"/>
+			<xsd:element name="PossibleRecordStorageMedia" type="av:csv.1_.string.len.1_"/>
+			<xsd:element name="CurrentPlayMode" type="avt-event:CurrentPlayMode.type"/>
+			<xsd:element name="TransportPlaySpeed" type="avt-event:TransportPlaySpeed.type"/>
+			<xsd:element name="RecordMediumWriteStatus" type="avt-event:RecordMediumWriteStatus.type"/>
+			<xsd:element name="CurrentRecordQualityMode" type="avt-event:CurrentRecordQualityMode.type"/>
+			<xsd:element name="PossibleRecordQualityMode" type="av:csv.1_.string.len.1_"/>
+			<xsd:element name="NumberOfTracks" type="avt-event:NumberOfTracks.type"/>
+			<xsd:element name="CurrentTrack" type="avt-event:CurrentTrack.type"/>
+			<xsd:element name="CurrentTrackDuration" type="avt-event:duration.type"/>
+			<xsd:element name="CurrentMediaDuration" type="avt-event:duration.type"/>
+			<xsd:element name="RelativeTimePosition" type="avt-event:duration.type"/>
+			<xsd:element name="AbsoluteTimePosition" type="avt-event:duration.type"/>
+			<xsd:element name="CurrentTrackMetadata" type="avt-event:CurrentTrackMetadata.type"/>
+			<xsd:element name="CurrentTrackURI" type="avt-event:CurrentTrackURI.type"/>
+			<xsd:element name="AVTransportURI" type="avt-event:AVTransportURI.type"/>
+			<xsd:element name="NextAVTransportURI" type="avt-event:NextAVTransportURI.type"/>
+			<xsd:element name="CurrentTransportActions" type="avt-event:CurrentTransportActions.type"/>
+			<xsd:element name="RelativeCounterPosition" type="avt-event:intVal"/>
+			<xsd:element name="AbsoluteCounterPosition" type="avt-event:restrictedUnsignedIntVal"/>
+			<xsd:element name="DRMState" type="avt-event:DRMState.type"/>
+		</xsd:choice>
+	</xsd:group>
+
+	<xsd:complexType name="InstanceIDtype">
+		<xsd:annotation>
+			<xsd:documentation>
+				InstanceID elements identify an individual event instance.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:group ref="avt-event:allowed-under-InstanceID"/>
+		</xsd:choice>
+		<xsd:attribute name="val" type="xsd:unsignedInt" use="required"/>
+	</xsd:complexType>
+
+	<!--===========================================================
+		TransportState
+	============================================================-->
+	<xsd:complexType name="TransportState.type">
+		<xsd:attribute name="val" use="required">
+			<xsd:simpleType>
+				<xsd:union memberTypes="avt-event:TransportState.wc.values
+					avt-event:TransportState.vx.values"/>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:simpleType name="TransportState.wc.values">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="STOPPED"/>
+			<xsd:enumeration value="PLAYING"/>
+			<xsd:enumeration value="TRANSITIONING"/>
+			<xsd:enumeration value="PAUSED_PLAYBACK"/>
+			<xsd:enumeration value="PAUSED_RECORDING"/>
+			<xsd:enumeration value="RECORDING"/>
+			<xsd:enumeration value="NO_MEDIA_PRESENT"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!--===========================================================
+		TransportStatus
+	============================================================-->
+	<xsd:complexType name="TransportStatus.type">
+		<xsd:attribute name="val" use="required">
+			<xsd:simpleType>
+				<xsd:union memberTypes="avt-event:TransportStatus.wc.values
+					avt-event:TransportStatus.vx.values"/>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:simpleType name="TransportStatus.wc.values">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="OK"/>
+			<xsd:enumeration value="ERROR_OCCURRED"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!--===========================================================
+		CurrentMediaCategory
+	============================================================-->
+	<xsd:complexType name="CurrentMediaCategory.type">
+		<xsd:attribute name="val" use="required">
+			<xsd:simpleType>
+				<xsd:union memberTypes="avt-event:CurrentMediaCategory.wc.values
+					avt-event:CurrentMediaCategory.vx.values"/>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:simpleType name="CurrentMediaCategory.wc.values">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="NO_MEDIA"/>
+			<xsd:enumeration value="TRACK_AWARE"/>
+			<xsd:enumeration value="TRACK_UNAWARE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- Vendor Extensions NOT ALLOWED -->
+	<xsd:simpleType name="CurrentMediaCategory.vx.values">
+		<xsd:restriction base="av:extensions.simpleType.none"/>
+	</xsd:simpleType>
+
+	<!--===========================================================
+		PlaybackStorageMedium		av:storageMedium.type
+		RecordStorageMedium			av:storageMedium.type
+	============================================================-->
+
+	<!--===========================================================
+		PossiblePlaybackStorageMedia   av:csv.1_.string.len.1_
+		PossibleRecordStorageMedia     av:csv.1_.string.len.1_
+		PossibleRecordQualityMode      av:csv.1_.string.len.1_
+	============================================================-->
+	
+	<!--===========================================================
+		CurrentPlayMode
+	============================================================-->
+	<xsd:complexType name="CurrentPlayMode.type">
+		<xsd:attribute name="val" use="required">
+			<xsd:simpleType>
+				<xsd:union memberTypes="avt-event:CurrentPlayMode.wc.values
+					avt-event:CurrentPlayMode.vx.values"/>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:simpleType name="CurrentPlayMode.wc.values">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="NORMAL"/>
+			<xsd:enumeration value="SHUFFLE"/>
+			<xsd:enumeration value="REPEAT_ONE"/>
+			<xsd:enumeration value="REPEAT_ALL"/>
+			<xsd:enumeration value="RANDOM"/>
+			<xsd:enumeration value="DIRECT_1"/>
+			<xsd:enumeration value="INTRO"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<!--===========================================================
+		TransportPlaySpeed
+	============================================================-->
+	<xsd:complexType name="TransportPlaySpeed.type">
+		<xsd:attribute name="val" type="av:nonZeroRational" use="required"/>
+	</xsd:complexType>
+	
+	<!--===========================================================
+		RecordMediumWriteStatus
+	============================================================-->
+	<xsd:complexType name="RecordMediumWriteStatus.type">
+		<xsd:attribute name="val" use="required">
+			<xsd:simpleType>
+				<xsd:union memberTypes="avt-event:RecordMediumWriteStatus.wc.values
+					avt-event:RecordMediumWriteStatus.vx.values"/>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:simpleType name="RecordMediumWriteStatus.wc.values">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="WRITABLE"/>
+			<xsd:enumeration value="PROTECTED"/>
+			<xsd:enumeration value="NOT_WRITABLE"/>
+			<xsd:enumeration value="UNKNOWN"/>
+			<xsd:enumeration value="NOT_IMPLEMENTED"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!--===========================================================
+		CurrentRecordQualityMode
+	============================================================-->
+	<xsd:complexType name="CurrentRecordQualityMode.type">
+		<xsd:attribute name="val" use="required">
+			<xsd:simpleType>
+				<xsd:union memberTypes="avt-event:CurrentRecordQualityMode.wc.values
+					avt-event:CurrentRecordQualityMode.vx.values"/>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:simpleType name="CurrentRecordQualityMode.wc.values">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="0:EP"/>
+			<xsd:enumeration value="1:LP"/>
+			<xsd:enumeration value="2:SP"/>
+			<xsd:enumeration value="0:BASIC"/>
+			<xsd:enumeration value="1:MEDIUM"/>
+			<xsd:enumeration value="2:HIGH"/>
+			<xsd:enumeration value="NOT_IMPLEMENTED"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<!--===========================================================
+		NumberOfTracks
+	============================================================-->
+	<xsd:complexType name="NumberOfTracks.type">
+		<xsd:attribute name="val" type="xsd:unsignedInt" use="required"/>
+	</xsd:complexType>
+	
+	<!--===========================================================
+		CurrentTrack
+	============================================================-->
+	<xsd:complexType name="CurrentTrack.type">
+			<xsd:attribute name="val" type="xsd:unsignedInt" use="required"/>
+	</xsd:complexType>
+
+	<!--===========================================================
+		CurrentTrackDuration      avt-event:duration.type
+		CurrentMediaDuration      avt-event:duration.type
+		RelativeTimePosition      avt-event:duration.type
+		AbsoluteTimePosition      avt-event:duration.type
+	============================================================-->
+	<xsd:complexType name="duration.type">
+		<xsd:attribute name="val"
+			type="av:duration.cds1.or.NOT_IMPLEMENTED" use="required"/>
+	</xsd:complexType>
+	
+	<!--===========================================================
+		RelativeCounterPosition
+	============================================================-->
+	<xsd:complexType name="intVal">
+		<xsd:attribute name="val" type="xsd:int" use="required"/>
+	</xsd:complexType>
+	
+	<!--===========================================================
+		AbsoluteCounterPosition
+	============================================================-->
+	<xsd:complexType name="restrictedUnsignedIntVal">
+		<xsd:attribute name="val" use="required">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:unsignedInt">
+					<xsd:maxInclusive value="2147483647"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	
+	<!--===========================================================
+		CurrentTrackMetadata 
+	============================================================-->
+	<xsd:complexType name="CurrentTrackMetadata.type">
+			<xsd:attribute name="val" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<!--===========================================================
+		CurrentTrackURI
+	============================================================-->
+	<xsd:complexType name="CurrentTrackURI.type">
+			<xsd:attribute name="val" type="xsd:anyURI" use="required"/>
+	</xsd:complexType>
+
+	<!--===========================================================
+		AVTransportURI
+	============================================================-->
+	<xsd:complexType name="AVTransportURI.type">
+			<xsd:attribute name="val" type="xsd:anyURI" use="required"/>
+	</xsd:complexType>
+
+	<!--===========================================================
+		AVTransportURIMetadata
+	============================================================-->
+	<xsd:complexType name="AVTransportURIMetaData.type">
+			<xsd:attribute name="val" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<!--===========================================================
+		NextAVTransportURI
+	============================================================-->
+	<xsd:complexType name="NextAVTransportURI.type">
+			<xsd:attribute name="val" type="xsd:anyURI" use="required"/>
+	</xsd:complexType>
+
+	<!--===========================================================
+		NextAVTransportURIMetaData
+	============================================================-->
+	<xsd:complexType name="NextAVTransportURIMetaData.type">
+			<xsd:attribute name="val" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<!--===========================================================
+		CurrentTransportActions
+	============================================================-->
+	<xsd:complexType name="CurrentTransportActions.type">
+		<xsd:attribute name="val" type="av:csv.0_.string.len.1_" use="required"/>		
+	</xsd:complexType>
+	<!-- Following list is IGNORED -->
+	<xsd:simpleType name="CurrentTransportActions.wc.values">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="PLAY"/>
+			<xsd:enumeration value="STOP"/>
+			<xsd:enumeration value="PAUSE"/>
+			<xsd:enumeration value="SEEK"/>
+			<xsd:enumeration value="NEXT"/>
+			<xsd:enumeration value="PREVIOUS"/>
+			<xsd:enumeration value="RECORD"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<!--===========================================================
+		DRMState
+	============================================================-->
+	<xsd:complexType name="DRMState.type">
+			<xsd:attribute name="val" use="required">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="OK"/>
+						<xsd:enumeration value="UNKNOWN"/>
+						<xsd:enumeration value="PROCESSING_CONTENT_KEY"/>
+						<xsd:enumeration value="CONTENT_KEY_FAILURE"/>
+						<xsd:enumeration value="ATTEMPTING_AUTHENTICATION"/>
+						<xsd:enumeration value="FAILED_AUTHENTICATION"/>
+						<xsd:enumeration value="NOT_AUTHENTICATED"/>
+						<xsd:enumeration value="DEVICE_REVOCATION"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+	</xsd:complexType>
+	
+	<!--
+		========================================================================================
+		
+												Extension Components
+		
+		========================================================================================
+	-->
+	<xsd:complexType name="name.type">
+		<xsd:attribute name="val" use="required">
+			<xsd:simpleType>
+				<xsd:union memberTypes="avt-event:name.wc.values
+					avt-event:name.vx.values"/>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:simpleType name="name.wc.values">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="NORMAL"/>
+			<xsd:enumeration value="SHUFFLE"/>
+			<xsd:enumeration value="REPEAT_ONE"/>
+			<xsd:enumeration value="REPEAT_ALL"/>
+			<xsd:enumeration value="RANDOM"/>
+			<xsd:enumeration value="DIRECT_1"/>
+			<xsd:enumeration value="INTRO"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="name.vx.values">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="TransportState.vx.values">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="TransportStatus.vx.values">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="CurrentPlayMode.vx.values">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="RecordMediumWriteStatus.vx.values">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="CurrentRecordQualityMode.vx.values">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="CurrentTransportActions.vx.values">
+		<xsd:restriction base="xsd:string"/>
+	</xsd:simpleType>
+	
+</xsd:schema>
