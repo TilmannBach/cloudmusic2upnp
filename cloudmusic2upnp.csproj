@@ -60,6 +60,7 @@
       <HintPath>lib\WebSocketLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core.cs" />
@@ -79,9 +80,12 @@
     <Compile Include="Utils\Config.cs" />
     <Compile Include="UserInterface\Web\Http\Listener.cs" />
     <Compile Include="UserInterface\Web\Http\WebServer.cs" />
-    <Compile Include="UserInterface\Web\WebSocketManger.cs" />
     <Compile Include="UserInterface\Web\IWebManager.cs" />
     <Compile Include="UserInterface\Web\Interface.cs" />
+    <Compile Include="UserInterface\Web\Protokoll.cs" />
+    <Compile Include="UserInterface\Web\IWebClient.cs" />
+    <Compile Include="UserInterface\Web\WebSocket\Client.cs" />
+    <Compile Include="UserInterface\Web\WebSocket\Manger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\CpUpnpOrgAVTransport1.net.dll">

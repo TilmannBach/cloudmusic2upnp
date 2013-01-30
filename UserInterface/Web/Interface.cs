@@ -7,7 +7,7 @@ namespace cloudmusic2upnp.UserInterface.Web
         private const int WEBSOCKET_PORT = 5009;
 
 
-        private WebSocketManger WebSocket;
+        private WebSocket.Manger WebSocketManager;
         public Http.WebServer WebServer;
 
         private DeviceController.IController Controller;
@@ -21,13 +21,14 @@ namespace cloudmusic2upnp.UserInterface.Web
             Controller = controller;
             Providers = providers;
 
-            WebSocket = new WebSocketManger(WEBSOCKET_PORT);
+            WebSocketManager = new WebSocket.Manger(WEBSOCKET_PORT);
+            WebSocketManager.OnConnectionOpen += HandleConnectionOpen;
         }
 
 
         public void Start()
         {
-            WebSocket.Start();
+            WebSocketManager.Start();
 
             WebServer = new Http.WebServer();
             WebServer.Start();
@@ -35,8 +36,15 @@ namespace cloudmusic2upnp.UserInterface.Web
 
         public void Stop()
         {
-            WebSocket.Stop();
+            WebSocketManager.Stop();
             WebServer.Stop();
         }
+
+
+        public void HandleConnectionOpen(object manager, ConnectionOpenEventArgs args)
+        {
+            Logger.Log("Got new web connection.");
+        }
+
     }
 }
