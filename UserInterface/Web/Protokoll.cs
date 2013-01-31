@@ -52,6 +52,8 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
 
 
     [DataContract]
+    [KnownType(typeof(DeviceNotification))]
+    [KnownType(typeof(ProviderNotification))]
     public abstract class Message
     {
         public String ToJson()
