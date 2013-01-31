@@ -66,29 +66,42 @@ namespace cloudmusic2upnp.UserInterface.Web.Protokoll
     {
     }
 
+
     [DataContract]
     public class ProviderNotification : Message
     {
-        private Providers Providers;
-        [DataMember]
-        public Dictionary<String,String> ProviderIDs
+        [DataContract]
+        public class ProviderData
         {
-            get
+            [DataMember]
+            public readonly string
+                ID;
+
+            [DataMember]
+            public readonly string
+                Name;
+
+            public ProviderData(IContentProvider provider)
             {
-                var ids = new Dictionary<String,String>();
-                foreach (KeyValuePair<string, IContentProvider> kvp in Providers.AllPlugins)
-                {
-                    ids.Add(kvp.Key, kvp.Value.Name);
-                }
-                return ids;
+                ID = provider.Name;
+                Name = provider.Name;
             }
-            private set {}
         }
+
+        [DataMember]
+        public readonly ProviderData[]
+            Providers;
 
 
         public ProviderNotification(Providers providers)
         {
- Providers = providers;
+            var list = new List<ProviderData>();
+            foreach (KeyValuePair<string, IContentProvider> kvp in providers.AllPlugins)
+            {
+                list.Add(new ProviderData(kvp.Value));
+            }
+
+            Providers = list.ToArray();
         }
     }
 
