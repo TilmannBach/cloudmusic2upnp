@@ -1,7 +1,8 @@
 using System;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Xml;
 using System.Runtime.Serialization.Json;
 
 using cloudmusic2upnp.ContentProvider;
@@ -29,7 +30,18 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
             header.Method = message.GetType().Name;
             header.Message = message;
 
-            var ser = new DataContractJsonSerializer(typeof(Header));
+            var knownTypes = new List<Type>();
+            switch (header.Method)
+            {
+                case "DeviceNotification":
+                    knownTypes.Add(typeof(DeviceNotification));
+                    break;
+                case "ProviderNotification":
+                    knownTypes.Add(typeof(ProviderNotification));
+                    break;
+            }
+
+            var ser = new DataContractJsonSerializer(typeof(Header), knownTypes);
             var s = new MemoryStream();
             ser.WriteObject(s, header);
             s.Seek(0, SeekOrigin.Begin);
@@ -48,7 +60,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
         }
     }
 
-    public class SearchRequest : Message
+    /*public class SearchRequest : Message
     {
         [DataMember]
         public String Query { get; private set; }
@@ -61,7 +73,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
     {
         [DataMember]
         public ITrack[] Tracks { get; private set; }
-    }
+    }*/
 
 
     [DataContract]
@@ -139,7 +151,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
         }
     }
 
-    public class PlaylistNotification : Message
+    /*public class PlaylistNotification : Message
     {
     }
 
@@ -149,7 +161,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
 
     public class PlayStateNotification : Message
     {
-    }
+    }*/
 
 
 }
