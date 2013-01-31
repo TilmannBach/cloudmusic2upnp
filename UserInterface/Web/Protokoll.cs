@@ -40,6 +40,8 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
 
 
     [DataContract]
+    [KnownType(typeof(DeviceNotification))]
+    [KnownType(typeof(ProviderNotification))]
     public abstract class Message
     {
         public String ToJson()
@@ -48,7 +50,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
         }
     }
 
-    public class SearchRequest : Message
+    /*public class SearchRequest : Message
     {
         [DataMember]
         public String Query { get; private set; }
@@ -61,7 +63,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
     {
         [DataMember]
         public ITrack[] Tracks { get; private set; }
-    }
+    }*/
 
 
     [DataContract]
@@ -139,7 +141,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
         }
     }
 
-    public class PlaylistNotification : Message
+    /*public class PlaylistNotification : Message
     {
     }
 
@@ -149,7 +151,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
 
     public class PlayStateNotification : Message
     {
-    }
+    }*/
 
 
 }
