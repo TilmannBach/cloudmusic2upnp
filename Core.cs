@@ -23,7 +23,7 @@ namespace cloudmusic2upnp
 
 			HackMonoProxyIssue ();
 
-			UPnP = new DeviceController.UPnP ();
+			UPnP = new DeviceController.UPnP.Controller ();
 			Providers = new ContentProvider.Providers ();
 			UI = new UserInterface.UIProxy (UPnP, Providers);
             UI.UIShutdownRequest += OnShutdownRequest;
