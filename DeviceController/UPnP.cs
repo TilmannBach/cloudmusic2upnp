@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Xml;
 
 
-namespace cloudmusic2upnp.DeviceController
+namespace cloudmusic2upnp.DeviceController.UPnP
 {
-    public class UPnP : IController
+    public class Controller : IController
     {
         //private List<OpenHome.Net.ControlPoint.CpDevice> iDeviceList;
         /// <summary>
@@ -27,7 +27,7 @@ namespace cloudmusic2upnp.DeviceController
         /// Starts a new DeviceController for controlling UPnP-Media-Renderer in your network.
         /// </summary>
         /// <param name="networkAdapterIndex"></param>
-        public UPnP(uint networkAdapterIndex = 0)
+        public Controller(uint networkAdapterIndex = 0)
         {
             deviceList = new Dictionary<string, UPnPDevice>();
 
