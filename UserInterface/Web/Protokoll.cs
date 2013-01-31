@@ -23,7 +23,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
         {
         }
 
-        public static String ToJSON(Message message)
+        public static String ToJson(Message message)
         {
             var header = new Header();
             header.Method = message.GetType().Name;
@@ -38,12 +38,13 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
         }
     }
 
+
     [DataContract]
     public abstract class Message
     {
-        public String ToJSON()
+        public String ToJson()
         {
-            return Header.ToJSON(this);
+            return Header.ToJson(this);
         }
     }
 
@@ -62,8 +63,41 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
         public ITrack[] Tracks { get; private set; }
     }
 
+
+    [DataContract]
     public class DeviceNotification : Message
     {
+        [DataContract]
+        public class DeviceData
+        {
+            [DataMember]
+            public readonly string
+                Udn;
+
+            [DataMember]
+            public readonly string
+                Name;
+
+            public DeviceData(IDevice Device)
+            {
+                Name = Device.FriendlyName;
+                Udn = Device.Udn;
+            }
+        }
+
+        [DataMember]
+        public readonly DeviceData[]
+            Devices;
+
+        public DeviceNotification(IController controller)
+        {
+            var list = new List<DeviceData>();
+            foreach (IDevice device in controller.GetDevices())
+            {
+                list.Add(new DeviceData(device));
+            }
+            Devices = list.ToArray();
+        }
     }
 
 

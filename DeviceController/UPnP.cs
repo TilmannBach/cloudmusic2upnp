@@ -83,8 +83,8 @@ namespace cloudmusic2upnp.DeviceController.UPnP
                 if (UPnPTools.isMediaRenderer(xmlDeviceDescription))
                 {
                     deviceList.Add(aDevice.Udn(), new UPnPDevice(aDevice, xmlDeviceDescription));
-                    Logger.Log(Logger.Level.Debug, "Found usefull MediaRenderer: " + deviceList[aDevice.Udn()].FriendlyName);
-                    OnDeviceDiscovered(deviceList[aDevice.Udn()]);
+                    Logger.Log(Logger.Level.Debug, "Found usefull MediaRenderer: " + deviceList [aDevice.Udn()].FriendlyName);
+                    OnDeviceDiscovered(deviceList [aDevice.Udn()]);
                 }
             }
         }
@@ -106,16 +106,15 @@ namespace cloudmusic2upnp.DeviceController.UPnP
             String udn = aDevice.Udn();
             try
             {
-                UPnPDevice dev = deviceList[udn];
+                UPnPDevice dev = deviceList [udn];
                 lock (deviceList)
                 {
-                    deviceList[udn].Free();
+                    deviceList [udn].Free();
                     deviceList.Remove(udn);
                 }
                 PrintDeviceInfo("Removed", aDevice);
                 OnDeviceRemoved(dev);
-            }
-            catch (KeyNotFoundException)
+            } catch (KeyNotFoundException)
             {
                 Logger.Log(Logger.Level.Error, "Wanted to remove a UPnP-Device from my list but it's already gone!? :/");
             }
@@ -162,7 +161,8 @@ namespace cloudmusic2upnp.DeviceController.UPnP
                 aPrologue +
                 "\n    udn = " + aDevice.Udn() +
                 "\n    location = " + location +
-                "\n    name = " + friendlyName);
+                "\n    name = " + friendlyName
+            );
         }
 
         public IDevice[] GetDevices()
@@ -179,7 +179,7 @@ namespace cloudmusic2upnp.DeviceController.UPnP
 
         public IDevice GetDevice(string udn)
         {
-            return deviceList[udn];
+            return deviceList [udn];
         }
     }
 
@@ -271,8 +271,7 @@ namespace cloudmusic2upnp.DeviceController.UPnP
                 int absCount;
 
                 avTransport.EndGetPositionInfo(asyncHandle, out track, out trackDuration, out metaData, out trackUri, out relTime, out absTime, out relCount, out absCount);
-            }
-            catch (OpenHome.Net.ControlPoint.ProxyError err)
+            } catch (OpenHome.Net.ControlPoint.ProxyError err)
             {
                 LogError(err);   
             }
@@ -297,8 +296,7 @@ namespace cloudmusic2upnp.DeviceController.UPnP
             try
             {
                 avTransport.EndPlay(asyncHandle);
-            }
-            catch (OpenHome.Net.ControlPoint.ProxyError err)
+            } catch (OpenHome.Net.ControlPoint.ProxyError err)
             {
                 LogError(err);
             }
@@ -313,8 +311,7 @@ namespace cloudmusic2upnp.DeviceController.UPnP
             try
             {
                 avTransport.EndPause(asyncHandle);
-            }
-            catch (OpenHome.Net.ControlPoint.ProxyError err)
+            } catch (OpenHome.Net.ControlPoint.ProxyError err)
             {
                 LogError(err);
             }
@@ -329,8 +326,7 @@ namespace cloudmusic2upnp.DeviceController.UPnP
             try
             {
                 avTransport.EndStop(asyncHandle);
-            }
-            catch (OpenHome.Net.ControlPoint.ProxyError err)
+            } catch (OpenHome.Net.ControlPoint.ProxyError err)
             {
                 LogError(err);
             }
@@ -363,7 +359,7 @@ namespace cloudmusic2upnp.DeviceController.UPnP
 
         public string Udn
         {
-            get { return this.Udn; }
+            get { return iDevice.Udn(); }
         }
 
         private void SubscribeToDeviceEvents()
@@ -382,7 +378,7 @@ namespace cloudmusic2upnp.DeviceController.UPnP
 
         void OnRenderingControlPropertyChanged()
         {
-            Logger.Log("OnRenderingPropChanged: "+avRenderingControl.PropertyLastChange());
+            Logger.Log("OnRenderingPropChanged: " + avRenderingControl.PropertyLastChange());
         }
         void OnTransportPropertyChanged()
         {
