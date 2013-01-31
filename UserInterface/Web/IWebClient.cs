@@ -4,7 +4,7 @@ namespace cloudmusic2upnp.UserInterface.Web
 {
     public interface IWebClient
     {
-        void SendMessage(Protokoll.Message message);
+        void SendMessage(Protocol.Message message);
     }
 }
 

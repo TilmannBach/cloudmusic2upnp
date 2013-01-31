@@ -94,7 +94,7 @@ namespace cloudmusic2upnp.UserInterface.CLI
             string query = Console.ReadLine();
 
             // TODO: easify Providers interface
-            var tracks = Providers.AllPlugins["Soundcloud"].Search(query);
+            var tracks = Providers.Plugins["Soundcloud"].Search(query);
 
             foreach (var t in tracks)
             {

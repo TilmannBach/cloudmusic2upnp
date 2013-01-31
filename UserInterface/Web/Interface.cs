@@ -46,7 +46,7 @@ namespace cloudmusic2upnp.UserInterface.Web
             Logger.Log("Got new web connection.");
             var client = args.Client;
 
-            client.SendMessage(new Protokoll.ProviderNotification(Providers));
+            client.SendMessage(new Protocol.ProviderNotification(Providers));
         }
 
     }

@@ -8,7 +8,7 @@ using cloudmusic2upnp.ContentProvider;
 using cloudmusic2upnp.DeviceController;
 
 
-namespace cloudmusic2upnp.UserInterface.Web.Protokoll
+namespace cloudmusic2upnp.UserInterface.Web.Protocol
 {
     [DataContract]
     public class Header
@@ -96,7 +96,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Protokoll
         public ProviderNotification(Providers providers)
         {
             var list = new List<ProviderData>();
-            foreach (KeyValuePair<string, IContentProvider> kvp in providers.AllPlugins)
+            foreach (KeyValuePair<string, IContentProvider> kvp in providers.Plugins)
             {
                 list.Add(new ProviderData(kvp.Value));
             }
