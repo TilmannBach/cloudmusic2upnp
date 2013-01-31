@@ -55,7 +55,13 @@ cm2u.event = (new function()
         console.log('Trigger ('+target+'): ' + eventname, data);
 
         if (target == 'remote') {
-            cm2u.socket.send(eventname, data);
+            if (eventname in list_remote) {
+                list = list_remote[eventname];
+                for (var i = 0; i < list.length; i++) {
+                    cb = list[i];
+                    cb(eventname, data);
+                }
+            }
         }
 
         if (target == 'local') {

@@ -32,9 +32,9 @@ cm2u.socket = (new function(){
 
 	
 	var onmessage = function (e) {
-		var j = eval(e.data);
-		var event = j[0];
-		var data = j[1];
+		var j = JSON.parse(e.data);
+		var event = j.Method;
+		var data = j.Body;
 		
 		cm2u.event.trigger(event, 'remote', data);
 	};

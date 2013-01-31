@@ -153,6 +153,9 @@
     <Content Include="lib\WebSocketLib.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.provider.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

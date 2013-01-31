@@ -11,6 +11,7 @@
 
 
 var cm2u = {};
+cm2u.tabs = {};
 
 
 cm2u.c = {

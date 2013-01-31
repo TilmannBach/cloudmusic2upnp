@@ -19,6 +19,7 @@ var loading_queue = [
     "js/cm2u.event.js",
     "js/cm2u.socket.js",
     "js/cm2u.dialogs.js",
+    "js/cm2u.tabs.provider.js",
 ];
 
 function require(url, callback){

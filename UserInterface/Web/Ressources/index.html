@@ -10,7 +10,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <style type="text/css">
-
+        .template {display: none;}
     </style>
 </head>
 <body>
@@ -26,10 +26,12 @@
 				<div  data-role="fieldcontain">
 				 	<fieldset data-role="controlgroup">
 						<legend>Search on:</legend>
-						<input type="checkbox" name="checkbox-1a" id="checkbox-1a" data-mini="true" data-theme="d" />
-						<label for="checkbox-1a">Spotify</label>
-						<input type="checkbox" name="checkbox-2a" id="checkbox-2a" data-mini="true" data-theme="d" />
-						<label for="checkbox-2a">Soundcloud</label>
+                        <div class="template" id="provider-template">
+                            <label>
+    						    <input class="provider-input" name="content-provider" type="checkbox" data-mini="true" data-theme="d" />
+    						    <span class="provider-label"></span>
+                            </label>
+                        </div>
 				    </fieldset>
 				</div>
 			</div>
