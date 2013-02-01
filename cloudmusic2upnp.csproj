@@ -81,10 +81,12 @@
     <Compile Include="UserInterface\Web\Http\WebServer.cs" />
     <Compile Include="UserInterface\Web\IWebManager.cs" />
     <Compile Include="UserInterface\Web\Interface.cs" />
-    <Compile Include="UserInterface\Web\Protokoll.cs" />
     <Compile Include="UserInterface\Web\IWebClient.cs" />
     <Compile Include="UserInterface\Web\WebSocket\Client.cs" />
     <Compile Include="UserInterface\Web\WebSocket\Manger.cs" />
+    <Compile Include="UserInterface\Web\Protocol\Base.cs" />
+    <Compile Include="UserInterface\Web\Protocol\DeviceNotification.cs" />
+    <Compile Include="UserInterface\Web\Protocol\ProviderNotification.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\CpUpnpOrgAVTransport1.net.dll">
@@ -197,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserInterface\Web\WebSocket\" />
+    <Folder Include="UserInterface\Web\Protocol\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
