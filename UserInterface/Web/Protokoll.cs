@@ -12,36 +12,25 @@ using cloudmusic2upnp.DeviceController;
 namespace cloudmusic2upnp.UserInterface.Web.Protocol
 {
     [DataContract]
-    public class Header
+    public class Header<T>
     {
         [DataMember(Order=0)]
         public String Method { get; private set; }
 
         [DataMember(Name="Body", Order=1)]
-        public Message Message { get; private set; }
+        public T Message { get; private set; }
 
         private Header()
         {
         }
 
-        public static String ToJson(Message message)
+        public static String ToJson(T message)
         {
-            var header = new Header();
+            var header = new Header<T>();
             header.Method = message.GetType().Name;
             header.Message = message;
 
-            var knownTypes = new List<Type>();
-            switch (header.Method)
-            {
-                case "DeviceNotification":
-                    knownTypes.Add(typeof(DeviceNotification));
-                    break;
-                case "ProviderNotification":
-                    knownTypes.Add(typeof(ProviderNotification));
-                    break;
-            }
-
-            var ser = new DataContractJsonSerializer(typeof(Header), knownTypes);
+            var ser = new DataContractJsonSerializer(typeof(Header<T>));
             var s = new MemoryStream();
             ser.WriteObject(s, header);
             s.Seek(0, SeekOrigin.Begin);
@@ -52,14 +41,13 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
 
 
     [DataContract]
-    [KnownType(typeof(DeviceNotification))]
-    [KnownType(typeof(ProviderNotification))]
     public abstract class Message
     {
-        public String ToJson()
-        {
+        public abstract String ToJson();
+        /*{
+            Header<;
             return Header.ToJson(this);
-        }
+        }*/
     }
 
     /*public class SearchRequest : Message
@@ -112,6 +100,11 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
             }
             Devices = list.ToArray();
         }
+
+        public override String ToJson()
+        {
+            return Header<DeviceNotification>.ToJson(this);
+        }
     }
 
 
@@ -151,6 +144,11 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
 
             Providers = list.ToArray();
         }
+
+        public override String ToJson()
+        {
+            return Header<ProviderNotification>.ToJson(this);
+        }
     }
 
     /*public class PlaylistNotification : Message
@@ -167,4 +165,3 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
 
 
 }
-
