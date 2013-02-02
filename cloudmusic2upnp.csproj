@@ -89,6 +89,11 @@
     <Compile Include="UserInterface\Web\Protocol\Base.cs" />
     <Compile Include="UserInterface\Web\Protocol\DeviceNotification.cs" />
     <Compile Include="UserInterface\Web\Protocol\ProviderNotification.cs" />
+    <Compile Include="UserInterface\Web\Protocol\SearchRequest.cs" />
+    <Compile Include="UserInterface\Web\Protocol\SearchResponse.cs" />
+    <Compile Include="UserInterface\Web\Protocol\PlaylistNotification.cs" />
+    <Compile Include="UserInterface\Web\Protocol\PlayRequest.cs" />
+    <Compile Include="UserInterface\Web\Protocol\PlaystateNotification.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\CpUpnpOrgAVTransport1.net.dll">
