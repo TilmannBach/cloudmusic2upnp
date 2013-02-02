@@ -223,7 +223,15 @@ namespace cloudmusic2upnp.DeviceController.UPnP
         /// </summary>
         public event EventHandler<DevicePlaystateEventArgs> PlaystateChanged;
 
+        /// <summary>
+        /// Raises if the volume of a UPnPDevice is changed.
+        /// Only channel "master" is observed!
+        /// </summary>
         public event EventHandler<DeviceVolumeEventArgs> VolumeChanged;
+        
+        /// <summary>
+        /// Raises if the mute state of a UPnPDevice is changed.
+        /// </summary>
         public event EventHandler<DeviceMuteEventArgs> MuteChanged;
 
         public UPnPDevice(OpenHome.Net.ControlPoint.CpDevice device, XmlDocument xmlDeviceDescr)
@@ -257,7 +265,7 @@ namespace cloudmusic2upnp.DeviceController.UPnP
                 return friendlyName;
             }
         }
-
+        
         private void GetPositionInfo()
         {
             avTransport.BeginGetPositionInfo(0, BeginGetPositionInfoComplete);
@@ -401,6 +409,8 @@ namespace cloudmusic2upnp.DeviceController.UPnP
                             OnMuteChanged((node.Attributes["val"].Value == "0") ? DeviceMuteEventArgs.MuteStates.UnMuted : DeviceMuteEventArgs.MuteStates.Muted);
                         }
                         break;
+                    case "PresetNameList":
+                        break;
                     default:
                         Logger.Log(Logger.Level.Debug, "OnRenderingControlPropertyChanged: unhandled parameter: " + node.OuterXml);
                         break;
@@ -429,7 +439,12 @@ namespace cloudmusic2upnp.DeviceController.UPnP
 
         void OnTransportPropertyChanged()
         {
-            Logger.Log(Logger.Level.Debug, "OnTransportPropChanged: " + avTransport.PropertyLastChange());
+            var reader = new StringReader(avTransport.PropertyLastChange());
+            var serializer = new XmlSerializer(typeof(AvtEvent.rootType));
+            var instance = (AvtEvent.rootType)serializer.Deserialize(reader);
+
+            //TODO: hier weitermachen!!!
+            Logger.Log(Logger.Level.Debug, "bla: "+instance.Items.Length);
         }
     }
 }

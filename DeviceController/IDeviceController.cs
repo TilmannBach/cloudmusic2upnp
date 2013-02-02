@@ -37,7 +37,15 @@ namespace cloudmusic2upnp.DeviceController
         /// </summary>
         event EventHandler<DevicePlaystateEventArgs> PlaystateChanged;
 
+        /// <summary>
+        /// Raises if the volume of a device is changed.
+        /// Only channel "master" is observed!
+        /// </summary>
         event EventHandler<DeviceVolumeEventArgs> VolumeChanged;
+
+        /// <summary>
+        /// Raises if the mute state of a device is changed.
+        /// </summary>
         event EventHandler<DeviceMuteEventArgs> MuteChanged;
                 
         /// <summary>
