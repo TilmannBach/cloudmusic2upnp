@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
+using System.Xml.Serialization;
 
 
 namespace cloudmusic2upnp.DeviceController.UPnP
@@ -221,6 +223,9 @@ namespace cloudmusic2upnp.DeviceController.UPnP
         /// </summary>
         public event EventHandler<DevicePlaystateEventArgs> PlaystateChanged;
 
+        public event EventHandler<DeviceVolumeEventArgs> VolumeChanged;
+        public event EventHandler<DeviceMuteEventArgs> MuteChanged;
+
         public UPnPDevice(OpenHome.Net.ControlPoint.CpDevice device, XmlDocument xmlDeviceDescr)
         {
             isStaring = true;
@@ -364,12 +369,6 @@ namespace cloudmusic2upnp.DeviceController.UPnP
 
         private void SubscribeToDeviceEvents()
         {
-            // scheint es gar nicht zu geben !? :/
-            // zyklisch GetPositionInfo
-            // brauche auch noch ein Rendering-Control für mute/lautstärke
-            
-            // WD TV Live nimmt nur HTTPs von der soundcloud-api
-            //
             avTransport.SetPropertyChanged(OnTransportPropertyChanged);
             avTransport.Subscribe();
             avRenderingControl.SetPropertyChanged(OnRenderingControlPropertyChanged);
@@ -378,11 +377,35 @@ namespace cloudmusic2upnp.DeviceController.UPnP
 
         void OnRenderingControlPropertyChanged()
         {
-            Logger.Log("OnRenderingPropChanged: " + avRenderingControl.PropertyLastChange());
-        }
-        void OnTransportPropertyChanged()
-        {
-            Logger.Log("OnTransportPropChanged: " + avTransport.PropertyLastChange());
+            // TODO:
+            // zyklisch GetPositionInfo
+
+            XmlDocument xml = new XmlDocument();
+            xml.LoadXml(avRenderingControl.PropertyLastChange());
+
+            //<event><InstanceID><....>
+            foreach (XmlNode node in xml.ChildNodes[0].ChildNodes[0].ChildNodes)
+            {
+                switch (node.Name)
+                {
+                    case "Volume":
+                        if((node.Attributes.GetNamedItem("channel")) != null && ((XmlAttribute)node.Attributes.GetNamedItem("channel")).Value == "Master")
+                        {
+                            OnVolumeChanged(Convert.ToInt32(node.Attributes["val"].Value));
+                        }
+                        //else: we will not handle other single channels then master...
+                        break;
+                    case "Mute":
+                        if ((node.Attributes.GetNamedItem("channel")) != null && ((XmlAttribute)node.Attributes.GetNamedItem("channel")).Value == "Master")
+                        {
+                            OnMuteChanged((node.Attributes["val"].Value == "0") ? DeviceMuteEventArgs.MuteStates.UnMuted : DeviceMuteEventArgs.MuteStates.Muted);
+                        }
+                        break;
+                    default:
+                        Logger.Log(Logger.Level.Debug, "OnRenderingControlPropertyChanged: unhandled parameter: " + node.OuterXml);
+                        break;
+                }
+            }
         }
 
         protected virtual void OnPlaystateChanged(UPnPDevice device, DevicePlaystateEventArgs.DevicePlaystate playstate, int timeOffset)
@@ -390,6 +413,23 @@ namespace cloudmusic2upnp.DeviceController.UPnP
             EventHandler<DevicePlaystateEventArgs> handler = PlaystateChanged;
             if (handler != null)
                 handler(this, new DevicePlaystateEventArgs(device, playstate, timeOffset));
+        }
+        protected virtual void OnVolumeChanged(int volume)
+        {
+            EventHandler<DeviceVolumeEventArgs> handler = VolumeChanged;
+            if (handler != null)
+                handler(this, new DeviceVolumeEventArgs(volume));
+        }
+        protected virtual void OnMuteChanged(DeviceMuteEventArgs.MuteStates muteState)
+        {
+            EventHandler<DeviceMuteEventArgs> handler = MuteChanged;
+            if (handler != null)
+                handler(this, new DeviceMuteEventArgs(muteState));
+        }
+
+        void OnTransportPropertyChanged()
+        {
+            Logger.Log(Logger.Level.Debug, "OnTransportPropChanged: " + avTransport.PropertyLastChange());
         }
     }
 }

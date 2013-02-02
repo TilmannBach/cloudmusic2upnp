@@ -36,6 +36,9 @@ namespace cloudmusic2upnp.DeviceController
         /// e.g. a device stopped playback because it reached the end of a song
         /// </summary>
         event EventHandler<DevicePlaystateEventArgs> PlaystateChanged;
+
+        event EventHandler<DeviceVolumeEventArgs> VolumeChanged;
+        event EventHandler<DeviceMuteEventArgs> MuteChanged;
                 
         /// <summary>
         /// Returns a friendly name of the device.

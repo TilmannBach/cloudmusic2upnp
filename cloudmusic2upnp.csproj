@@ -64,7 +64,9 @@
   <ItemGroup>
     <Compile Include="Core.cs" />
     <Compile Include="DeviceController\DeviceEventArgs.cs" />
+    <Compile Include="DeviceController\DeviceMuteEventArgs.cs" />
     <Compile Include="DeviceController\DevicePlaystateEventArgs.cs" />
+    <Compile Include="DeviceController\DeviceVolumeEventArgs.cs" />
     <Compile Include="DeviceController\UPnP_xsd\avt-event.designer.cs" />
     <Compile Include="DeviceController\UPnP_xsd\rcs-event.designer.cs" />
     <Compile Include="Logger.cs" />
@@ -197,10 +199,7 @@
       <Name>SoundcloudProviderPlugin</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UserInterface\Web\WebSocket\" />
-    <Folder Include="UserInterface\Web\Protocol\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
