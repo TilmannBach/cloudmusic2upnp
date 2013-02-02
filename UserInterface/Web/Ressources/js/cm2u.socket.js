@@ -16,8 +16,11 @@ cm2u.socket = (new function(){
 	
 	module.send = function(event, data)
 	{
-		var e = [ event, data ];
-		socket.send(JSON.stringify(e));
+        var msg = JSON.stringify({
+            Method: event,
+            Body: data
+        });
+		socket.send(msg);
 	};
 	
 
