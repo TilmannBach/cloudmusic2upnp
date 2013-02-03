@@ -84,6 +84,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Http
                                 {
                                     content = System.IO.File.ReadAllBytes(path);
                                     ctx.Response.ContentType = MimeAssistant.GetMIMEType(Path.GetExtension(path));
+                                    //Utils.Logger.Log(Utils.Logger.Level.Warning, "HTTP 200 - OK \"" + ctx.Request.Url.AbsolutePath + "\"");
                                 }
                                 catch (FileNotFoundException)
                                 {

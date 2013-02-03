@@ -14,6 +14,7 @@ cm2u.tabs.search = (new function()
     
     $("#search-track").keyup(function () {
         clearTimeout(search_timeout);
+        $("#tab-search").find("ul").remove();
         search_timeout = setTimeout(function(){
             var query = $("#search-track").val();
             module.send_search_request(query);
@@ -21,12 +22,12 @@ cm2u.tabs.search = (new function()
     });
 
     cm2u.event.register("SearchResponse", "remote", function (eventName, data) {
-        var html = $("");
+        var html = $("<ul id=\"search-results\" data-role=\"listview\" data-inset=\"true\"></ul>");
         for (var i in data.Tracks) {
-            data.Tracks[i].Name
-            html.append("<li><a href=\"#\">Track 3</a></li>");
+            html.append("<li><a href=\""+data.Tracks[i].MediaUrl+"\">" + data.Tracks[i].Name + "</a></li>");
         }
-        $("#search-results").append(html);
+        $("#tab-search").find("ul").remove();
+        $("#tab-search").append(html).trigger("create");
     });
 
     return module;
