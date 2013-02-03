@@ -1,36 +1,67 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cloudmusic2upnp", "cloudmusic2upnp.csproj", "{9B1ACA53-02B6-45E4-950A-889B27CADB7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IContentProvider", "IContentProvider\IContentProvider.csproj", "{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyProviderPlugin", "ContentProvider\DummyProviderPlugin\DummyProviderPlugin.csproj", "{44436137-402C-4F0E-AF2C-B8768B867B5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyProviderPlugin", "DummyProviderPlugin\DummyProviderPlugin.csproj", "{44436137-402C-4F0E-AF2C-B8768B867B5D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IContentProvider", "ContentProvider\IContentProvider\IContentProvider.csproj", "{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundcloudProviderPlugin", "SoundcloudProviderPlugin\SoundcloudProviderPlugin.csproj", "{3C80D595-14D5-4F12-9307-4EF1C79F56AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundcloudProviderPlugin", "ContentProvider\SoundcloudProviderPlugin\SoundcloudProviderPlugin.csproj", "{3C80D595-14D5-4F12-9307-4EF1C79F56AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Debug|x86.Build.0 = Debug|Any CPU
-		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Release|x86.ActiveCfg = Release|Any CPU
-		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Release|x86.Build.0 = Release|Any CPU
-		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Debug|x86.Build.0 = Debug|Any CPU
-		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Release|x86.ActiveCfg = Release|Any CPU
-		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Release|x86.Build.0 = Release|Any CPU
+		{9B1ACA53-02B6-45E4-950A-889B27CADB7D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9B1ACA53-02B6-45E4-950A-889B27CADB7D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{9B1ACA53-02B6-45E4-950A-889B27CADB7D}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{9B1ACA53-02B6-45E4-950A-889B27CADB7D}.Debug|x86.ActiveCfg = Debug|x86
 		{9B1ACA53-02B6-45E4-950A-889B27CADB7D}.Debug|x86.Build.0 = Debug|x86
+		{9B1ACA53-02B6-45E4-950A-889B27CADB7D}.Release|Any CPU.ActiveCfg = Release|x86
+		{9B1ACA53-02B6-45E4-950A-889B27CADB7D}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{9B1ACA53-02B6-45E4-950A-889B27CADB7D}.Release|Mixed Platforms.Build.0 = Release|x86
 		{9B1ACA53-02B6-45E4-950A-889B27CADB7D}.Release|x86.ActiveCfg = Release|x86
 		{9B1ACA53-02B6-45E4-950A-889B27CADB7D}.Release|x86.Build.0 = Release|x86
+		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{44436137-402C-4F0E-AF2C-B8768B867B5D}.Release|x86.ActiveCfg = Release|Any CPU
+		{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}.Debug|x86.Build.0 = Debug|Any CPU
+		{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}.Release|x86.ActiveCfg = Release|Any CPU
-		{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}.Release|x86.Build.0 = Release|Any CPU
+		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3C80D595-14D5-4F12-9307-4EF1C79F56AB}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = cloudmusic2upnp.csproj
@@ -38,7 +69,7 @@ Global
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = None
 		$1.ResourceNamePolicy = FileFormatDefault
-		$0.TextStylePolicy = $2
+		$0.TextStylePolicy = $13
 		$2.inheritsSet = VisualStudio
 		$2.inheritsScope = text/plain
 		$2.scope = text/x-csharp
@@ -61,48 +92,36 @@ Global
 		$3.inheritsSet = Mono
 		$3.inheritsScope = text/x-csharp
 		$3.scope = text/x-csharp
-		$0.TextStylePolicy = $4
 		$4.inheritsSet = VisualStudio
 		$4.inheritsScope = text/plain
 		$4.scope = text/plain
-		$0.TextStylePolicy = $5
 		$5.inheritsSet = VisualStudio
 		$5.inheritsScope = text/plain
 		$5.scope = text/html
-		$0.TextStylePolicy = $6
 		$6.inheritsSet = VisualStudio
 		$6.inheritsScope = text/plain
 		$6.scope = application/javascript
-		$0.TextStylePolicy = $7
 		$7.inheritsSet = VisualStudio
 		$7.inheritsScope = text/plain
 		$7.scope = text/css
-		$0.TextStylePolicy = $8
 		$8.inheritsSet = Mono
 		$8.inheritsScope = text/plain
 		$8.scope = application/config+xml
-		$0.XmlFormattingPolicy = $9
+		$0.XmlFormattingPolicy = $11
 		$9.inheritsSet = Mono
 		$9.inheritsScope = application/xml
 		$9.scope = application/config+xml
-		$0.TextStylePolicy = $10
 		$10.inheritsSet = Mono
 		$10.inheritsScope = text/plain
 		$10.scope = application/xml
-		$0.XmlFormattingPolicy = $11
 		$11.inheritsSet = Mono
 		$11.inheritsScope = application/xml
 		$11.scope = application/xml
-		$0.TextStylePolicy = $12
 		$12.inheritsSet = VisualStudio
 		$12.inheritsScope = text/plain
 		$12.scope = text/cache-manifest
-		$0.TextStylePolicy = $13
 		$13.inheritsSet = VisualStudio
 		$13.inheritsScope = text/plain
 		$13.scope = text/x-markdown
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
