@@ -17,12 +17,10 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
         public class DeviceData
         {
             [DataMember]
-            public readonly string
-                Udn;
+            public string Udn { get; private set; }
 
             [DataMember]
-            public readonly string
-                Name;
+            public string Name { get; private set; }
 
             public DeviceData(IDevice Device)
             {

@@ -13,12 +13,10 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
         public class TrackData
         {
             [DataMember]
-            public readonly String
-                Name;
+            public String Name { get; private set; }
 
             [DataMember]
-            public readonly String
-                MediaUrl;
+            public String MediaUrl { get; private set; }
 
             public TrackData(ITrack track)
             {
@@ -33,12 +31,11 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
         }
 
         [DataMember]
-        public readonly String
-            Query;
+        public String Query { get; private set; }
+
 
         [DataMember]
-        public readonly TrackData[]
-            Tracks;
+        public TrackData[] Tracks { get; private set; }
 
         public SearchResponse(String query, List<ITrack> tracks)
         {

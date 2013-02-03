@@ -10,8 +10,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
     public class SearchRequest : Message
     {
         [DataMember]
-        public readonly String
-            Query;
+        public String Query { get; private set; }
 
         public SearchRequest()
         {

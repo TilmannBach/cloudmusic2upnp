@@ -18,12 +18,10 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
         public class ProviderData
         {
             [DataMember]
-            public readonly string
-                ID;
+            public string ID { get; private set; }
 
             [DataMember]
-            public readonly string
-                Name;
+            public string Name { get; private set; }
 
             public ProviderData(IContentProvider provider)
             {
@@ -33,8 +31,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
         }
 
         [DataMember]
-        public readonly ProviderData[]
-            Providers;
+        public ProviderData[] Providers { get; private set; }
 
 
         public ProviderNotification(Providers providers)
