@@ -44,6 +44,7 @@ namespace cloudmusic2upnp
                 UI.Stop();
                 UPnP.Shutdown();
                 Utils.Logger.Log(Utils.Logger.Level.Info, "Good bye.");
+                Utils.Config.Save();
             }
         }
 

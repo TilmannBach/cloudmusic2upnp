@@ -16,7 +16,7 @@ namespace cloudmusic2upnp.Utils
 
 		private Config ()
 		{
-			LogOutput = Utils.Logger.Outputs.Quiet;
+			LogOutput = Utils.Logger.Outputs.Console;
 			LogVerbosity = Utils.Logger.Level.Info;
 			LogFile = "cloudmusic2upnp.log";
 		}
@@ -35,15 +35,15 @@ namespace cloudmusic2upnp.Utils
 				}
 			}
 
-			Instance.Save ();
+			//Instance.Save ();
 			return Instance;
 		}
 
-		public void Save ()
+		public static void Save ()
 		{
 			XmlSerializer ser = new XmlSerializer (typeof(Config));
 			FileStream str = new FileStream (Path, FileMode.Create);
-			ser.Serialize (str, this);
+			ser.Serialize (str, Config.Load());
 			str.Close ();
 		}
 	}
