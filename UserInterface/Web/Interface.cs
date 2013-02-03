@@ -30,6 +30,7 @@ namespace cloudmusic2upnp.UserInterface.Web
 
             WebSocketManager = new WebSocket.Manger(WEBSOCKET_PORT);
             WebSocketManager.ClientConnect += HandleClientConnect;
+            WebSocketManager.ClientDisconnect += HandleClientDisconnect;
             WebSocketManager.ClientMessage += HandleClientMessage;
 
             Controller.DeviceDiscovery += HandleDeviceDiscovery;
@@ -67,9 +68,9 @@ namespace cloudmusic2upnp.UserInterface.Web
         }
 
 
-        private void HandleClientConnect(object manager, ClientConnectEventArgs args)
+        private void HandleClientConnect(object manager, ClientEventArgs args)
         {
-            Utils.Logger.Log("Got new web connection.");
+            Utils.Logger.Log("Web client connected.");
             var client = args.Client;
             Clients.Add(client);
 
@@ -78,7 +79,14 @@ namespace cloudmusic2upnp.UserInterface.Web
         }
 
 
-        private void HandleClientMessage(object sender, ClientMessageEventArgs e)
+        void HandleClientDisconnect(object sender, ClientEventArgs e)
+        {
+            Utils.Logger.Log("Web client disconnected.");
+            Clients.Remove(e.Client);
+        }
+
+
+        private void HandleClientMessage(object sender, MessageEventArgs e)
         {
             if (e.Message.GetType() == typeof(SearchRequest))
             {

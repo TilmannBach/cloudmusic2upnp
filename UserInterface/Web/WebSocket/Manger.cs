@@ -29,8 +29,9 @@ namespace cloudmusic2upnp.UserInterface.Web.WebSocket
         private int Port;
         private Dictionary<WebSocketConnection, Client> Clients;
 
-        public event EventHandler<ClientConnectEventArgs> ClientConnect;
-        public event EventHandler<ClientMessageEventArgs> ClientMessage;
+        public event EventHandler<ClientEventArgs> ClientConnect;
+        public event EventHandler<ClientEventArgs> ClientDisconnect;
+        public event EventHandler<MessageEventArgs> ClientMessage;
 
 
         public Manger(int port)
@@ -59,21 +60,28 @@ namespace cloudmusic2upnp.UserInterface.Web.WebSocket
         {
             aConnection.ConnectionOpen += HandleConnectionOpen;
             aConnection.ConnectionRead += HandleConnectionRead;
+            aConnection.ConnectionClose += HandleConnectionClose;
         }
-
 
         private void HandleConnectionOpen(WebSocketConnection aConnection)
         {
             var client = new Client(aConnection);
             Clients.Add(aConnection, client);
-            ClientConnect(this, new ClientConnectEventArgs(client));
+            ClientConnect(this, new ClientEventArgs(client));
+        }
+
+
+        private void HandleConnectionClose(WebSocketConnection aConnection, int aCloseCode, string aCloseReason, bool aClosedByPeer)
+        {
+            var client = Clients [aConnection];
+            ClientDisconnect(this, new ClientEventArgs(client));
         }
 
 
         private void HandleConnectionRead(WebSocketConnection aConnection, bool aFinal, bool aRes1, bool aRes2, bool aRes3, int aCode, System.IO.MemoryStream aData)
         {
             var client = Clients [aConnection];
-            ClientMessage(this, new ClientMessageEventArgs(client, aData));
+            ClientMessage(this, new MessageEventArgs(client, aData));
         }
     }
 }
