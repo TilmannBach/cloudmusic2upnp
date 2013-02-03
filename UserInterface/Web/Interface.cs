@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 
+using cloudmusic2upnp.UserInterface.Web.Protocol;
+
 namespace cloudmusic2upnp.UserInterface.Web
 {
     public class Interface : IInterface
@@ -27,15 +29,10 @@ namespace cloudmusic2upnp.UserInterface.Web
 
             WebSocketManager = new WebSocket.Manger(WEBSOCKET_PORT);
             WebSocketManager.OnConnectionOpen += HandleConnectionOpen;
+            WebSocketManager.OnConnectionRead += HandleOnConnectionRead;
 
             Controller.DeviceDiscovery += HandleDeviceDiscovery;
         }
-
-        void HandleDeviceDiscovery(object sender, cloudmusic2upnp.DeviceController.DeviceEventArgs e)
-        {
-            SendMessageAll(new Protocol.DeviceNotification(Controller));
-        }
-
 
         public void Start()
         {
@@ -60,6 +57,12 @@ namespace cloudmusic2upnp.UserInterface.Web
         }
 
 
+        void HandleDeviceDiscovery(object sender, cloudmusic2upnp.DeviceController.DeviceEventArgs e)
+        {
+            SendMessageAll(new Protocol.DeviceNotification(Controller));
+        }
+
+
         public void HandleConnectionOpen(object manager, ConnectionOpenEventArgs args)
         {
             Utils.Logger.Log("Got new web connection.");
@@ -69,6 +72,16 @@ namespace cloudmusic2upnp.UserInterface.Web
             client.SendMessage(new Protocol.ProviderNotification(Providers));
             client.SendMessage(new Protocol.DeviceNotification(Controller));
         }
+
+        void HandleOnConnectionRead(object sender, ConnectionReadEventArgs e)
+        {
+            if (e.Message.GetType() == typeof(SearchRequest))
+            {
+                var request = (SearchRequest)e.Message;
+                Logger.Log("Requested query for: '" + request.Query + "'.");
+            }
+        }
+
 
     }
 }

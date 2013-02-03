@@ -1,11 +1,26 @@
 using System;
+using System.Runtime.Serialization;
+using System.Xml;
+using System.Runtime.Serialization.Json;
+
 
 namespace cloudmusic2upnp.UserInterface.Web.Protocol
 {
-    public class SearchRequest
+    [DataContract]
+    public class SearchRequest : Message
     {
+        [DataMember]
+        public readonly String
+            Query;
+
         public SearchRequest()
         {
+
+        }
+
+        public override String ToJson()
+        {
+            return Header<SearchRequest>.ToJson(this);
         }
     }
 }
