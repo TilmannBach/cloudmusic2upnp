@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using cloudmusic2upnp.Utils;
 
-namespace cloudmusic2upnp
+namespace cloudmusic2upnp.Utils
 {
 	public class Logger
 	{
