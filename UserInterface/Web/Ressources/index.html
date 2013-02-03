@@ -4,75 +4,116 @@
     <meta charset="utf-8" />
     <title>cloudmusic2upnp</title>
     <link rel="stylesheet" href="/css/jquery.mobile-1.2.0.min.css" />
-	<script src="/js/jquery-1.8.2.min.js"></script>
-	<script src="/js/jquery.mobile-1.2.0.min.js"></script>
-	<script src="/js/cm2u.js"></script>
+    <script src="/js/jquery-1.8.2.min.js"></script>
+    <script src="/js/jquery.mobile-1.2.0.min.js"></script>
+    <script src="/js/cm2u.js"></script>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type="text/css">
-        .template {display: none;}
+        .template
+        {
+            display: none;
+        }
     </style>
 </head>
 <body>
-	<div data-role="page" id="main">
-		<div data-role="header">
-			<h1>cloudmusic2upnp</h1>
-		</div>
+    <div data-role="page" id="main">
+        <div data-role="header">
+            <h1>cloudmusic2upnp</h1>
+            <a id="navbar-about" href="#" data-icon="info" data-iconpos="notext" class="ui-btn-right"></a>
+            <div id="navbar" data-role="navbar">
+                <ul>
+                    <li><a id="navbar-player" href="#" class="ui-btn-active ui-state-persist">Player</a></li>
+                    <li><a id="navbar-playlist" href="#">Playlist</a></li>
+                    <li><a id="navbar-search" href="#">Search</a></li>
+                    <li><a id="navbar-settings" href="#">Settings</a></li>
+                </ul>
+            </div><!-- /navbar -->
+        </div><!-- /header -->
 
-		<div data-role="content">
-			<div data-role="collapsible" data-theme="b" data-content-theme="c" data-mini="true">
-				<h3>Content Providers</h3>
-				
-				<div  data-role="fieldcontain">
-				 	<fieldset data-role="controlgroup">
-						<legend>Search on:</legend>
+        <div id="tab-player" data-role="content"><!-- search site -->
+            Player
+        </div><!-- /search site -->
+
+        <div id="tab-settings" data-role="content">
+            <div data-role="collapsible" data-theme="b" data-content-theme="c" data-mini="true">
+                <h3>Content Providers</h3>
+
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup">
+                        <legend>Search on:</legend>
                         <div class="template" id="provider-template">
                             <label>
-    						    <input class="provider-input" name="content-provider" type="checkbox" data-mini="true" data-theme="d" />
-    						    <span class="provider-label"></span>
+                                <input class="provider-input" name="content-provider" type="checkbox" data-mini="true" data-theme="d" />
+                                <span class="provider-label"></span>
                             </label>
                         </div>
-				    </fieldset>
-				</div>
-			</div>
+                    </fieldset>
+                </div>
+            </div>
 
-			<div data-role="collapsible" data-theme="b" data-content-theme="c" data-mini="true">
-				<h3>UPnP Renderers</h3>
-				
-				<div  data-role="fieldcontain">
-				 	<fieldset data-role="controlgroup">
-						<legend>Render on:</legend>
-						<input type="radio" name="radio" id="radio-1a" data-mini="true" data-theme="d" />
-						<label for="radio-1a">XBMC</label>
-						<input type="radio" name="radio" id="radio-2a" data-mini="true" data-theme="d" />
-						<label for="radio-2a">Windows Media Player</label>
-				    </fieldset>
-				</div>
-			</div>
+            <div data-role="collapsible" data-theme="b" data-content-theme="c" data-mini="true">
+                <h3>UPnP Renderers</h3>
 
-			<input type="search" name="search" id="search-basic" value="" />
-			
-			<ul data-role="listview" data-inset="true">
-				<li><a href="#">Track 1</a></li>
-				<li><a href="#">Track 2</a></li>
-				<li><a href="#">Track 3</a></li>
-				<li><a href="#">Track 4</a></li>
-				<li><a href="#">Track 5</a></li>
-				<li><a href="#">Track 6</a></li>
-				<li><a href="#">Track 7</a></li>
-			</ul>
-		</div>
-	
-		<div data-role="popup" id="dialog-remote-error" data-overlay-theme="a" data-theme="c" style="max-width:400px;" class="ui-corner-all">
-			<div data-role="header" data-theme="a" class="ui-corner-top">
-				<h1>Connection error</h1>
-			</div>
-			<div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
-				<h3 class="ui-title">An error occured on connecting with web server.</h3>
-				<p>Please try again.</p>
-				<a href="#" data-role="button"  data-rel="back" data-theme="c">Retry</a>    
-			</div>
-		</div>
-	</div>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup">
+                        <legend>Render on:</legend>
+                        <input type="radio" name="radio" id="radio-1a" data-mini="true" data-theme="d" />
+                        <label for="radio-1a">XBMC</label>
+                        <input type="radio" name="radio" id="radio-2a" data-mini="true" data-theme="d" />
+                        <label for="radio-2a">Windows Media Player</label>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-search" data-role="content"><!-- search site -->
+            <input type="search" name="search" id="search1" value="" />
+
+            <ul data-role="listview" data-inset="true">
+                <li><a href="#">Track 1</a></li>
+                <li><a href="#">Track 2</a></li>
+                <li><a href="#">Track 3</a></li>
+                <li><a href="#">Track 4</a></li>
+                <li><a href="#">Track 5</a></li>
+                <li><a href="#">Track 6</a></li>
+                <li><a href="#">Track 7</a></li>
+            </ul>
+        </div><!-- /search site -->
+
+        <div id="tab-playlist" data-role="content"><!-- playlist site -->
+            <ul data-role="listview" data-inset="true">
+                <li><a href="#">Track 1</a></li>
+                <li><a href="#">Track 2</a></li>
+                <li><a href="#">Track 3</a></li>
+                <li><a href="#">Track 4</a></li>
+                <li><a href="#">Track 5</a></li>
+                <li><a href="#">Track 6</a></li>
+                <li><a href="#">Track 7</a></li>
+            </ul>
+        </div><!-- /playlist site -->
+
+        <div id="tab-about" data-role="content"><!-- about site -->
+            <h1>About</h1>
+            <div>
+                See all the credits here...<br />Mother and friends and so on...<hr />
+                Copyright informations goes here<br />
+                ...and here...<br />
+                ...and here :p<hr />
+                Spotify logo + Soundcloud logo
+            </div>
+        </div><!-- /about site -->
+
+        <div data-role="popup" id="dialog-remote-error" data-overlay-theme="a" data-theme="c" style="max-width: 400px;" class="ui-corner-all">
+            <div data-role="header" data-theme="a" class="ui-corner-top">
+                <h1>Connection error</h1>
+            </div>
+            <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                <h3 class="ui-title">An error occured on connecting with web server.</h3>
+                <p>Please try again.</p>
+                <a href="#" data-role="button" data-rel="back" data-theme="c">Retry</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
