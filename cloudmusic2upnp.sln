@@ -52,6 +52,8 @@ Global
 		$3.EventAddBraceStyle = NextLine
 		$3.EventRemoveBraceStyle = NextLine
 		$3.StatementBraceStyle = NextLine
+		$3.CatchNewLinePlacement = NewLine
+		$3.FinallyNewLinePlacement = NewLine
 		$3.ArrayInitializerBraceStyle = NextLine
 		$3.BeforeMethodDeclarationParentheses = False
 		$3.BeforeMethodCallParentheses = False

@@ -11,30 +11,28 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 {
     public class Track : ITrack
     {
+        public class NotStreamable : Exception
+        {
+
+        }
+
+        public String TrackName { get; private set; }
+
+        public String MediaUrl { get; private set; }
+
         public Track(XmlNode elem)
         {
-            _TrackName = (string)elem.SelectSingleNode("title").InnerText;
-            _MediaUrl = (string)elem.SelectSingleNode("stream-url").InnerText + "?consumer_key=" + Provider.API_KEY;
-        }
+            var streamable = elem.SelectSingleNode("streamable").InnerText;
 
-        private String _TrackName;
-        private String _MediaUrl;
-
-        public String TrackName
-        {
-            get
+            if (Convert.ToBoolean(streamable))
             {
-                return _TrackName;
+                throw new NotStreamable();
             }
+
+            TrackName = (string)elem.SelectSingleNode("title").InnerText;
+            MediaUrl = (string)elem.SelectSingleNode("stream-url").InnerText + "?consumer_key=" + Provider.API_KEY;
         }
 
-        public String MediaUrl
-        {
-            get
-            {
-                return _MediaUrl;
-            }
-        }
     }
 
     /// <summary>
@@ -87,7 +85,14 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 
             foreach (XmlNode elem in (XmlNodeList)doc.SelectNodes ("/tracks/track"))
             {
-                tracks.Add(new Track(elem));
+                try
+                {
+                    tracks.Add(new Track(elem));
+                }
+                catch (Track.NotStreamable)
+                {
+                    // Do nothing, if is isn't streamable.
+                }
             }
 
             return tracks;

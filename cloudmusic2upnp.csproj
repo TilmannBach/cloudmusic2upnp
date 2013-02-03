@@ -163,7 +163,7 @@
     <Content Include="lib\WebSocketLib.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-	<Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.js">
+    <Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.provider.js">
@@ -199,15 +199,15 @@
   -->
   <ItemGroup>
     <ProjectReference Include="ContentProvider\DummyProviderPlugin\DummyProviderPlugin.csproj">
-      <Project>{44436137-402c-4f0e-af2c-b8768b867b5d}</Project>
+      <Project>{44436137-402C-4F0E-AF2C-B8768B867B5D}</Project>
       <Name>DummyProviderPlugin</Name>
     </ProjectReference>
     <ProjectReference Include="ContentProvider\IContentProvider\IContentProvider.csproj">
-      <Project>{fb993924-1ebf-4a8e-a7da-7e6035abe206}</Project>
+      <Project>{FB993924-1EBF-4A8E-A7DA-7E6035ABE206}</Project>
       <Name>IContentProvider</Name>
     </ProjectReference>
     <ProjectReference Include="ContentProvider\SoundcloudProviderPlugin\SoundcloudProviderPlugin.csproj">
-      <Project>{3c80d595-14d5-4f12-9307-4ef1c79f56ab}</Project>
+      <Project>{3C80D595-14D5-4F12-9307-4EF1C79F56AB}</Project>
       <Name>SoundcloudProviderPlugin</Name>
     </ProjectReference>
   </ItemGroup>
