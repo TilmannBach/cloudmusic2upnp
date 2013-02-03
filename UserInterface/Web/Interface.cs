@@ -20,6 +20,7 @@ namespace cloudmusic2upnp.UserInterface.Web
 
         public event EventHandler InterfaceShutdownRequest;
 
+
         public Interface(DeviceController.IController controller,
                           ContentProvider.Providers providers)
         {
@@ -28,11 +29,12 @@ namespace cloudmusic2upnp.UserInterface.Web
             Clients = new List<IWebClient>();
 
             WebSocketManager = new WebSocket.Manger(WEBSOCKET_PORT);
-            WebSocketManager.OnConnectionOpen += HandleConnectionOpen;
-            WebSocketManager.OnConnectionRead += HandleOnConnectionRead;
+            WebSocketManager.ClientConnect += HandleClientConnect;
+            WebSocketManager.ClientMessage += HandleClientMessage;
 
             Controller.DeviceDiscovery += HandleDeviceDiscovery;
         }
+
 
         public void Start()
         {
@@ -42,11 +44,13 @@ namespace cloudmusic2upnp.UserInterface.Web
             WebServer.Start();
         }
 
+
         public void Stop()
         {
             WebSocketManager.Stop();
             WebServer.Stop();
         }
+
 
         public void SendMessageAll(Protocol.Message message)
         {
@@ -57,13 +61,13 @@ namespace cloudmusic2upnp.UserInterface.Web
         }
 
 
-        void HandleDeviceDiscovery(object sender, cloudmusic2upnp.DeviceController.DeviceEventArgs e)
+        private void HandleDeviceDiscovery(object sender, cloudmusic2upnp.DeviceController.DeviceEventArgs e)
         {
             SendMessageAll(new Protocol.DeviceNotification(Controller));
         }
 
 
-        public void HandleConnectionOpen(object manager, ConnectionOpenEventArgs args)
+        private void HandleClientConnect(object manager, ClientConnectEventArgs args)
         {
             Utils.Logger.Log("Got new web connection.");
             var client = args.Client;
@@ -73,13 +77,19 @@ namespace cloudmusic2upnp.UserInterface.Web
             client.SendMessage(new Protocol.DeviceNotification(Controller));
         }
 
-        void HandleOnConnectionRead(object sender, ConnectionReadEventArgs e)
+
+        private void HandleClientMessage(object sender, ClientMessageEventArgs e)
         {
             if (e.Message.GetType() == typeof(SearchRequest))
             {
-                var request = (SearchRequest)e.Message;
-                Logger.Log("Requested query for: '" + request.Query + "'.");
+                HandleSearchRequest((SearchRequest)e.Message);
             }
+        }
+
+
+        private void HandleSearchRequest(SearchRequest request)
+        {
+            Utils.Logger.Log("Requested search request for: '" + request.Query + "'.");
         }
 
 

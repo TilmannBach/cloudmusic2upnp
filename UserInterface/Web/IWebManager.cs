@@ -5,22 +5,22 @@ using cloudmusic2upnp.UserInterface.Web.Protocol;
 
 namespace cloudmusic2upnp.UserInterface.Web
 {
-    public class ConnectionOpenEventArgs : EventArgs
+    public class ClientConnectEventArgs : EventArgs
     {
         public IWebClient Client { get; private set; }
 
-        public ConnectionOpenEventArgs(IWebClient client)
+        public ClientConnectEventArgs(IWebClient client)
         {
             Client = client;
         }
     }
 
-    public class ConnectionReadEventArgs : EventArgs
+    public class ClientMessageEventArgs : EventArgs
     {
         public IWebClient Client { get; private set; }
         public Message Message { get; private set; }
 
-        public ConnectionReadEventArgs(IWebClient client, MemoryStream messageStream)
+        public ClientMessageEventArgs(IWebClient client, MemoryStream messageStream)
         {
             Client = client;
             Message = Message.FromJson(messageStream);
@@ -29,10 +29,11 @@ namespace cloudmusic2upnp.UserInterface.Web
 
     public interface IWebManager
     {
+        void Start();
         void Stop();
 
-        event EventHandler<ConnectionOpenEventArgs> OnConnectionOpen;
-        event EventHandler<ConnectionReadEventArgs> OnConnectionRead;
+        event EventHandler<ClientConnectEventArgs> ClientConnect;
+        event EventHandler<ClientMessageEventArgs> ClientMessage;
     }
 }
 
