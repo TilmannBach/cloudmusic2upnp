@@ -90,14 +90,18 @@ namespace cloudmusic2upnp.UserInterface.Web
         {
             if (e.Message.GetType() == typeof(SearchRequest))
             {
-                HandleSearchRequest((SearchRequest)e.Message);
+                HandleSearchRequest(e.Client, (SearchRequest)e.Message);
             }
         }
 
 
-        private void HandleSearchRequest(SearchRequest request)
+        private void HandleSearchRequest(IWebClient client, SearchRequest request)
         {
             Utils.Logger.Log("Requested search request for: '" + request.Query + "'.");
+
+            var tracks = Providers.Plugins ["Soundcloud"].Search(request.Query);
+            var response = new SearchResponse(request.Query, tracks);
+            client.SendMessage(response);
         }
 
 
