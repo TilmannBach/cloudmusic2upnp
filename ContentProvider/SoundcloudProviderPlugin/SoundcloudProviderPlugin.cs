@@ -24,7 +24,7 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
         {
             var streamable = elem.SelectSingleNode("streamable").InnerText;
 
-            if (Convert.ToBoolean(streamable))
+            if (!Convert.ToBoolean(streamable))
             {
                 throw new NotStreamable();
             }
