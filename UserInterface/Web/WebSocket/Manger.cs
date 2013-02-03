@@ -80,8 +80,11 @@ namespace cloudmusic2upnp.UserInterface.Web.WebSocket
 
         private void HandleConnectionRead(WebSocketConnection aConnection, bool aFinal, bool aRes1, bool aRes2, bool aRes3, int aCode, System.IO.MemoryStream aData)
         {
-            var client = Clients [aConnection];
-            ClientMessage(this, new MessageEventArgs(client, aData));
+            if (aCode == Bauglir.Ex.WebSocketFrame.Text)
+            {
+                var client = Clients[aConnection];
+                ClientMessage(this, new MessageEventArgs(client, aData));
+            }
         }
     }
 }

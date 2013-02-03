@@ -12,12 +12,21 @@ cm2u.tabs.search = (new function()
         })
     };
     
-    $("#search-basic").keyup(function(){
+    $("#search-track").keyup(function () {
         clearTimeout(search_timeout);
         search_timeout = setTimeout(function(){
-            var query = $("#search-basic").val();
+            var query = $("#search-track").val();
             module.send_search_request(query);
         }, SEARCH_SEND_TIMEOUT);
+    });
+
+    cm2u.event.register("SearchResponse", "remote", function (eventName, data) {
+        var html = $("");
+        for (var i in data.Tracks) {
+            data.Tracks[i].Name
+            html.append("<li><a href=\"#\">Track 3</a></li>");
+        }
+        $("#search-results").append(html);
     });
 
     return module;
