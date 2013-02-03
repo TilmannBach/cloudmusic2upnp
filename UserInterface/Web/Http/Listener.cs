@@ -42,7 +42,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Http
                 // exception when using HttpListener without elevated rights (UAC) on windows operating systems
                 if (ex.ErrorCode == 5 && !HasAdministratorPrivileges())
                 {
-                    Logger.Log(Logger.Level.Error, "Access Denied. Administrator permissions are " +
+                    Utils.Logger.Log(Utils.Logger.Level.Error, "Access Denied. Administrator permissions are " +
                         "required to use the HTTP webinterface. Use an administrator " +
                         "command promt to start with the webinterface."
                     );
@@ -53,7 +53,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Http
                 // exception when using port < 1024 on unix operating systems
                 if (ex.ErrorCode == 10013)
                 {
-                    Logger.Log(Logger.Level.Error, "Couldn't start HTTP server. Maybe you need root rights.");
+                    Utils.Logger.Log(Utils.Logger.Level.Error, "Couldn't start HTTP server. Maybe you need root rights.");
                 }
             }
         }
@@ -89,20 +89,20 @@ namespace cloudmusic2upnp.UserInterface.Web.Http
                                 {
                                     ctx.Response.StatusCode = 404;
                                     content = new byte[0] { };
-                                    Logger.Log(Logger.Level.Warning, "HTTP 404 - File Not Found \"" + ctx.Request.Url.AbsolutePath + "\"");
+                                    Utils.Logger.Log(Utils.Logger.Level.Warning, "HTTP 404 - File Not Found \"" + ctx.Request.Url.AbsolutePath + "\"");
                                 }
                                 catch (DirectoryNotFoundException)
                                 {
                                     ctx.Response.StatusCode = 404;
                                     content = new byte[0] { };
-                                    Logger.Log(Logger.Level.Warning, "HTTP 404 - File Not Found \"" + ctx.Request.Url.AbsolutePath + "\"");
+                                    Utils.Logger.Log(Utils.Logger.Level.Warning, "HTTP 404 - File Not Found \"" + ctx.Request.Url.AbsolutePath + "\"");
                                 }
                                 ctx.Response.ContentLength64 = content.Length;
                                 ctx.Response.OutputStream.Write(content, 0, content.Length);
                             }
                             catch (Exception ex)
                             {
-                                Logger.Log(Logger.Level.Warning, ex.Message);
+                                Utils.Logger.Log(Utils.Logger.Level.Warning, ex.Message);
                             }
                             finally
                             {

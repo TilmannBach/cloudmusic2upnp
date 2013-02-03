@@ -38,7 +38,7 @@ namespace cloudmusic2upnp.DeviceController.UPnP
             OpenHome.Net.Core.SubnetList subnetList = new OpenHome.Net.Core.SubnetList();
             OpenHome.Net.Core.NetworkAdapter nif = subnetList.SubnetAt(networkAdapterIndex);
             uint subnet = nif.Subnet();
-            Logger.Log(Logger.Level.Info, "Using adapter: " + nif.Name());
+            Utils.Logger.Log(Utils.Logger.Level.Info, "Using adapter: " + nif.Name());
             subnetList.Dispose();
             lib.StartCp(subnet);
 
@@ -85,7 +85,7 @@ namespace cloudmusic2upnp.DeviceController.UPnP
                 if (UPnPTools.isMediaRenderer(xmlDeviceDescription))
                 {
                     deviceList.Add(aDevice.Udn(), new UPnPDevice(aDevice, xmlDeviceDescription));
-                    Logger.Log(Logger.Level.Debug, "Found usefull MediaRenderer: " + deviceList [aDevice.Udn()].FriendlyName);
+                    Utils.Logger.Log(Utils.Logger.Level.Debug, "Found usefull MediaRenderer: " + deviceList [aDevice.Udn()].FriendlyName);
                     OnDeviceDiscovered(deviceList [aDevice.Udn()]);
                 }
             }
@@ -118,7 +118,7 @@ namespace cloudmusic2upnp.DeviceController.UPnP
                 OnDeviceRemoved(dev);
             } catch (KeyNotFoundException)
             {
-                Logger.Log(Logger.Level.Error, "Wanted to remove a UPnP-Device from my list but it's already gone!? :/");
+                Utils.Logger.Log(Utils.Logger.Level.Error, "Wanted to remove a UPnP-Device from my list but it's already gone!? :/");
             }
         }
         protected virtual void OnDeviceRemoved(UPnPDevice dev)
@@ -142,8 +142,8 @@ namespace cloudmusic2upnp.DeviceController.UPnP
                 deviceList.Clear();
             }
             list.Dispose();
-            Logger.Log(Logger.Level.Info, "Shutting down all UPnP bindings...");
-            Logger.Log(Logger.Level.Debug, "Freeing C++ lib...");
+            Utils.Logger.Log(Utils.Logger.Level.Info, "Shutting down all UPnP bindings...");
+            Utils.Logger.Log(Utils.Logger.Level.Debug, "Freeing C++ lib...");
             lib.Dispose();
         }
 
@@ -159,7 +159,7 @@ namespace cloudmusic2upnp.DeviceController.UPnP
             aDevice.GetAttribute("Upnp.Location", out location);
             string friendlyName;
             aDevice.GetAttribute("Upnp.FriendlyName", out friendlyName);
-            Logger.Log(Logger.Level.Debug,
+            Utils.Logger.Log(Utils.Logger.Level.Debug,
                 aPrologue +
                 "\n    udn = " + aDevice.Udn() +
                 "\n    location = " + location +
@@ -297,7 +297,7 @@ namespace cloudmusic2upnp.DeviceController.UPnP
 
         private void LogError(OpenHome.Net.ControlPoint.ProxyError err)
         {
-            Logger.Log(Logger.Level.Error, "Can't invoke an action on remote device. Device says: (" + err.Code + ") " + err.Description);
+            Utils.Logger.Log(Utils.Logger.Level.Error, "Can't invoke an action on remote device. Device says: (" + err.Code + ") " + err.Description);
         }
 
         public void Play()
@@ -412,7 +412,7 @@ namespace cloudmusic2upnp.DeviceController.UPnP
                     case "PresetNameList":
                         break;
                     default:
-                        Logger.Log(Logger.Level.Debug, "OnRenderingControlPropertyChanged: unhandled parameter: " + node.OuterXml);
+                        Utils.Logger.Log(Utils.Logger.Level.Debug, "OnRenderingControlPropertyChanged: unhandled parameter: " + node.OuterXml);
                         break;
                 }
             }
@@ -444,7 +444,7 @@ namespace cloudmusic2upnp.DeviceController.UPnP
             var instance = (AvtEvent.rootType)serializer.Deserialize(reader);
 
             //TODO: hier weitermachen!!!
-            Logger.Log(Logger.Level.Debug, "bla: "+instance.Items.Length);
+            Utils.Logger.Log(Utils.Logger.Level.Debug, "bla: "+instance.Items.Length);
         }
     }
 }

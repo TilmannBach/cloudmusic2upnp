@@ -6,8 +6,8 @@ namespace cloudmusic2upnp.Utils
 {
 	public class Config
 	{
-		public Logger.Outputs LogOutput;
-		public Logger.Level LogVerbosity;
+		public Utils.Logger.Outputs LogOutput;
+		public Utils.Logger.Level LogVerbosity;
 		public String LogFile;
 		public int HttpPort = 80;
 
@@ -16,8 +16,8 @@ namespace cloudmusic2upnp.Utils
 
 		private Config ()
 		{
-			LogOutput = Logger.Outputs.Quiet;
-			LogVerbosity = Logger.Level.Info;
+			LogOutput = Utils.Logger.Outputs.Quiet;
+			LogVerbosity = Utils.Logger.Level.Info;
 			LogFile = "cloudmusic2upnp.log";
 		}
 

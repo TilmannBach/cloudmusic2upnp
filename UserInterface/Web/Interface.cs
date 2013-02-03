@@ -62,7 +62,7 @@ namespace cloudmusic2upnp.UserInterface.Web
 
         public void HandleConnectionOpen(object manager, ConnectionOpenEventArgs args)
         {
-            Logger.Log("Got new web connection.");
+            Utils.Logger.Log("Got new web connection.");
             var client = args.Client;
             Clients.Add(client);
 

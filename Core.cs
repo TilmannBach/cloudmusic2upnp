@@ -17,7 +17,7 @@ namespace cloudmusic2upnp
 		/// </summary>
 		public Core ()
 		{
-			Logger.Log (Logger.Level.Info, "cloudmusic2upnp version " + 
+			Utils.Logger.Log (Utils.Logger.Level.Info, "cloudmusic2upnp version " + 
 				System.Reflection.Assembly.GetExecutingAssembly ().GetName ().Version.ToString () + " started"
 			);
 
@@ -43,7 +43,7 @@ namespace cloudmusic2upnp
                 shutdownPending = true;
                 UI.Stop();
                 UPnP.Shutdown();
-                Logger.Log(Logger.Level.Info, "Good bye.");
+                Utils.Logger.Log(Utils.Logger.Level.Info, "Good bye.");
             }
         }
 
