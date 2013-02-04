@@ -91,19 +91,33 @@ namespace cloudmusic2upnp.UserInterface.Web
             if (e.Message.GetType() == typeof(SearchRequest))
             {
                 HandleSearchRequest(e.Client, (SearchRequest)e.Message);
+
+            } else if (e.Message.GetType() == typeof(PlayRequest))
+            {
+                HandlePlayRequest(e.Client, (PlayRequest)e.Message);
             }
         }
 
 
         private void HandleSearchRequest(IWebClient client, SearchRequest request)
         {
-            Utils.Logger.Log("Requested search request for: '" + request.Query + "'.");
+            Utils.Logger.Log("Requested search for: '" + request.Query + "'.");
 
             var tracks = Providers.Plugins ["Soundcloud"].Search(request.Query);
             var response = new SearchResponse(request.Query, tracks);
             client.SendMessage(response);
         }
 
+        private void HandlePlayRequest(IWebClient client, PlayRequest request)
+        {
+            Utils.Logger.Log("Requested play for: '" + request.MediaUrl + "'.");
+
+            foreach (var device in Controller.GetDevices())
+            {
+                device.SetMediaUrl(new Uri(request.MediaUrl));
+                device.Play();
+            }
+        }
 
     }
 }

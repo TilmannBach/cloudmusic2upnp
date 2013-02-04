@@ -65,7 +65,21 @@ cm2u.socket = (new function(){
 	{
 		open();
 	}
-	
+    
+    module.protocol = {
+    
+        play_request : function(media_url) {
+            module.send("PlayRequest", {
+                MediaUrl: media_url,
+            });
+        },
+        
+        search_request : function(query) {
+            module.send("SearchRequest", {
+                Query: query
+            });
+        }
+    }
 	
 	return module;	
 }());
