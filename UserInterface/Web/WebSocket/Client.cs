@@ -15,7 +15,6 @@ namespace cloudmusic2upnp.UserInterface.Web.WebSocket
         public void SendMessage(Protocol.Message message)
         {
             String json = message.ToJson();
-            Utils.Logger.Log("Send message to client: " + json);
             Connection.SendText(json);
         }
     }

@@ -106,6 +106,8 @@ namespace cloudmusic2upnp.UserInterface.Web
             var tracks = Providers.Plugins ["Soundcloud"].Search(request.Query);
             var response = new SearchResponse(request.Query, tracks);
             client.SendMessage(response);
+
+            Utils.Logger.Log("Sent response for search for: '" + response.Query + "'.");
         }
 
         private void HandlePlayRequest(IWebClient client, PlayRequest request)
