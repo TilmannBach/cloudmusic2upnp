@@ -2,25 +2,34 @@ using System;
 using System.Collections.Generic;
 
 using cloudmusic2upnp.UserInterface.Web.Protocol;
+using cloudmusic2upnp.Session;
 
 namespace cloudmusic2upnp.UserInterface.Web
 {
     public class Interface : IInterface
     {
+        /*
+         * Properties
+         */
         private const int WEBSOCKET_PORT = 5009;
-
-
         private WebSocket.Manger WebSocketManager;
-        public Http.WebServer WebServer;
-
         private DeviceController.IController Controller;
         private ContentProvider.Providers Providers;
-
         private List<IWebClient> Clients;
 
+
+        public Http.WebServer WebServer;
+
+
+        /*
+         * Events
+         */
         public event EventHandler InterfaceShutdownRequest;
 
 
+        /*
+         * Methods
+         */
         public Interface(DeviceController.IController controller,
                           ContentProvider.Providers providers)
         {
@@ -62,6 +71,9 @@ namespace cloudmusic2upnp.UserInterface.Web
         }
 
 
+        /*
+         * Eventhandler
+         */
         private void HandleDeviceDiscovery(object sender, cloudmusic2upnp.DeviceController.DeviceEventArgs e)
         {
             SendMessageAll(new Protocol.DeviceNotification(Controller));
@@ -79,7 +91,7 @@ namespace cloudmusic2upnp.UserInterface.Web
         }
 
 
-        void HandleClientDisconnect(object sender, ClientEventArgs e)
+        private void HandleClientDisconnect(object sender, ClientEventArgs e)
         {
             Utils.Logger.Log("Web client disconnected.");
             Clients.Remove(e.Client);
@@ -110,12 +122,14 @@ namespace cloudmusic2upnp.UserInterface.Web
             Utils.Logger.Log("Sent response for search for: '" + response.Query + "'.");
         }
 
+
         private void HandlePlayRequest(IWebClient client, PlayRequest request)
         {
             Utils.Logger.Log("Requested play for: '" + request.MediaUrl + "'.");
 
             foreach (var device in Controller.GetDevices())
             {
+                Playlist.Active.Prepend(request.MediaUrl);
                 device.SetMediaUrl(new Uri(request.MediaUrl));
                 device.Play();
             }
