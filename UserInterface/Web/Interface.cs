@@ -6,7 +6,7 @@ using cloudmusic2upnp.Session;
 
 namespace cloudmusic2upnp.UserInterface.Web
 {
-    public class Interface : IInterface
+    public class Interface
     {
         /*
          * Properties

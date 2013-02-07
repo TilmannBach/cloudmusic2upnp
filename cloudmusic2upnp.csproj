@@ -76,8 +76,6 @@
     <Compile Include="ContentProvider\Providers.cs" />
     <Compile Include="DeviceController\UPnP.cs" />
     <Compile Include="DeviceController\IDeviceController.cs" />
-    <Compile Include="UserInterface\CLI\Interface.cs" />
-    <Compile Include="UserInterface\UIProxy.cs" />
     <Compile Include="UserInterface\Web\Http\MimeAssistant.cs" />
     <Compile Include="Utils\Config.cs" />
     <Compile Include="UserInterface\Web\Http\Listener.cs" />
