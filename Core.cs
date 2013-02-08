@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net;
 
+using cloudmusic2upnp.UserInterface.Web;
+using cloudmusic2upnp.UserInterface.Web.Protocol;
 
 
 namespace cloudmusic2upnp
@@ -33,11 +35,40 @@ namespace cloudmusic2upnp
 
             // catch Strg+C, console quit's and SIGKILL's and free up the C++-UPnP-lib first
             AppDomain appDomain = AppDomain.CurrentDomain;
-            appDomain.ProcessExit += new EventHandler(OnShutdownRequest);
-            Console.CancelKeyPress += OnShutdownRequest;
+            appDomain.ProcessExit += new EventHandler(HandleShutdownRequest);
+            Console.CancelKeyPress += HandleShutdownRequest;
+
+
+            WebInterface.OnPlayRequest += HandleOnPlayRequest;
+            WebInterface.OnSearchRequest += HandleOnSearchRequest;
         }
 
-        void OnShutdownRequest(object sender, EventArgs e)
+
+        void HandleOnSearchRequest(IWebClient client, SearchRequest request)
+        {
+            Utils.Logger.Log("Requested search for: '" + request.Query + "'.");
+
+            var tracks = Providers.Plugins ["Soundcloud"].Search(request.Query);
+            var response = new SearchResponse(request.Query, tracks);
+            client.SendMessage(response);
+
+            Utils.Logger.Log("Sent response for search for: '" + response.Query + "'.");
+        }
+
+
+        void HandleOnPlayRequest(IWebClient client, PlayRequest request)
+        {
+            Utils.Logger.Log("Requested play for: '" + request.MediaUrl + "'.");
+
+            foreach (var device in UPnP.GetDevices())
+            {
+                Playlist.Active.Prepend(request.MediaUrl);
+                device.SetMediaUrl(new Uri(request.MediaUrl));
+                device.Play();
+            }
+        }
+
+        void HandleShutdownRequest(object sender, EventArgs e)
         {
             if (!shutdownPending)
             {

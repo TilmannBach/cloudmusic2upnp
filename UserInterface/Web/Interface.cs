@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using cloudmusic2upnp.UserInterface.Web.Protocol;
-using cloudmusic2upnp.Session;
+using cloudmusic2upnp;
 
 namespace cloudmusic2upnp.UserInterface.Web
 {
@@ -24,7 +24,8 @@ namespace cloudmusic2upnp.UserInterface.Web
         /*
          * Events
          */
-        public event EventHandler InterfaceShutdownRequest;
+        public event Action<IWebClient, SearchRequest> OnSearchRequest;
+        public event Action<IWebClient, PlayRequest> OnPlayRequest;
 
 
         /*
@@ -100,39 +101,10 @@ namespace cloudmusic2upnp.UserInterface.Web
         private void HandleClientMessage(IWebClient client, Message message)
         {
             if (message.GetType() == typeof(SearchRequest))
-            {
-                HandleSearchRequest(client, (SearchRequest)message);
+                OnSearchRequest(client, (SearchRequest)message);
+            else if (message.GetType() == typeof(PlayRequest))
+                OnPlayRequest(client, (PlayRequest)message);
 
-            } else if (message.GetType() == typeof(PlayRequest))
-            {
-                HandlePlayRequest(client, (PlayRequest)message);
-            }
         }
-
-
-        private void HandleSearchRequest(IWebClient client, SearchRequest request)
-        {
-            Utils.Logger.Log("Requested search for: '" + request.Query + "'.");
-
-            var tracks = Providers.Plugins ["Soundcloud"].Search(request.Query);
-            var response = new SearchResponse(request.Query, tracks);
-            client.SendMessage(response);
-
-            Utils.Logger.Log("Sent response for search for: '" + response.Query + "'.");
-        }
-
-
-        private void HandlePlayRequest(IWebClient client, PlayRequest request)
-        {
-            Utils.Logger.Log("Requested play for: '" + request.MediaUrl + "'.");
-
-            foreach (var device in Controller.GetDevices())
-            {
-                Playlist.Active.Prepend(request.MediaUrl);
-                device.SetMediaUrl(new Uri(request.MediaUrl));
-                device.Play();
-            }
-        }
-
     }
 }

@@ -93,7 +93,7 @@
     <Compile Include="UserInterface\Web\Protocol\PlaylistNotification.cs" />
     <Compile Include="UserInterface\Web\Protocol\PlayRequest.cs" />
     <Compile Include="UserInterface\Web\Protocol\PlaystateNotification.cs" />
-    <Compile Include="UserInterface\Playlist.cs" />
+    <Compile Include="Playlist.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\CpUpnpOrgAVTransport1.net.dll">

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using cloudmusic2upnp.ContentProvider;
 
-namespace cloudmusic2upnp.Session
+namespace cloudmusic2upnp
 {
     public class Playlist
     {
