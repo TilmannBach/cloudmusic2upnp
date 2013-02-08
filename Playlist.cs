@@ -10,14 +10,14 @@ namespace cloudmusic2upnp
         /*
          * Singleton 
          */
-        private static Playlist _active;
-        public static Playlist Active
+        private static ActivePlaylist _active;
+        public static ActivePlaylist Active
         {
             get
             {
                 if (_active == null)
                 {
-                    _active = new Playlist();
+                    _active = new ActivePlaylist();
                 }
                 return _active;
             }
@@ -27,7 +27,7 @@ namespace cloudmusic2upnp
         /*
          * Properties
          */
-        public List<ITrack> Items { get; private set; }
+        public List<ITrack> Tracks { get; private set; }
 
 
         /*
@@ -35,13 +35,13 @@ namespace cloudmusic2upnp
          */
         public Playlist()
         {
-            Items = new List<ITrack>();
+            Tracks = new List<ITrack>();
         }
 
 
         public void Insert(int index, ITrack item)
         {
-            Items.Insert(index, item);
+            Tracks.Insert(index, item);
             if (ItemAdded != null)
                 ItemAdded(item);
         }
@@ -49,22 +49,18 @@ namespace cloudmusic2upnp
 
         public void Prepend(ITrack item)
         {
-            Items.Insert(0, item);
-            if (ItemAdded != null)
-                ItemAdded(item);
+            Insert(0, item);
         }
 
         public void Append(ITrack item)
         {
-            Items.Insert(Items.Count, item);
-            if (ItemAdded != null)
-                ItemAdded(item);
+            Insert(Tracks.Count, item);
         }
 
 
         public void Remove(ITrack item)
         {
-            Items.Remove(item);
+            Tracks.Remove(item);
             if (ItemRemoved != null)
                 ItemRemoved(item);
         }
@@ -76,6 +72,34 @@ namespace cloudmusic2upnp
         public event Action<ITrack> ItemAdded;
         public event Action<ITrack> ItemRemoved;
 
+    }
+
+    public class ActivePlaylist : Playlist
+    {
+        public int Index = -1;
+
+        public ITrack Track
+        {
+            get
+            {
+                return Tracks [Index];
+            }
+        }
+
+        public void PlayOrQueue(ITrack track)
+        {
+            Append(track);
+
+            if (Index < 0)
+            {
+                Index = Tracks.Count;
+                foreach (var device in Core.UPnP.GetDevices())
+                {
+                    device.SetMediaUrl(new Uri(track.MediaUrl));
+                    device.Play();
+                }
+            }
+        }
     }
 }
 

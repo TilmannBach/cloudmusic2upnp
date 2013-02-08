@@ -15,7 +15,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
 
         public PlaylistNotification(Playlist playlist)
         {
-            Tracks = playlist.Items.ToArray();
+            Tracks = playlist.Tracks.ToArray();
         }
 
         public override String ToJson()

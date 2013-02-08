@@ -38,7 +38,6 @@ namespace cloudmusic2upnp
             appDomain.ProcessExit += new EventHandler(HandleShutdownRequest);
             Console.CancelKeyPress += HandleShutdownRequest;
 
-
             WebInterface.OnPlayRequest += HandleOnPlayRequest;
             WebInterface.OnSearchRequest += HandleOnSearchRequest;
 
@@ -69,13 +68,7 @@ namespace cloudmusic2upnp
         void HandleOnPlayRequest(IWebClient client, PlayRequest request)
         {
             Utils.Logger.Log("Requested play for: '" + request.Track + "'.");
-            Playlist.Active.Append(request.Track);
-
-            foreach (var device in UPnP.GetDevices())
-            {
-                device.SetMediaUrl(new Uri(request.Track.MediaUrl));
-                device.Play();
-            }
+            Playlist.Active.PlayOrQueue(request.Track);
         }
 
 
