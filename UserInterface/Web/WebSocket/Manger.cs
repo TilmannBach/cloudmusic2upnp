@@ -29,9 +29,14 @@ namespace cloudmusic2upnp.UserInterface.Web.WebSocket
         private int Port;
         private Dictionary<WebSocketConnection, Client> Clients;
 
-        public event EventHandler<ClientEventArgs> ClientConnect;
+        /*public event EventHandler<ClientEventArgs> ClientConnect;
         public event EventHandler<ClientEventArgs> ClientDisconnect;
-        public event EventHandler<MessageEventArgs> ClientMessage;
+        public event EventHandler<MessageEventArgs> ClientMessage;*/
+
+        public event Action<IWebClient> ClientConnect;
+        public event Action<IWebClient> ClientDisconnect;
+        public event Action<IWebClient, Protocol.Message> ClientMessage;
+
 
 
         public Manger(int port)
@@ -67,14 +72,14 @@ namespace cloudmusic2upnp.UserInterface.Web.WebSocket
         {
             var client = new Client(aConnection);
             Clients.Add(aConnection, client);
-            ClientConnect(this, new ClientEventArgs(client));
+            ClientConnect(client);
         }
 
 
         private void HandleConnectionClose(WebSocketConnection aConnection, int aCloseCode, string aCloseReason, bool aClosedByPeer)
         {
             var client = Clients [aConnection];
-            ClientDisconnect(this, new ClientEventArgs(client));
+            ClientDisconnect(client);
         }
 
 
@@ -82,8 +87,8 @@ namespace cloudmusic2upnp.UserInterface.Web.WebSocket
         {
             if (aCode == Bauglir.Ex.WebSocketFrame.Text)
             {
-                var client = Clients[aConnection];
-                ClientMessage(this, new MessageEventArgs(client, aData));
+                var client = Clients [aConnection];
+                ClientMessage(client, Protocol.Message.FromJson(aData));
             }
         }
     }

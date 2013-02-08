@@ -80,10 +80,9 @@ namespace cloudmusic2upnp.UserInterface.Web
         }
 
 
-        private void HandleClientConnect(object manager, ClientEventArgs args)
+        private void HandleClientConnect(IWebClient client)
         {
             Utils.Logger.Log("Web client connected.");
-            var client = args.Client;
             Clients.Add(client);
 
             client.SendMessage(new Protocol.ProviderNotification(Providers));
@@ -91,22 +90,22 @@ namespace cloudmusic2upnp.UserInterface.Web
         }
 
 
-        private void HandleClientDisconnect(object sender, ClientEventArgs e)
+        private void HandleClientDisconnect(IWebClient client)
         {
             Utils.Logger.Log("Web client disconnected.");
-            Clients.Remove(e.Client);
+            Clients.Remove(client);
         }
 
 
-        private void HandleClientMessage(object sender, MessageEventArgs e)
+        private void HandleClientMessage(IWebClient client, Message message)
         {
-            if (e.Message.GetType() == typeof(SearchRequest))
+            if (message.GetType() == typeof(SearchRequest))
             {
-                HandleSearchRequest(e.Client, (SearchRequest)e.Message);
+                HandleSearchRequest(client, (SearchRequest)message);
 
-            } else if (e.Message.GetType() == typeof(PlayRequest))
+            } else if (message.GetType() == typeof(PlayRequest))
             {
-                HandlePlayRequest(e.Client, (PlayRequest)e.Message);
+                HandlePlayRequest(client, (PlayRequest)message);
             }
         }
 
