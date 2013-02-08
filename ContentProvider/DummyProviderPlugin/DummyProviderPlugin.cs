@@ -5,45 +5,66 @@ using cloudmusic2upnp.ContentProvider;
 
 namespace cloudmusic2upnp.ContentProvider.Plugins.Dummy
 {
-	public class Track : ITrack
-	{
-		public String TrackName {
-			get {
-				return "Dummy Track";
-			}
-		}
+    public class Track : ITrack
+    {
+        public String Name
+        {
+            get
+            {
+                return "Dummy Track";
+            }
+        }
 
-		public String MediaUrl {
-			get {
-				return "http://dl.dropbox.com/u/22353481/temp/beer.mp3";
-			}
-		}
-	}
+        public String MediaUrl
+        {
+            get
+            {
+                return "http://dl.dropbox.com/u/22353481/temp/beer.mp3";
+            }
+        }
 
-	public class Provider : IContentProvider
-	{
-		public Provider ()
-		{
-		}
+        public String ID
+        {
+            get
+            {
+                return "Dummy:beer";
+            }
+        }
+    }
 
-		public String Name {
-			get {
-				return "Dummy";
-			}
-		}
+    public class Provider : IContentProvider
+    {
+        public Provider()
+        {
+        }
 
-		public String Url {
-			get {
-				return "https://github.com/TilmannBach/cloudmusic2upnp";
-			}
-		}
+        public String Name
+        {
+            get
+            {
+                return "Dummy";
+            }
+        }
 
-		public List<ITrack> Search (String term)
-		{
-			var l = new List<ITrack> ();
-			l.Add (new Track ());
-			return l;
-		}
-	}
+        public String Url
+        {
+            get
+            {
+                return "https://github.com/TilmannBach/cloudmusic2upnp";
+            }
+        }
+
+        public List<ITrack> Search(String term)
+        {
+            var l = new List<ITrack>();
+            l.Add(new Track());
+            return l;
+        }
+
+        public ITrack GetById(String ID)
+        {
+            return new Track();
+        }
+    }
 }
 

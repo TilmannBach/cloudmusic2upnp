@@ -68,9 +68,9 @@ cm2u.socket = (new function(){
     
     module.protocol = {
     
-        play_request : function(media_url) {
+        play_request : function(id) {
             module.send("PlayRequest", {
-                MediaUrl: media_url,
+                ProviderID: id,
             });
         },
         

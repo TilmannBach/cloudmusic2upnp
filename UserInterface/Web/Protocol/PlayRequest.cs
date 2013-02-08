@@ -3,6 +3,8 @@ using System.Runtime.Serialization;
 using System.Xml;
 using System.Runtime.Serialization.Json;
 
+using cloudmusic2upnp.ContentProvider;
+
 namespace cloudmusic2upnp.UserInterface.Web.Protocol
 {
     [DataContract]
@@ -10,7 +12,16 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
     {
         [DataMember]
         public String
-            MediaUrl;
+            ProviderID;
+
+        public ITrack Track
+        {
+            get
+            {
+                return Core.Providers.GetById(ProviderID);
+            }
+
+        }
 
         public PlayRequest()
         {

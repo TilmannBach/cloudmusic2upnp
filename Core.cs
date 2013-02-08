@@ -5,15 +5,15 @@ using System.Net;
 
 using cloudmusic2upnp.UserInterface.Web;
 using cloudmusic2upnp.UserInterface.Web.Protocol;
-
+using cloudmusic2upnp.ContentProvider;
 
 namespace cloudmusic2upnp
 {
     public class Core
     {
-        public DeviceController.IController UPnP;
-        public ContentProvider.Providers Providers;
-        public UserInterface.Web.Interface WebInterface;
+        public static DeviceController.IController UPnP;
+        public static ContentProvider.Providers Providers;
+        public static UserInterface.Web.Interface WebInterface;
         private bool shutdownPending = false;
 
         /// <summary>
@@ -41,6 +41,16 @@ namespace cloudmusic2upnp
 
             WebInterface.OnPlayRequest += HandleOnPlayRequest;
             WebInterface.OnSearchRequest += HandleOnSearchRequest;
+
+            Playlist.Active.ItemAdded += HandlePlaylistChanged;
+            Playlist.Active.ItemRemoved += HandlePlaylistChanged;
+        }
+
+
+        void HandlePlaylistChanged(ITrack track)
+        {
+            WebInterface.SendMessageAll(new PlaylistNotification(Playlist.Active));
+            Utils.Logger.Log("Sent playlist notification.");
         }
 
 
@@ -58,15 +68,16 @@ namespace cloudmusic2upnp
 
         void HandleOnPlayRequest(IWebClient client, PlayRequest request)
         {
-            Utils.Logger.Log("Requested play for: '" + request.MediaUrl + "'.");
+            Utils.Logger.Log("Requested play for: '" + request.Track + "'.");
+            Playlist.Active.Append(request.Track);
 
             foreach (var device in UPnP.GetDevices())
             {
-                Playlist.Active.Prepend(request.MediaUrl);
-                device.SetMediaUrl(new Uri(request.MediaUrl));
+                device.SetMediaUrl(new Uri(request.Track.MediaUrl));
                 device.Play();
             }
         }
+
 
         void HandleShutdownRequest(object sender, EventArgs e)
         {

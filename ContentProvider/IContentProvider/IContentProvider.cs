@@ -3,26 +3,30 @@ using System.Collections.Generic;
 
 namespace cloudmusic2upnp.ContentProvider
 {
-	/// <summary>
-	/// The interface to the provider.
-	/// </summary>
-	public interface IContentProvider
-	{
-		String Name { get; }
-		String Url { get; }
+    /// <summary>
+    /// The interface to the provider.
+    /// </summary>
+    public interface IContentProvider
+    {
+        String Name { get; }
+        String Url { get; }
 
-		List<ITrack> Search (String term);
-	}
+        List<ITrack> Search(String term);
+        ITrack GetById(String ID);
+    }
 
-	/// <summary>
-	/// Represents a single Track of this provider.
-	/// </summary>
-	public interface ITrack
-	{
-		String TrackName { get; }
+    /// <summary>
+    /// Represents a single Track of this provider.
+    /// </summary>
+    public interface ITrack
+    {
+        String ID { get; }
 
-		String MediaUrl { get; }
-	}
+        String Name { get; }
+
+        String MediaUrl { get; }
+
+    }
 
 
 }

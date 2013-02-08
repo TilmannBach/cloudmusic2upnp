@@ -28,6 +28,12 @@ namespace cloudmusic2upnp.ContentProvider
             Plugins = LoadPlugins();
         }
 
+        public ITrack GetById(String ID)
+        {
+            var parts = ID.Split(new Char[] {':'}, 2);
+            var plugin = Plugins [parts [0]];
+            return plugin.GetById(parts [1]);
+        }
 
         /// <summary>
         /// Search all files in the working directory for DLL files, that
@@ -65,7 +71,8 @@ namespace cloudmusic2upnp.ContentProvider
                                     {
                                         foundInterfaces.Add(activedInstance.Name, activedInstance);
                                     }
-                                } catch (Exception exception)
+                                }
+                                catch (Exception exception)
                                 {
                                     System.Diagnostics.Debug.WriteLine(exception);
                                 }

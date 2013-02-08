@@ -1,11 +1,26 @@
 using System;
+using System.Runtime.Serialization;
+using System.Collections.Generic;
+
+using cloudmusic2upnp.ContentProvider;
 
 namespace cloudmusic2upnp.UserInterface.Web.Protocol
 {
-    public class PlaylistNotification
+    [DataContract]
+    public class PlaylistNotification : Message
     {
-        public PlaylistNotification()
+        [DataMember]
+        public ITrack[]
+            Tracks;
+
+        public PlaylistNotification(Playlist playlist)
         {
+            Tracks = playlist.Items.ToArray();
+        }
+
+        public override String ToJson()
+        {
+            return Header<PlaylistNotification>.ToJson(this);
         }
     }
 }

@@ -4,11 +4,14 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
+using System.Runtime.Serialization;
+
 
 using cloudmusic2upnp.ContentProvider;
 
 namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 {
+    [DataContract]
     public class Track : ITrack
     {
         public class NotStreamable : Exception
@@ -16,7 +19,11 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 
         }
 
-        public String TrackName { get; private set; }
+        [DataMember]
+        public String ID { get; private set; }
+
+        [DataMember]
+        public String Name { get; private set; }
 
         public String MediaUrl { get; private set; }
 
@@ -29,10 +36,10 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
                 throw new NotStreamable();
             }
 
-            TrackName = (string)elem.SelectSingleNode("title").InnerText;
+            ID = "Soundcloud:" + (string)elem.SelectSingleNode("id").InnerText;
+            Name = (string)elem.SelectSingleNode("title").InnerText;
             MediaUrl = (string)elem.SelectSingleNode("stream-url").InnerText + "?consumer_key=" + Provider.API_KEY;
         }
-
     }
 
     /// <summary>
@@ -97,6 +104,13 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 
             return tracks;
         }
+        
+        public ITrack GetById(String ID)
+        {
+            XmlDocument doc = ApiRequest("tracks/" + ID);
+            XmlNode elem = (XmlNode)doc.SelectSingleNode("/track");
+            return new Track(elem);
+        }
 
         /// <summary>
         /// 	Sends a GET request to the Soundcloud REST API.
@@ -135,6 +149,7 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 
             return doc;
         }
+
     }
 }
 

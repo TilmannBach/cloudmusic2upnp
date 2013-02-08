@@ -27,7 +27,7 @@ namespace cloudmusic2upnp
         /*
          * Properties
          */
-        public List<String> Items { get; private set; }
+        public List<ITrack> Items { get; private set; }
 
 
         /*
@@ -35,11 +35,11 @@ namespace cloudmusic2upnp
          */
         public Playlist()
         {
-            Items = new List<String>();
+            Items = new List<ITrack>();
         }
 
 
-        public void Insert(int index, String item)
+        public void Insert(int index, ITrack item)
         {
             Items.Insert(index, item);
             if (ItemAdded != null)
@@ -47,22 +47,22 @@ namespace cloudmusic2upnp
         }
 
 
-        public void Prepend(String item)
+        public void Prepend(ITrack item)
         {
             Items.Insert(0, item);
             if (ItemAdded != null)
                 ItemAdded(item);
         }
 
-        public void Append(String item)
+        public void Append(ITrack item)
         {
-            Items.Insert(Items.Count - 1, item);
+            Items.Insert(Items.Count, item);
             if (ItemAdded != null)
                 ItemAdded(item);
         }
 
 
-        public void Remove(String item)
+        public void Remove(ITrack item)
         {
             Items.Remove(item);
             if (ItemRemoved != null)
@@ -73,10 +73,8 @@ namespace cloudmusic2upnp
         /*
          * Events
          */
-        public delegate void ItemHandler(String track);
-
-        public event ItemHandler ItemAdded;
-        public event ItemHandler ItemRemoved;
+        public event Action<ITrack> ItemAdded;
+        public event Action<ITrack> ItemRemoved;
 
     }
 }
