@@ -22,6 +22,8 @@ var loading_queue = [
     "js/cm2u.tabs.js",
     "js/cm2u.tabs.search.js",
     "js/cm2u.tabs.provider.js",
+    "js/cm2u.tabs.playlist.js",
+    "js/cm2u.tabs.player.js"
 ];
 
 function require(url, callback){

@@ -171,6 +171,12 @@
     <Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.search.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+	<Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.player.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+	<Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.playlist.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
