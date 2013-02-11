@@ -88,6 +88,7 @@ namespace cloudmusic2upnp.UserInterface.Web
 
             client.SendMessage(new Protocol.ProviderNotification(Providers));
             client.SendMessage(new Protocol.DeviceNotification(Controller));
+            client.SendMessage(new Protocol.PlaylistNotification(Playlist.Active));
         }
 
 
