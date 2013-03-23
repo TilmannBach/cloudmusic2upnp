@@ -443,8 +443,25 @@ namespace cloudmusic2upnp.DeviceController.UPnP
             var serializer = new XmlSerializer(typeof(AvtEvent.rootType));
             var instance = (AvtEvent.rootType)serializer.Deserialize(reader);
 
-            //TODO: hier weitermachen!!!
-            Utils.Logger.Log(Utils.Logger.Level.Debug, "bla: "+instance.Items.Length);
+            if (instance.Items != null)
+            {
+                foreach (var instanceId in instance.Items)
+                {
+                    foreach (var element in instanceId.Items)
+                    {
+                        if (element.GetType() == typeof(AvtEvent.TransportStatetype))
+                        {
+                            //TODO: hier weitermachen!!!
+                            Utils.Logger.Log("yeah transportstatetype: " + ((AvtEvent.TransportStatetype)element).val);
+                        }
+                        //TODO: hier weitermachen!!!
+                        else
+                        {
+                            Utils.Logger.Log("AvtEvent not handled: " + element.GetType());
+                        }
+                    }
+                }
+            }
         }
     }
 }
