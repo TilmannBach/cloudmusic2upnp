@@ -90,7 +90,7 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 
             XmlDocument doc = ApiRequest("tracks", "q", term);
 
-            foreach (XmlNode elem in (XmlNodeList)doc.SelectNodes ("/tracks/track"))
+            foreach (XmlNode elem in (XmlNodeList)doc.SelectNodes("/tracks/track"))
             {
                 try
                 {
@@ -104,7 +104,7 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 
             return tracks;
         }
-        
+
         public ITrack GetById(String ID)
         {
             XmlDocument doc = ApiRequest("tracks/" + ID);
@@ -129,17 +129,17 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
         private XmlDocument ApiRequest(String ressource, params String[] filters)
         {
             if ((filters.Length % 2) != 0)
-				// Throw an exception, if the filters aren't a modulo of 2,
-				// because it alternates between key and value. I don't like
-				// it neither.
+                // Throw an exception, if the filters aren't a modulo of 2,
+                // because it alternates between key and value. I don't like
+                // it neither.
                 throw new ArgumentException("Filters must have key and value");
 
             String url = API_URL + ressource + "." + API_FORMAT + "?consumer_key=" + API_KEY;
 
-            for (var i=0; i<filters.Length; i=i+2)
+            for (var i = 0; i < filters.Length; i = i + 2)
             {
-                url += "&" + filters [i];
-                url += "=" + filters [i + 1];
+                url += "&" + filters[i];
+                url += "=" + filters[i + 1];
             }
 
             var request = HttpWebRequest.Create(url);
@@ -152,4 +152,3 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
 
     }
 }
-

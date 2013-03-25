@@ -7,6 +7,7 @@ using cloudmusic2upnp.ContentProvider;
 namespace cloudmusic2upnp.UserInterface.Web.Protocol
 {
     [DataContract]
+    [KnownType(typeof(ContentProvider.Plugins.Soundcloud.Track))]
     public class SearchResponse : Message
     {
         public override String ToJson()
