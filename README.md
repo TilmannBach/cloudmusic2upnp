@@ -6,7 +6,10 @@ Soundcloud and Spotify to UPnP enabled devices for media playback.
 
 project status
 --------------
-This project is under active development.
+This project is not currently under active development.
+Feel free to fork and participate! You can also ask me for information.
+
+The code is working from fetching music from soundcloud to playing it on the first available UPnP media renderer. All controlled via a jQuery-mobile enabled webinterface.
 
 
 authors
