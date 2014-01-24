@@ -447,19 +447,20 @@ namespace cloudmusic2upnp.DeviceController.UPnP
             {
                 foreach (var instanceId in instance.Items)
                 {
-                    foreach (var element in instanceId.Items)
-                    {
-                        if (element.GetType() == typeof(AvtEvent.TransportStatetype))
+                    if (instanceId.Items != null)
+                        foreach (var element in instanceId.Items)
                         {
+                            if (element.GetType() == typeof(AvtEvent.TransportStatetype))
+                            {
+                                //TODO: hier weitermachen!!!
+                                Utils.Logger.Log("yeah transportstatetype: " + ((AvtEvent.TransportStatetype)element).val);
+                            }
                             //TODO: hier weitermachen!!!
-                            Utils.Logger.Log("yeah transportstatetype: " + ((AvtEvent.TransportStatetype)element).val);
+                            else
+                            {
+                                Utils.Logger.Log("AvtEvent not handled: " + element.GetType());
+                            }
                         }
-                        //TODO: hier weitermachen!!!
-                        else
-                        {
-                            Utils.Logger.Log("AvtEvent not handled: " + element.GetType());
-                        }
-                    }
                 }
             }
         }
