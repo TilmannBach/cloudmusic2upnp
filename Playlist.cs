@@ -78,12 +78,28 @@ namespace cloudmusic2upnp
     {
         public int Index = -1;
 
-        public ITrack Track
+        public ITrack CurrentTrack
         {
             get
             {
-                return Tracks [Index];
+                return Tracks[Index - 1];
             }
+        }
+
+        public void Play()
+        {
+            foreach (var device in Core.UPnP.GetDevices())
+            {
+                device.SetMediaUrl(new Uri(CurrentTrack.MediaUrl));
+                device.Play();
+            }
+        }
+
+        public void PlayNext()
+        {
+            Index++;
+            if (Index <= Tracks.Count)
+                Play();
         }
 
         public void PlayOrQueue(ITrack track)
@@ -93,11 +109,25 @@ namespace cloudmusic2upnp
             if (Index < 0)
             {
                 Index = Tracks.Count;
-                foreach (var device in Core.UPnP.GetDevices())
-                {
-                    device.SetMediaUrl(new Uri(track.MediaUrl));
-                    device.Play();
-                }
+                Play();
+            }
+        }
+
+        internal void AddDeviceController(DeviceController.IController DeviceController)
+        {
+            DeviceController.DeviceDiscovery += HandleDeviceDiscovery;
+        }
+
+        void HandleDeviceDiscovery(object sender, DeviceController.DeviceEventArgs e)
+        {
+            e.Device.PlaystateChanged += handlePlaystateChanged;
+        }
+
+        void handlePlaystateChanged(object sender, DeviceController.DevicePlaystateEventArgs e)
+        {
+            if (e.Playstate == DeviceController.DevicePlaystateEventArgs.DevicePlaystate.Unloaded)
+            {
+                PlayNext();
             }
         }
     }

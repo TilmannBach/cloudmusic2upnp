@@ -41,6 +41,9 @@ namespace cloudmusic2upnp
             WebInterface.OnPlayRequest += HandleOnPlayRequest;
             WebInterface.OnSearchRequest += HandleOnSearchRequest;
 
+            //add all device controller to the playlist singleton
+            Playlist.Active.AddDeviceController(UPnP);
+
             Playlist.Active.ItemAdded += HandlePlaylistChanged;
             Playlist.Active.ItemRemoved += HandlePlaylistChanged;
         }

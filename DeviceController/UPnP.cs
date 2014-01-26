@@ -400,6 +400,7 @@ namespace cloudmusic2upnp.DeviceController.UPnP
                         if((node.Attributes.GetNamedItem("channel")) != null && ((XmlAttribute)node.Attributes.GetNamedItem("channel")).Value == "Master")
                         {
                             OnVolumeChanged(Convert.ToInt32(node.Attributes["val"].Value));
+                            Utils.Logger.Log(Utils.Logger.Level.Debug, "OnRenderingControlPropertyChanged: mastervolume changed: " + node.Attributes["val"].Value);
                         }
                         //else: we will not handle other single channels then master...
                         break;
@@ -407,12 +408,16 @@ namespace cloudmusic2upnp.DeviceController.UPnP
                         if ((node.Attributes.GetNamedItem("channel")) != null && ((XmlAttribute)node.Attributes.GetNamedItem("channel")).Value == "Master")
                         {
                             OnMuteChanged((node.Attributes["val"].Value == "0") ? DeviceMuteEventArgs.MuteStates.UnMuted : DeviceMuteEventArgs.MuteStates.Muted);
+                            if (node.Attributes["val"].Value == "0")
+                                Utils.Logger.Log(Utils.Logger.Level.Debug, "OnRenderingControlPropertyChanged: mastervolume unmuted");
+                            else
+                                Utils.Logger.Log(Utils.Logger.Level.Debug, "OnRenderingControlPropertyChanged: mastervolume muted");
                         }
                         break;
                     case "PresetNameList":
                         break;
                     default:
-                        Utils.Logger.Log(Utils.Logger.Level.Debug, "OnRenderingControlPropertyChanged: unhandled parameter: " + node.OuterXml);
+                        Utils.Logger.Log(Utils.Logger.Level.Warning, "OnRenderingControlPropertyChanged: unhandled parameter: " + node.OuterXml);
                         break;
                 }
             }
@@ -452,13 +457,29 @@ namespace cloudmusic2upnp.DeviceController.UPnP
                         {
                             if (element.GetType() == typeof(AvtEvent.TransportStatetype))
                             {
-                                //TODO: hier weitermachen!!!
-                                Utils.Logger.Log("yeah transportstatetype: " + ((AvtEvent.TransportStatetype)element).val);
+                                if (((AvtEvent.TransportStatetype)element).val == "NO_MEDIA_PRESENT" || ((AvtEvent.TransportStatetype)element).val == "STOPPED")
+                                {
+                                    OnPlaystateChanged(this, DevicePlaystateEventArgs.DevicePlaystate.Unloaded, 0);
+                                    Utils.Logger.Log("new transport state: stopped or no media loaded");
+                                }
+                                else
+                                    //TODO: hier weitermachen!!!
+                                    Utils.Logger.Log(Utils.Logger.Level.Warning, "unhandled transportstatetype: " + ((AvtEvent.TransportStatetype)element).val);
+                            }
+                            else if (element.GetType() == typeof(AvtEvent.CurrentTransportActionstype))
+                            {
+                                if (((AvtEvent.CurrentTransportActionstype)element).val == "Play,Pause,...")
+                                {
+                                    OnPlaystateChanged(this, DevicePlaystateEventArgs.DevicePlaystate.Unloaded, 0);
+                                }
+                                else
+                                    //TODO: hier weitermachen!!!
+                                    Utils.Logger.Log(Utils.Logger.Level.Warning, "unhandled currenttransportactionstype: " + ((AvtEvent.CurrentTransportActionstype)element).val);
                             }
                             //TODO: hier weitermachen!!!
                             else
                             {
-                                Utils.Logger.Log("AvtEvent not handled: " + element.GetType());
+                                Utils.Logger.Log(Utils.Logger.Level.Warning, "AvtEvent not handled: " + element.GetType());
                             }
                         }
                 }
