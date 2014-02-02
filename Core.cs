@@ -60,11 +60,20 @@ namespace cloudmusic2upnp
         {
             Utils.Logger.Log("Requested search for: '" + request.Query + "'.");
 
-            var tracks = Providers.Plugins ["Soundcloud"].Search(request.Query);
-            var response = new SearchResponse(request.Query, tracks);
-            client.SendMessage(response);
+            try
+            {
+                var tracks = Providers.Plugins["Soundcloud"].Search(request.Query);
 
-            Utils.Logger.Log("Sent response for search for: '" + response.Query + "'.");
+                var response = new SearchResponse(request.Query, tracks);
+                client.SendMessage(response);
+
+                Utils.Logger.Log("Sent response for search for: '" + response.Query + "'.");
+            }
+            catch (WebException ex)
+            {
+                if (ex.Status == WebExceptionStatus.Timeout)
+                    Utils.Logger.Log("(504) Gateway Timeout to content provider!");
+            }
         }
 
 
