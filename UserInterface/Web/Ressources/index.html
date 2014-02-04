@@ -58,10 +58,12 @@
                 <div data-role="fieldcontain">
                     <fieldset data-role="controlgroup">
                         <legend>Render on:</legend>
-                        <input type="radio" name="radio" id="radio-1a" data-mini="true" data-theme="d" />
-                        <label for="radio-1a">XBMC</label>
-                        <input type="radio" name="radio" id="radio-2a" data-mini="true" data-theme="d" />
-                        <label for="radio-2a">Windows Media Player</label>
+                        <div class="template" id="renderers-template">
+                            <label>
+                                <input class="renderer-input" name="renderer-device" type="radio" data-mini="true" data-theme="d" />
+                                <span class="renderer-label"></span>
+                            </label>
+                        </div>
                     </fieldset>
                 </div>
             </div>
