@@ -27,7 +27,7 @@ namespace cloudmusic2upnp
 
             HackMonoProxyIssue();
 
-            UPnP = new DeviceController.UPnP.Controller();
+            UPnP = new DeviceController.UPnP.Controller(Utils.Config.Load().LanInterfaceId);
             Providers = new ContentProvider.Providers();
             WebInterface = new UserInterface.Web.Interface(UPnP, Providers);
             WebInterface.Start();

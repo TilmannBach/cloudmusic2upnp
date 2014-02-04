@@ -122,8 +122,14 @@ namespace cloudmusic2upnp.UserInterface.Web.Http
 
         public void Stop()
         {
-            _listener.Stop();
-            _listener.Close();
+            try
+            {
+                _listener.Stop();
+                _listener.Close();
+            }
+            catch (ObjectDisposedException)
+            { ///
+            }
         }
 
 
