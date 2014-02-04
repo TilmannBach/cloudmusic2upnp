@@ -3,9 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <title>cloudmusic2upnp</title>
-    <link rel="stylesheet" href="/css/jquery.mobile-1.2.0.min.css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/cm2u.css" />
     <script src="/js/jquery-1.8.2.min.js"></script>
-    <script src="/js/jquery.mobile-1.2.0.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootbox.min.js"></script>
     <script src="/js/cm2u.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -18,18 +20,32 @@
 </head>
 <body>
     <div data-role="page" id="main">
-        <div data-role="header">
-            <h1>cloudmusic2upnp</h1>
-            <a id="navbar-about" href="#" data-icon="info" data-iconpos="notext" class="ui-btn-right"></a>
-            <div id="navbar" data-role="navbar">
-                <ul>
-                    <li><a id="navbar-player" href="#" class="ui-btn-active ui-state-persist">Player</a></li>
-                    <li><a id="navbar-playlist" href="#">Playlist</a></li>
-                    <li><a id="navbar-search" href="#">Search</a></li>
-                    <li><a id="navbar-settings" href="#">Settings</a></li>
-                </ul>
-            </div><!-- /navbar -->
-        </div><!-- /header -->
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-inner">
+                    <ul class="nav navbar-nav">
+                        <li id="navbar-player" class="active">
+                            <a href="#"><i class="glyphicon glyphicon-music icon-white"></i>&nbsp;Player</a>
+                        </li>
+                        <li id="navbar-playlist">
+                            <a href="#"><i class="glyphicon glyphicon-list icon-white"></i>&nbsp;Playlist</a>
+                        </li>
+                        <li id="navbar-search">
+                            <a href="#"><i class="glyphicon glyphicon-search icon-white"></i>&nbsp;Search</a>
+                        </li>
+                    </ul>
+                    <p class="navbar-text">cloudmusic2upnp</p>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li id="navbar-settings">
+                            <a href="#"><i class="glyphicon glyphicon-cog icon-white"></i>&nbsp;Settings</a>
+                        </li>
+                        <li id="navbar-about">
+                            <a href="#"><i class="glyphicon glyphicon-info-sign icon-white"></i>&nbsp;Info</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div><!-- /navbar -->
 
         <div id="tab-player" data-role="content"><!-- search site -->
             Player

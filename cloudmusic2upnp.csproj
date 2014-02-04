@@ -108,10 +108,22 @@
     <Content Include="lib\ohNet.net.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="UserInterface\Web\Ressources\css\bootstrap.min.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UserInterface\Web\Ressources\css\cm2u.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="UserInterface\Web\Ressources\favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="UserInterface\Web\Ressources\fonts\glyphicons-halflings-regular.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="UserInterface\Web\Ressources\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UserInterface\Web\Ressources\js\bootstrap.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UserInterface\Web\Ressources\js\cm2u.base.js">
@@ -171,10 +183,10 @@
     <Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.search.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-	<Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.player.js">
+    <Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.player.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-	<Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.playlist.js">
+    <Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.playlist.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -193,6 +205,15 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="README.md" />
+    <None Include="UserInterface\Web\Ressources\fonts\glyphicons-halflings-regular.eot">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="UserInterface\Web\Ressources\fonts\glyphicons-halflings-regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="UserInterface\Web\Ressources\fonts\glyphicons-halflings-regular.woff">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

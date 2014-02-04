@@ -18,34 +18,38 @@ cm2u.tabs = (new function()
 	    $("#tab-search").hide();
 	    $("#tab-playlist").hide();
 	    $("#tab-about").hide();
+	    $("#navbar-player").removeClass("active");
+	    $("#navbar-playlist").removeClass("active");
+	    $("#navbar-search").removeClass("active");
+	    $("#navbar-settings").removeClass("active");
+	    $("#navbar-about").removeClass("active");
 	}
 
 	function setNavbarClickEvents() {
 	    $("#navbar-player").click(function() {
 	        hideAllContent();
-	        $("#navbar-about").removeClass("ui-btn-active");
 	        $("#tab-player").show();
+	        $("#navbar-player").addClass("active");
 	    });
 	    $("#navbar-playlist").click(function() {
 	        hideAllContent();
-	        $("#navbar-about").removeClass("ui-btn-active");
 	        $("#tab-playlist").show();
+	        $("#navbar-playlist").addClass("active");
 	    });
 	    $("#navbar-search").click(function() {
 	        hideAllContent();
-	        $("#navbar-about").removeClass("ui-btn-active");
 	        $("#tab-search").show();
+	        $("#navbar-search").addClass("active");
 	    });
 	    $("#navbar-settings").click(function () {
 	        hideAllContent();
-	        $("#navbar-about").removeClass("ui-btn-active");
 	        $("#tab-settings").show();
+	        $("#navbar-settings").addClass("active");
 	    });
 	    $("#navbar-about").click(function () {
 	        hideAllContent();
 	        $("#tab-about").show();
-	        $("#navbar a").removeClass("ui-btn-active");
-	        $("#navbar-about").addClass("ui-btn-active");
+	        $("#navbar-about").addClass("active");
 	    });
 	}
 

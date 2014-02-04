@@ -5,7 +5,7 @@ cm2u.dialogs = (new function()
 
 	cm2u.event.register('remote.error', 'local', function(eventname, data){
 	
-		$("#dialog-remote-error").popup( "open", {});
+	    $("#dialog-remote-error").popup("open", {});
 
 	});
 	
