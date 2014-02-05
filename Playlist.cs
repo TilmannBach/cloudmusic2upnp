@@ -125,7 +125,7 @@ namespace cloudmusic2upnp
 
         void handlePlaystateChanged(object sender, DeviceController.DevicePlaystateEventArgs e)
         {
-            if (e.Playstate == DeviceController.DevicePlaystateEventArgs.DevicePlaystate.Unloaded)
+            if (e.Playstate == DeviceController.DevicePlaystateEventArgs.DevicePlaystate.ReachedEnd)
             {
                 PlayNext();
             }

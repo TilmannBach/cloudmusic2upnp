@@ -20,6 +20,6 @@ namespace cloudmusic2upnp.DeviceController
 
         public int TimeOffset;
 
-        public enum DevicePlaystate { Playing, Stopped, Paused, Unloaded, Loaded }
+        public enum DevicePlaystate { Playing, Stopped, Paused, Unloaded, Loaded, ReachedEnd }
     }
 }

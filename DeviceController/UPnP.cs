@@ -215,6 +215,8 @@ namespace cloudmusic2upnp.DeviceController.UPnP
         private OpenHome.Net.ControlPoint.Proxies.CpProxyUpnpOrgRenderingControl1 avRenderingControl;
         private XmlDocument xmlDeviceDescription;
 
+        private DevicePlaystateEventArgs.DevicePlaystate deviceTransportState;
+
         internal bool isStaring;
 
         /// <summary>
@@ -459,7 +461,16 @@ namespace cloudmusic2upnp.DeviceController.UPnP
                             {
                                 if (((AvtEvent.TransportStatetype)element).val == "NO_MEDIA_PRESENT" || ((AvtEvent.TransportStatetype)element).val == "STOPPED")
                                 {
-                                    OnPlaystateChanged(this, DevicePlaystateEventArgs.DevicePlaystate.Unloaded, 0);
+                                    if (deviceTransportState == DevicePlaystateEventArgs.DevicePlaystate.Playing)
+                                    {
+                                        OnPlaystateChanged(this, DevicePlaystateEventArgs.DevicePlaystate.ReachedEnd, 0);
+                                    }
+                                    else
+                                    {
+                                        OnPlaystateChanged(this, DevicePlaystateEventArgs.DevicePlaystate.Unloaded, 0);
+                                    }
+
+                                    deviceTransportState = DevicePlaystateEventArgs.DevicePlaystate.Unloaded;
                                     Utils.Logger.Log("new transport state: stopped or no media loaded");
                                 }
                                 else
