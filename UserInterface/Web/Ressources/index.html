@@ -19,7 +19,7 @@
     </style>
 </head>
 <body>
-    <div data-role="page" id="main">
+    <div class="container">
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-inner">
@@ -34,7 +34,6 @@
                             <a href="#"><i class="glyphicon glyphicon-search icon-white"></i>&nbsp;Search</a>
                         </li>
                     </ul>
-                    <p class="navbar-text">cloudmusic2upnp</p>
                     <ul class="nav navbar-nav navbar-right">
                         <li id="navbar-settings">
                             <a href="#"><i class="glyphicon glyphicon-cog icon-white"></i>&nbsp;Settings</a>
@@ -47,77 +46,100 @@
             </div>
         </div><!-- /navbar -->
 
-        <div id="tab-player" data-role="content"><!-- search site -->
+        <div id="tab-player" data-role="content">
+            <!-- search site -->
             Player
         </div><!-- /search site -->
+        <div class="row">
+            <div class="col-md-12">
+                <div id="tab-settings" data-role="content">
+                    <div data-role="collapsible" data-theme="b" data-content-theme="c" data-mini="true">
+                        <h3>Content Providers</h3>
 
-        <div id="tab-settings" data-role="content">
-            <div data-role="collapsible" data-theme="b" data-content-theme="c" data-mini="true">
-                <h3>Content Providers</h3>
-
-                <div data-role="fieldcontain">
-                    <fieldset data-role="controlgroup">
-                        <legend>Search on:</legend>
-                        <div class="template" id="provider-template">
-                            <label>
-                                <input class="provider-input" name="content-provider" type="checkbox" data-mini="true" data-theme="d" />
-                                <span class="provider-label"></span>
-                            </label>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup">
+                                <legend>Search on:</legend>
+                                <div class="template" id="provider-template">
+                                    <label>
+                                        <input class="provider-input" name="content-provider" type="checkbox" data-mini="true" data-theme="d" />
+                                        <span class="provider-label"></span>
+                                    </label>
+                                </div>
+                            </fieldset>
                         </div>
-                    </fieldset>
-                </div>
-            </div>
+                    </div>
 
-            <div data-role="collapsible" data-theme="b" data-content-theme="c" data-mini="true">
-                <h3>UPnP Renderers</h3>
+                    <div data-role="collapsible" data-theme="b" data-content-theme="c" data-mini="true">
+                        <h3>UPnP Renderers</h3>
 
-                <div data-role="fieldcontain">
-                    <fieldset data-role="controlgroup">
-                        <legend>Render on:</legend>
-                        <div class="template" id="renderers-template">
-                            <label>
-                                <input class="renderer-input" name="renderer-device" type="radio" data-mini="true" data-theme="d" />
-                                <span class="renderer-label"></span>
-                            </label>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup">
+                                <legend>Render on:</legend>
+                                <div class="template" id="renderers-template">
+                                    <label>
+                                        <input class="renderer-input" name="renderer-device" type="radio" data-mini="true" data-theme="d" />
+                                        <span class="renderer-label"></span>
+                                    </label>
+                                </div>
+                            </fieldset>
                         </div>
-                    </fieldset>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div id="tab-search" data-role="content"><!-- search site -->
-            <input type="search" name="search" id="search-track" value="" />
-
-            <ul id="search-results" data-role="listview" data-inset="true">
-                
-            </ul>
-        </div><!-- /search site -->
-
-        <div id="tab-playlist" data-role="content"><!-- playlist site -->
-            <ul data-role="listview" data-inset="true">
-                
-            </ul>
-        </div><!-- /playlist site -->
-
-        <div id="tab-about" data-role="content"><!-- about site -->
-            <h1>About</h1>
-            <div>
-                See all the credits here...<br />Mother and friends and so on...<hr />
-                Copyright informations goes here<br />
-                ...and here...<br />
-                ...and here :p<hr />
-                Spotify logo + Soundcloud logo
+        <div class="row">
+            <div class="col-md-12">
+                <div id="tab-search" data-role="content">
+                    <!-- search site -->
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                        <input type="text" class="form-control" name="search" id="search-track" value="" />
+                    </div>
+                    <ul id="search-results" data-role="listview" data-inset="true"></ul>
+                </div><!-- /search site -->
             </div>
-        </div><!-- /about site -->
+        </div>
 
-        <div data-role="popup" id="dialog-remote-error" data-overlay-theme="a" data-theme="c" style="max-width: 400px;" class="ui-corner-all">
-            <div data-role="header" data-theme="a" class="ui-corner-top">
-                <h1>Connection error</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="tab-playlist" data-role="content">
+                    <!-- playlist site -->
+                    <ul data-role="listview" data-inset="true"></ul>
+                </div><!-- /playlist site -->
             </div>
-            <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
-                <h3 class="ui-title">An error occured on connecting with web server.</h3>
-                <p>Please try again.</p>
-                <a href="#" data-role="button" data-rel="back" data-theme="c">Retry</a>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div id="tab-about" data-role="content">
+                    <!-- about site -->
+                    <h1>About</h1>
+                    <div>
+                        See all the credits here...<br />Mother and friends and so on...<hr />
+                        Copyright informations goes here<br />
+                        ...and here...<br />
+                        ...and here :p<hr />
+                        Spotify logo + Soundcloud logo
+                    </div>
+                </div><!-- /about site -->
+            </div>
+        </div>
+        
+    </div>
+    <div class="modal fade" id="dialog-remote-error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Connection error</h4>
+                </div>
+                <div class="modal-body">
+                    <h3 class="ui-title">An error occured on connecting with web server.</h3>
+                    <p>Please try again.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Retry connection</button>
+                </div>
             </div>
         </div>
     </div>

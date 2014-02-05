@@ -14,19 +14,22 @@ cm2u.tabs.player = (new function()
         +'<h5>'
          +'   next: Bloodhound Gang - ...'
     +'</h5>'
-            + '<input name="slider" type="range" min="0" max="60:00" value="32:51" data-highlight="true">'
+            + '<div class="progress"><div class="progress-bar" role="progressbar" style="width: 60%;"></div></div>'
             + '<div style="text-align: center;">'
-            + '<fieldset data-role="controlgroup" data-type="horizontal" style="display:inline;">'
+
+            + '<div class="btn-toolbar" role="toolbar">'
+            + '<div class="btn-group">'
             + '<a href="#" data-role="button" data-inline="true" data-iconpos="notext" data-icon="back">rev</a>'
             + '<a href="#" data-role="button" data-inline="true" data-iconpos="notext" data-icon="delete">stop</a>'
             + '<a href="#" data-role="button" data-inline="true" data-iconpos="notext" data-icon="arrow-r">play</a>'
             + '<a href="#" data-role="button" data-inline="true" data-iconpos="notext" data-icon="forward">ffwd</a>'
-            + '</fieldset>'
-            + '<fieldset data-role="controlgroup" data-type="horizontal" style="display:inline;">'
+            + '</div>'
+            + '<div class="btn-group">'
             + '<a href="#" data-role="button" data-inline="true" data-iconpos="notext" data-icon="grid">rand</a>'
             + '<a href="#" data-role="button" data-inline="true" data-iconpos="notext" data-icon="refresh">repeat</a>'
             + '<a href="#" data-role="button" data-inline="true" data-iconpos="notext" data-icon="minus">mute</a>'
-            + '</fieldset>'
+            + '</div>'
+
             + '</div>'
             
             );

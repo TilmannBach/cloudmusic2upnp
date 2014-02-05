@@ -5,15 +5,15 @@ cm2u.dialogs = (new function()
 
 	cm2u.event.register('remote.error', 'local', function(eventname, data){
 	
-	    $("#dialog-remote-error").popup("open", {});
+	    $("#dialog-remote-error").modal('show');
 
 	});
 	
-	$( "#dialog-remote-error" ).bind({
-   		popupafterclose: function(event, ui) {
-   			cm2u.socket.reconnect();
-   		}
-	});
+	$( "#dialog-remote-error" ).find("button").click(function(){
+	    cm2u.socket.reconnect();
+	    $("#dialog-remote-error").modal('hide');
+	    return false;
+	})
 
     return module;
 }());
