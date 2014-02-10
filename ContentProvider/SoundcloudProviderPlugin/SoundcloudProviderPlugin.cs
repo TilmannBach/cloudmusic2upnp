@@ -25,7 +25,11 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
         [DataMember]
         public String Name { get; private set; }
 
+        [DataMember]
         public String MediaUrl { get; private set; }
+
+        [DataMember]
+        public String MediaThumbnailUrl { get; private set; }
 
         public Track(XmlNode elem)
         {
@@ -39,6 +43,8 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
             ID = "Soundcloud:" + (string)elem.SelectSingleNode("id").InnerText;
             Name = (string)elem.SelectSingleNode("title").InnerText;
             MediaUrl = (string)elem.SelectSingleNode("stream-url").InnerText + "?consumer_key=" + Provider.API_KEY;
+            if (!String.IsNullOrEmpty(elem.SelectSingleNode("artwork-url").InnerText))
+                MediaThumbnailUrl = (string)elem.SelectSingleNode("artwork-url").InnerText;
         }
     }
 

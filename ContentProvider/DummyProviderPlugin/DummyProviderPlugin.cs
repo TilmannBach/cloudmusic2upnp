@@ -23,6 +23,14 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Dummy
             }
         }
 
+        public String MediaThumbnailUrl
+        {
+            get
+            {
+                return "http://25.media.tumblr.com/tumblr_mbr6937auf1qgt4z0_1349999464_cover.jpg";
+            }
+        }
+
         public String ID
         {
             get

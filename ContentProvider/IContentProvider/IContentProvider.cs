@@ -26,6 +26,7 @@ namespace cloudmusic2upnp.ContentProvider
 
         String MediaUrl { get; }
 
+        String MediaThumbnailUrl { get; }
     }
 
 
