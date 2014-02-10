@@ -77,7 +77,23 @@ namespace cloudmusic2upnp.UserInterface.Web
          */
         private void HandleDeviceDiscovery(object sender, cloudmusic2upnp.DeviceController.DeviceEventArgs e)
         {
+            e.Device.MuteChanged += Device_MuteChanged;
+            e.Device.VolumeChanged += Device_VolumeChanged;
             SendMessageAll(new Protocol.DeviceNotification(Controller));
+        }
+
+        void Device_VolumeChanged(object sender, DeviceController.DeviceVolumeEventArgs e)
+        {
+            PlayState _playState = new PlayState();
+            _playState.volumeMaster = e.Volume.ToString();
+            SendMessageAll(new Protocol.PlayStateNotification(_playState));
+        }
+
+        void Device_MuteChanged(object sender, DeviceController.DeviceMuteEventArgs e)
+        {
+            PlayState _playState = new PlayState();
+            _playState.muteActive = (e.MuteState == DeviceController.DeviceMuteEventArgs.MuteStates.Muted) ? "true" : "false";
+            SendMessageAll(new Protocol.PlayStateNotification(_playState));
         }
 
 

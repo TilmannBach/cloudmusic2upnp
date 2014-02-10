@@ -36,6 +36,8 @@ namespace cloudmusic2upnp.DeviceController.UPnP
             OpenHome.Net.Core.InitParams initParams = new OpenHome.Net.Core.InitParams();
             lib = OpenHome.Net.Core.Library.Create(initParams);
             OpenHome.Net.Core.SubnetList subnetList = new OpenHome.Net.Core.SubnetList();
+            if (networkAdapterIndex >= subnetList.Size())
+                networkAdapterIndex = 0;
             OpenHome.Net.Core.NetworkAdapter nif = subnetList.SubnetAt(networkAdapterIndex);
             uint subnet = nif.Subnet();
             Utils.Logger.Log(Utils.Logger.Level.Info, "Using adapter: " + nif.Name());

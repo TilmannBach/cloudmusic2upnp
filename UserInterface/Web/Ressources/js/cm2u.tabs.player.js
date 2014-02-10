@@ -2,39 +2,47 @@ cm2u.tabs.player = (new function()
 {
     var module = {};
     
+    cm2u.event.register("PlayStateNotification", "remote", function (event, data) {
+        
+        if (data.MuteActive != null) {
+            if (data.MuteActive == "true") {
+                $("#button_player_mute").addClass("active");
+            }
+            else {
+                $("#button_player_mute").removeClass("active");
+            }
+        }
+
+    });
+
     function initializePlayer() {
-        var html = $('<a href="http://tumblr.com">'
-            +'<div style="text-align: center;">'
-            +'    <img style="width: 70%; height: 70%;" src="http://25.media.tumblr.com/tumblr_mbr6937auf1qgt4z0_1349999464_cover.jpg">'
+        var html = $('<div class="container">'
+            +'  <div class="row">'
+            +'      <div class="col-sm-2 hidden-xs"><img style="width: 100%" src="http://25.media.tumblr.com/tumblr_mbr6937auf1qgt4z0_1349999464_cover.jpg"></div>'
+            +'      <div class="col-xs-12 col-sm-10"><h2>Nico Pusch - Live at M...</h2></div>'
+            +'  </div>'
             +'</div>'
-        +'</a>'
-        +'<h2>'
-         +'   Nico Pusch - Live at M...'
-        +'</h2>'
-        +'<h5>'
-         +'   next: Bloodhound Gang - ...'
-    +'</h5>'
+            
             + '<div class="progress"><div class="progress-bar" role="progressbar" style="width: 60%;"></div></div>'
             + '<div style="text-align: center;">'
 
             + '<div class="btn-toolbar" role="toolbar">'
             + '<div class="btn-group">'
-            + '<a href="#" data-role="button" data-inline="true" data-iconpos="notext" data-icon="back">rev</a>'
-            + '<a href="#" data-role="button" data-inline="true" data-iconpos="notext" data-icon="delete">stop</a>'
-            + '<a href="#" data-role="button" data-inline="true" data-iconpos="notext" data-icon="arrow-r">play</a>'
-            + '<a href="#" data-role="button" data-inline="true" data-iconpos="notext" data-icon="forward">ffwd</a>'
+            + '<button id="button_player_stop" type="button" class="btn btn-default"><i class="glyphicon glyphicon-stop"></i></button>'
+            + '<button id="button_player_togglePause" type="button" class="btn btn-default"><i class="glyphicon glyphicon-pause"></i></button>'
+            + '<button id="button_player_forward" type="button" class="btn btn-default"><i class="glyphicon glyphicon-step-forward"></i></button>'
             + '</div>'
             + '<div class="btn-group">'
-            + '<a href="#" data-role="button" data-inline="true" data-iconpos="notext" data-icon="grid">rand</a>'
-            + '<a href="#" data-role="button" data-inline="true" data-iconpos="notext" data-icon="refresh">repeat</a>'
-            + '<a href="#" data-role="button" data-inline="true" data-iconpos="notext" data-icon="minus">mute</a>'
+            + '<button id="button_player_random" type="button" class="btn btn-default"><i class="glyphicon glyphicon-random"></i></button>'
+            + '<button id="button_player_repeat" type="button" class="btn btn-default"><i class="glyphicon glyphicon-retweet"></i></button>'
+            + '<button id="button_player_mute" type="button" class="btn btn-default"><i class="glyphicon glyphicon-volume-off"></i></button>'
             + '</div>'
 
             + '</div>'
             
             );
 
-        $("#tab-player").empty().append(html).trigger("create");
+        $("#tab-player").empty().append(html);
     }
 
 
