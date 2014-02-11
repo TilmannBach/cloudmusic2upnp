@@ -12,13 +12,13 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
     {
         [DataMember]
         public String
-            ProviderID;
+            TrackID;
 
         public ITrack Track
         {
             get
             {
-                return Core.Providers.GetById(ProviderID);
+                return Core.Providers.GetTrackById(TrackID);
             }
 
         }

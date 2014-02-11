@@ -16,6 +16,7 @@ namespace cloudmusic2upnp.UserInterface.Web
         private DeviceController.IController Controller;
         private ContentProvider.Providers Providers;
         private List<IWebClient> Clients;
+        private List<cloudmusic2upnp.DeviceController.IDevice> KnownDevices;
 
 
         public Http.WebServer WebServer;
@@ -37,6 +38,8 @@ namespace cloudmusic2upnp.UserInterface.Web
             Controller = controller;
             Providers = providers;
             Clients = new List<IWebClient>();
+            KnownDevices = new List<DeviceController.IDevice>();
+
 
             WebSocketManager = new WebSocket.Manger(WEBSOCKET_PORT);
             WebSocketManager.ClientConnect += HandleClientConnect;
@@ -77,6 +80,10 @@ namespace cloudmusic2upnp.UserInterface.Web
          */
         private void HandleDeviceDiscovery(object sender, cloudmusic2upnp.DeviceController.DeviceEventArgs e)
         {
+            if (e.Action == DeviceController.DeviceEventArgs.DeviceEventActions.Added)
+                KnownDevices.Add(e.Device);
+            else
+                KnownDevices.Remove(e.Device);
             e.Device.MuteChanged += Device_MuteChanged;
             e.Device.VolumeChanged += Device_VolumeChanged;
             SendMessageAll(new Protocol.DeviceNotification(Controller));
@@ -121,7 +128,23 @@ namespace cloudmusic2upnp.UserInterface.Web
                 OnSearchRequest(client, (SearchRequest)message);
             else if (message.GetType() == typeof(PlayRequest))
                 OnPlayRequest(client, (PlayRequest)message);
+            else if (message.GetType() == typeof(SetMuteRequest))
+            {
+                HandleOnSetMuteRequest((SetMuteRequest)message);
+            }
 
+        }
+
+        private void HandleOnSetMuteRequest(SetMuteRequest request)
+        {
+            Utils.Logger.Log("Requested to change mute state to: '" + request.SetMuted + "'.");
+            foreach(cloudmusic2upnp.DeviceController.IDevice device in KnownDevices)
+            {
+                if (request.SetMuted)
+                    device.Mute();
+                else
+                    device.Unmute();
+            }
         }
     }
 }

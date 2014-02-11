@@ -69,7 +69,7 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Dummy
             return l;
         }
 
-        public ITrack GetById(String ID)
+        public ITrack GetTrackById(String ID)
         {
             return new Track();
         }

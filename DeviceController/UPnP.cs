@@ -349,6 +349,26 @@ namespace cloudmusic2upnp.DeviceController.UPnP
             }
         }
 
+        public void Mute()
+        {
+            avRenderingControl.BeginSetMute(0, "Master", true, BeginMuteComplete);
+        }
+        public void Unmute()
+        {
+            avRenderingControl.BeginSetMute(0, "Master", false, BeginMuteComplete);
+        }
+        private void BeginMuteComplete(IntPtr asyncHandle)
+        {
+            try
+            {
+                avRenderingControl.EndSetMute(asyncHandle);
+            }
+            catch (OpenHome.Net.ControlPoint.ProxyError err)
+            {
+                LogError(err);
+            }
+        }
+
         public void SetMediaUrl(Uri url)
         {
             avTransport.BeginSetAVTransportURI(0, url.ToString(), " ", BeginSetMediaUrlComplete);

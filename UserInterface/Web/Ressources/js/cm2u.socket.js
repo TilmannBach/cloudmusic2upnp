@@ -70,13 +70,19 @@ cm2u.socket = (new function(){
     
         play_request : function(id) {
             module.send("PlayRequest", {
-                ProviderID: id,
+                TrackID: id,
             });
         },
         
         search_request : function(query) {
             module.send("SearchRequest", {
                 Query: query
+            });
+        },
+
+        set_mute: function (setMuted) {
+            module.send("SetMuteRequest", {
+                SetMuted: setMuted
             });
         }
     }

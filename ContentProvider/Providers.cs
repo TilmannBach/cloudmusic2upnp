@@ -28,11 +28,11 @@ namespace cloudmusic2upnp.ContentProvider
             Plugins = LoadPlugins();
         }
 
-        public ITrack GetById(String ID)
+        public ITrack GetTrackById(String ID)
         {
             var parts = ID.Split(new Char[] {':'}, 2);
             var plugin = Plugins [parts [0]];
-            return plugin.GetById(parts [1]);
+            return plugin.GetTrackById(parts [1]);
         }
 
         /// <summary>

@@ -43,6 +43,15 @@ cm2u.tabs.player = (new function()
             );
 
         $("#tab-player").empty().append(html);
+
+        $("#button_player_mute").click(function () {
+            var currentMuteState = false;
+            if ($("#button_player_mute").hasClass("active"))
+                currentMuteState = true;
+            cm2u.socket.protocol.set_mute(!currentMuteState);
+            this.blur();
+            return false;
+        })
     }
 
 

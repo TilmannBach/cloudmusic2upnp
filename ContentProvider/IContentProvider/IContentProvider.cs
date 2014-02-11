@@ -12,7 +12,7 @@ namespace cloudmusic2upnp.ContentProvider
         String Url { get; }
 
         List<ITrack> Search(String term);
-        ITrack GetById(String ID);
+        ITrack GetTrackById(String ID);
     }
 
     /// <summary>

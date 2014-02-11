@@ -111,7 +111,7 @@ namespace cloudmusic2upnp.ContentProvider.Plugins.Soundcloud
             return tracks;
         }
 
-        public ITrack GetById(String ID)
+        public ITrack GetTrackById(String ID)
         {
             XmlDocument doc = ApiRequest("tracks/" + ID);
             XmlNode elem = (XmlNode)doc.SelectSingleNode("/track");

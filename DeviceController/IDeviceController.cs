@@ -82,6 +82,10 @@ namespace cloudmusic2upnp.DeviceController
 		/// The URL, that should be played.
 		/// </param>
 		void SetMediaUrl(Uri url);
+
+        void Mute();
+
+        void Unmute();
     }
 }
 
