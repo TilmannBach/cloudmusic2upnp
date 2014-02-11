@@ -144,28 +144,7 @@
     <Content Include="UserInterface\Web\Ressources\js\cm2u.dialogs.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="UserInterface\Web\Ressources\js\jquery.mobile-1.2.0.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="UserInterface\Web\Ressources\js\jquery-1.8.2.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="UserInterface\Web\Ressources\css\jquery.mobile-1.2.0.min.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="UserInterface\Web\Ressources\css\images\ajax-loader.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="UserInterface\Web\Ressources\css\images\icons-18-black.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="UserInterface\Web\Ressources\css\images\icons-18-white.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="UserInterface\Web\Ressources\css\images\icons-36-black.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="UserInterface\Web\Ressources\css\images\icons-36-white.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="lib\CpUpnpOrgRenderingControl1.net.dll">
@@ -242,5 +221,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Session\" />
+    <Folder Include="UserInterface\Web\Ressources\css\images\" />
   </ItemGroup>
 </Project>
