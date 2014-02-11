@@ -2,7 +2,7 @@ cm2u.tabs.player = (new function()
 {
     var module = {};
     
-    cm2u.event.register("PlayStateNotification", "remote", function (event, data) {
+    cm2u.event.register("DeviceStateNotification", "remote", function (event, data) {
         
         if (data.MuteActive != null) {
             if (data.MuteActive == "true") {

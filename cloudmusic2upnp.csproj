@@ -180,7 +180,7 @@
     <Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.provider.js">
+    <Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.settings.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="UserInterface\Web\Ressources\js\cm2u.tabs.search.js">

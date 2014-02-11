@@ -1,4 +1,4 @@
-cm2u.tabs.provider = (new function()
+cm2u.tabs.settings = (new function()
 {
     var module = {};
     

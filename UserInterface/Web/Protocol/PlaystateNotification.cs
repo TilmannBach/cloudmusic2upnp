@@ -11,7 +11,7 @@ using cloudmusic2upnp.DeviceController;
 namespace cloudmusic2upnp.UserInterface.Web.Protocol
 {
     [DataContract]
-    public class PlayStateNotification : Message
+    public class DeviceStateNotification : Message
     {
         [DataMember]
         public String MuteActive { get; private set; }
@@ -28,7 +28,7 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
         [DataMember]
         public String RepeatActive { get; private set; }
 
-        public PlayStateNotification(PlayState playstate)
+        public DeviceStateNotification(DeviceState playstate)
         {
             MuteActive = playstate.muteActive;
             VolumeMaster = playstate.volumeMaster;
@@ -38,12 +38,12 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
 
         public override String ToJson()
         {
-            return Header<PlayStateNotification>.ToJson(this);
+            return Header<DeviceStateNotification>.ToJson(this);
         }
     }
 
 
-    public class PlayState
+    public class DeviceState
     {
         public String muteActive;
         public String shuffleActive;

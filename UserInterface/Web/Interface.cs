@@ -84,16 +84,16 @@ namespace cloudmusic2upnp.UserInterface.Web
 
         void Device_VolumeChanged(object sender, DeviceController.DeviceVolumeEventArgs e)
         {
-            PlayState _playState = new PlayState();
+            DeviceState _playState = new DeviceState();
             _playState.volumeMaster = e.Volume.ToString();
-            SendMessageAll(new Protocol.PlayStateNotification(_playState));
+            SendMessageAll(new Protocol.DeviceStateNotification(_playState));
         }
 
         void Device_MuteChanged(object sender, DeviceController.DeviceMuteEventArgs e)
         {
-            PlayState _playState = new PlayState();
+            DeviceState _playState = new DeviceState();
             _playState.muteActive = (e.MuteState == DeviceController.DeviceMuteEventArgs.MuteStates.Muted) ? "true" : "false";
-            SendMessageAll(new Protocol.PlayStateNotification(_playState));
+            SendMessageAll(new Protocol.DeviceStateNotification(_playState));
         }
 
 
