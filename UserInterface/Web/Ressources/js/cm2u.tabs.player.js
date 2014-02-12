@@ -15,8 +15,17 @@ cm2u.tabs.player = (new function()
 
     });
 
+    cm2u.event.register("DeviceNotification", "remote", function (event, data) {
+        if (data.Devices.length == 0) {
+            initializePlayerPage();
+        } else {
+            initializePlayer();
+        }
+
+    });
+
     function initializePlayer() {
-        var html = $('<div class="container">'
+        var html = $('<div id="player_activated" class="container">'
             +'  <div class="row">'
             +'      <div class="col-sm-2 hidden-xs"><img style="width: 100%" src="http://25.media.tumblr.com/tumblr_mbr6937auf1qgt4z0_1349999464_cover.jpg"></div>'
             +'      <div class="col-xs-12 col-sm-10"><h2>Nico Pusch - Live at M...</h2></div>'
@@ -54,9 +63,17 @@ cm2u.tabs.player = (new function()
         })
     }
 
+    function initializePlayerPage() {
+        var html = $('<div id="player_deactivated_warning" class="container">'
+            + '  <div class="alert alert-warning"><strong>Warning!</strong> No rendering device found. Player is deactivated!</div>'
+            + '</div>'
+            );
+        $("#tab-player").empty().append(html);
+    }
+
 
     $(document).ready(function () {
-        initializePlayer();
+        initializePlayerPage();
     });
 
     return module;
