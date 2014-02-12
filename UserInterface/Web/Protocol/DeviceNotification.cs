@@ -48,6 +48,5 @@ namespace cloudmusic2upnp.UserInterface.Web.Protocol
             return Header<DeviceNotification>.ToJson(this);
         }
     }
-
 }
 

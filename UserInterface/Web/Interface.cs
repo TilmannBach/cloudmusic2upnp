@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using cloudmusic2upnp.UserInterface.Web.Protocol;
 using cloudmusic2upnp;
+using cloudmusic2upnp.DeviceController;
 
 namespace cloudmusic2upnp.UserInterface.Web
 {
@@ -15,8 +16,8 @@ namespace cloudmusic2upnp.UserInterface.Web
         private WebSocket.Manger WebSocketManager;
         private DeviceController.IController Controller;
         private ContentProvider.Providers Providers;
-        private List<IWebClient> Clients;
-        private List<cloudmusic2upnp.DeviceController.IDevice> KnownDevices;
+        private Dictionary<IWebClient,IDevice> Clients;
+        private Dictionary<String,IDevice> KnownDevices;
 
 
         public Http.WebServer WebServer;
@@ -37,10 +38,9 @@ namespace cloudmusic2upnp.UserInterface.Web
         {
             Controller = controller;
             Providers = providers;
-            Clients = new List<IWebClient>();
-            KnownDevices = new List<DeviceController.IDevice>();
-
-
+            Clients = new Dictionary<IWebClient, IDevice>();
+            KnownDevices = new Dictionary<string, IDevice>();
+            
             WebSocketManager = new WebSocket.Manger(WEBSOCKET_PORT);
             WebSocketManager.ClientConnect += HandleClientConnect;
             WebSocketManager.ClientDisconnect += HandleClientDisconnect;
@@ -68,9 +68,9 @@ namespace cloudmusic2upnp.UserInterface.Web
 
         public void SendMessageAll(Protocol.Message message)
         {
-            foreach (IWebClient client in Clients)
+            foreach (KeyValuePair<IWebClient,IDevice> client in Clients)
             {
-                client.SendMessage(message);
+                client.Key.SendMessage(message);
             }
         }
 
@@ -80,13 +80,39 @@ namespace cloudmusic2upnp.UserInterface.Web
          */
         private void HandleDeviceDiscovery(object sender, cloudmusic2upnp.DeviceController.DeviceEventArgs e)
         {
+            SendMessageAll(new Protocol.DeviceNotification(Controller));
+
             if (e.Action == DeviceController.DeviceEventArgs.DeviceEventActions.Added)
-                KnownDevices.Add(e.Device);
+            {
+                KnownDevices.Add(e.Device.Udn, e.Device);
+                foreach (IWebClient webClient in new LinkedList<IWebClient>(Clients.Keys))
+                {
+                    if (Clients[webClient] == null)
+                    {
+                        Clients[webClient] = e.Device;
+                        webClient.SendMessage(new Protocol.SelectDeviceNotification(e.Device));
+                    }
+                }
+            }
             else
-                KnownDevices.Remove(e.Device);
+            {
+                KnownDevices.Remove(e.Device.Udn);
+                foreach (IWebClient webClient in new LinkedList<IWebClient>(Clients.Keys))
+                {
+                    if (Clients[webClient] == e.Device)
+                    {
+                        if (KnownDevices.Count > 0)
+                        {
+                            Clients[webClient] = new LinkedList<IDevice>(KnownDevices.Values).Last.Value;
+                            webClient.SendMessage(new Protocol.SelectDeviceNotification(e.Device));
+                        }
+                        else
+                            Clients[webClient] = null;
+                    }
+                }
+            }
             e.Device.MuteChanged += Device_MuteChanged;
             e.Device.VolumeChanged += Device_VolumeChanged;
-            SendMessageAll(new Protocol.DeviceNotification(Controller));
         }
 
         void Device_VolumeChanged(object sender, DeviceController.DeviceVolumeEventArgs e)
@@ -107,8 +133,16 @@ namespace cloudmusic2upnp.UserInterface.Web
         private void HandleClientConnect(IWebClient client)
         {
             Utils.Logger.Log("Web client connected.");
-            Clients.Add(client);
-
+            lock (KnownDevices)
+            {
+                if (KnownDevices.Count != 0)
+                {
+                    Clients.Add(client, new LinkedList<IDevice>(KnownDevices.Values).Last.Value);
+                    client.SendMessage(new Protocol.SelectDeviceNotification(new LinkedList<IDevice>(KnownDevices.Values).Last.Value));
+                }
+                else
+                    Clients.Add(client, null);
+            }
             client.SendMessage(new Protocol.ProviderNotification(Providers));
             client.SendMessage(new Protocol.DeviceNotification(Controller));
             client.SendMessage(new Protocol.PlaylistNotification(Playlist.Active));
@@ -121,6 +155,7 @@ namespace cloudmusic2upnp.UserInterface.Web
             Clients.Remove(client);
         }
 
+        #region Handle incoming web requests
 
         private void HandleClientMessage(IWebClient client, Message message)
         {
@@ -130,21 +165,28 @@ namespace cloudmusic2upnp.UserInterface.Web
                 OnPlayRequest(client, (PlayRequest)message);
             else if (message.GetType() == typeof(SetMuteRequest))
             {
-                HandleOnSetMuteRequest((SetMuteRequest)message);
+                HandleOnSetMuteRequest((SetMuteRequest)message, client);
             }
-
+            else if (message.GetType() == typeof(SelectDeviceRequest))
+                Clients[client] = KnownDevices[((SelectDeviceRequest)message).Udn];
         }
 
-        private void HandleOnSetMuteRequest(SetMuteRequest request)
+        private void HandleOnSetMuteRequest(SetMuteRequest request, IWebClient client)
         {
             Utils.Logger.Log("Requested to change mute state to: '" + request.SetMuted + "'.");
-            foreach(cloudmusic2upnp.DeviceController.IDevice device in KnownDevices)
+            if (Clients[client] != null)
             {
                 if (request.SetMuted)
-                    device.Mute();
+                    Clients[client].Mute();
                 else
-                    device.Unmute();
+                    Clients[client].Unmute();
+            }
+            else
+            {
+                Utils.Logger.Log(Utils.Logger.Level.Warning, "WebClient does not control any devices - no mute state was changed!");
             }
         }
+
+        #endregion
     }
 }
