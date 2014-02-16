@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using cloudmusic2upnp.ContentProvider;
+using System.Runtime.Serialization;
 
 namespace cloudmusic2upnp
 {
@@ -27,7 +28,7 @@ namespace cloudmusic2upnp
         /*
          * Properties
          */
-        public List<ITrack> Tracks { get; private set; }
+        public List<PlayListItem> Tracks { get; private set; }
 
 
         /*
@@ -35,12 +36,13 @@ namespace cloudmusic2upnp
          */
         public Playlist()
         {
-            Tracks = new List<ITrack>();
+            Tracks = new List<PlayListItem>();
         }
 
 
-        public void Insert(int index, ITrack item)
+        public void Insert(int index, ITrack track)
         {
+            PlayListItem item = new PlayListItem(track);
             Tracks.Insert(index, item);
             if (ItemAdded != null)
                 ItemAdded(item);
@@ -58,9 +60,10 @@ namespace cloudmusic2upnp
         }
 
 
-        public void Remove(ITrack item)
+        public void Remove(int playListID)
         {
-            Tracks.Remove(item);
+            PlayListItem item = Tracks.Find(obj => obj.PlayListID == playListID);
+            Tracks.RemoveAt(Tracks.FindIndex(obj => obj.PlayListID == playListID));
             if (ItemRemoved != null)
                 ItemRemoved(item);
         }
@@ -69,28 +72,31 @@ namespace cloudmusic2upnp
         /*
          * Events
          */
-        public event Action<ITrack> ItemAdded;
-        public event Action<ITrack> ItemRemoved;
+        public event Action<PlayListItem> ItemAdded;
+        public event Action<PlayListItem> ItemRemoved;
 
     }
 
     public class ActivePlaylist : Playlist
     {
+        /// <summary>
+        /// Index of the playing song starts with 0!
+        /// </summary>
         public int Index = -1;
 
-        public ITrack CurrentTrack
+        public PlayListItem CurrentTrack
         {
             get
             {
-                return Tracks[Index - 1];
+                return Tracks[Index];
             }
         }
 
-        public void Play()
+        private void Play()
         {
             foreach (var device in Core.UPnP.GetDevices())
             {
-                device.SetMediaUrl(new Uri(CurrentTrack.MediaUrl));
+                device.SetMediaUrl(new Uri(CurrentTrack.Track.MediaUrl));
                 device.Play();
             }
         }
@@ -108,7 +114,7 @@ namespace cloudmusic2upnp
 
             if (Index < 0)
             {
-                Index = Tracks.Count;
+                Index = 0;
                 Play();
             }
         }
@@ -129,6 +135,27 @@ namespace cloudmusic2upnp
             {
                 PlayNext();
             }
+        }
+    }
+
+    [DataContract]
+    [KnownType(typeof(ContentProvider.Plugins.Soundcloud.Track))]
+    public class PlayListItem
+    {
+        [DataMember]
+        public int PlayListID;
+
+        [DataMember]
+        public ITrack Track;
+
+        //[DataMember]
+        //public bool IsActive;
+
+        public PlayListItem(ITrack track)
+        {
+            PlayListID = this.GetHashCode();
+            Track = track;
+            //IsActive = false;
         }
     }
 }

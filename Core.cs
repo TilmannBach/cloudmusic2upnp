@@ -49,7 +49,7 @@ namespace cloudmusic2upnp
         }
 
 
-        void HandlePlaylistChanged(ITrack track)
+        void HandlePlaylistChanged(PlayListItem track)
         {
             WebInterface.SendMessageAll(new PlaylistNotification(Playlist.Active));
             Utils.Logger.Log("Sent playlist notification.");

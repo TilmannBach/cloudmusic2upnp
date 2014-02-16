@@ -7,12 +7,10 @@ using cloudmusic2upnp.ContentProvider;
 namespace cloudmusic2upnp.UserInterface.Web.Protocol
 {
     [DataContract]
-    [KnownType(typeof(ContentProvider.Plugins.Soundcloud.Track))]
     public class PlaylistNotification : Message
     {
         [DataMember]
-        public ITrack[]
-            Tracks;
+        public PlayListItem[] Tracks;
 
         public PlaylistNotification(Playlist playlist)
         {

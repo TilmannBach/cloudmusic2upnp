@@ -84,6 +84,12 @@ cm2u.socket = (new function(){
             module.send("SetMuteRequest", {
                 SetMuted: setMuted
             });
+        },
+
+        playlistitem_remove_request: function (itemId) {
+            module.send("PlaylistRemoveItemRequest", {
+                PlaylistItem: itemId
+            });
         }
     }
 	

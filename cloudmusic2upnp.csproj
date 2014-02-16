@@ -70,6 +70,7 @@
     <Compile Include="DeviceController\DeviceVolumeEventArgs.cs" />
     <Compile Include="DeviceController\UPnP_xsd\avt-event.designer.cs" />
     <Compile Include="DeviceController\UPnP_xsd\rcs-event.designer.cs" />
+    <Compile Include="UserInterface\Web\Protocol\PlaylistRemoveItemRequest.cs" />
     <Compile Include="UserInterface\Web\Protocol\SelectDeviceNotification.cs" />
     <Compile Include="UserInterface\Web\Protocol\SelectDeviceRequest.cs" />
     <Compile Include="UserInterface\Web\Protocol\SetMuteRequest.cs" />

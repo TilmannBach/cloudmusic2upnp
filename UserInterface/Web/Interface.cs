@@ -169,6 +169,8 @@ namespace cloudmusic2upnp.UserInterface.Web
             }
             else if (message.GetType() == typeof(SelectDeviceRequest))
                 Clients[client] = KnownDevices[((SelectDeviceRequest)message).Udn];
+            else if (message.GetType() == typeof(PlaylistRemoveItemRequest))
+                Playlist.Active.Remove(((PlaylistRemoveItemRequest)message).PlaylistItem);
         }
 
         private void HandleOnSetMuteRequest(SetMuteRequest request, IWebClient client)
